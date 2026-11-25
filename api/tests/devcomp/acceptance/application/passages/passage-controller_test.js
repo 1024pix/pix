@@ -7,10 +7,10 @@ import { MockAgent, setGlobalDispatcher } from 'undici';
 
 import { Chat } from '../../../../../src/llm/domain/models/Chat.js';
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 import { waitForStreamFinalizationToBeDone } from '../../../../tooling/test-utils/wait.js';
 
 describe('Acceptance | Controller | passage-controller', function () {
@@ -349,7 +349,7 @@ describe('Acceptance | Controller | passage-controller', function () {
     context('when user is authenticated', function () {
       context('when feature toggle is enabled', function () {
         beforeEach(function () {
-          return featureToggles.set('isEmbedLLMEnabled', true);
+          return useFeatureToggle('isEmbedLLMEnabled', true);
         });
 
         it('should start a new chat', async function () {
@@ -406,7 +406,7 @@ describe('Acceptance | Controller | passage-controller', function () {
 
       context('when feature toggle is disabled', function () {
         beforeEach(function () {
-          return featureToggles.set('isEmbedLLMEnabled', false);
+          return useFeatureToggle('isEmbedLLMEnabled', false);
         });
 
         it('should throw a 503 status code', async function () {
@@ -449,7 +449,7 @@ describe('Acceptance | Controller | passage-controller', function () {
     context('when user is authenticated', function () {
       context('when feature toggle is disabled', function () {
         beforeEach(function () {
-          return featureToggles.set('isEmbedLLMEnabled', false);
+          return useFeatureToggle('isEmbedLLMEnabled', false);
         });
 
         it('should throw a 503 status code', async function () {
@@ -470,7 +470,7 @@ describe('Acceptance | Controller | passage-controller', function () {
 
       context('when feature toggle is enabled', function () {
         beforeEach(function () {
-          return featureToggles.set('isEmbedLLMEnabled', true);
+          return useFeatureToggle('isEmbedLLMEnabled', true);
         });
 
         it('should receive LLM response as stream', async function () {

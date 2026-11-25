@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Deprecated | Integration | Domain | UseCase | get-current-user', function () {
   it('gets the user basic information', async function () {
@@ -106,7 +106,7 @@ describe('Deprecated | Integration | Domain | UseCase | get-current-user', funct
   context('pix-app TOS status', function () {
     context('when the newPixAppLegalDocumentsVersioning feature toggle  is enabled', function () {
       beforeEach(async function () {
-        await featureToggles.set('newPixAppLegalDocumentsVersioning', true);
+        await useFeatureToggle('newPixAppLegalDocumentsVersioning', true);
       });
 
       context('when the user has accepted the current version', function () {
@@ -173,7 +173,7 @@ describe('Deprecated | Integration | Domain | UseCase | get-current-user', funct
 
     context('when the newPixAppLegalDocumentsVersioning feature toggle is not enabled', function () {
       beforeEach(async function () {
-        await featureToggles.set('newPixAppLegalDocumentsVersioning', false);
+        await useFeatureToggle('newPixAppLegalDocumentsVersioning', false);
       });
 
       context('when the user has already accepted the CGU', function () {

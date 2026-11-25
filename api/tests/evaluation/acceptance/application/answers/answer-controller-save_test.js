@@ -7,13 +7,13 @@ import {
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { ENGLISH_SPOKEN, FRENCH_FRANCE } from '../../../../../src/shared/domain/services/locale-service.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import {
   generateAuthenticatedUserRequestHeaders,
   generateInjectOptions,
 } from '../../../../tooling/test-utils/http-server.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Acceptance | Controller | answer-controller-save', function () {
   let server;
@@ -211,7 +211,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
 
       describe('when there are quests', function () {
         beforeEach(async function () {
-          await featureToggles.set('isQuestEnabled', true);
+          await useFeatureToggle('isQuestEnabled', true);
         });
 
         it('should return 201 HTTP status code', async function () {

@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { UserDetailsForAdmin } from '../../../../../src/deprecated/domain/models/UserDetailsForAdmin.js';
 import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Integration | Deprecated | Domain | UseCase | get-user-details-for-admin', function () {
   describe('#getUserDetailsForAdmin', function () {
@@ -23,7 +23,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-user-details-for-adm
 
     context('when feature toggle newPixCertifLegalDocumentsVersioning is enabled', function () {
       beforeEach(async function () {
-        await featureToggles.set('newPixCertifLegalDocumentsVersioning', true);
+        await useFeatureToggle('newPixCertifLegalDocumentsVersioning', true);
       });
 
       context('when user has accepted pix-certif-tos', function () {
@@ -81,7 +81,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-user-details-for-adm
 
     context('when feature toggle newPixCertifLegalDocumentsVersioning is not enabled', function () {
       beforeEach(async function () {
-        await featureToggles.set('newPixCertifLegalDocumentsVersioning', false);
+        await useFeatureToggle('newPixCertifLegalDocumentsVersioning', false);
       });
 
       it('returns the user with legacy Pix Certif TOS status', async function () {

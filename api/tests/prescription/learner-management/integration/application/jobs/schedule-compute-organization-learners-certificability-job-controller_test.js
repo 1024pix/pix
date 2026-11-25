@@ -6,8 +6,8 @@ import { ScheduleComputeOrganizationLearnersCertificabilityJobController } from 
 import { computeCertificabilityJobRepository } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/compute-certificability-job-repository.js';
 import * as organizationLearnerRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/constants.js';
-import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { useFeatureToggle } from '../../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Integration | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCertificabilityJobController', function () {
   context('#handle', function () {
@@ -53,7 +53,7 @@ describe('Integration | Infrastructure | Jobs | scheduleComputeOrganizationLearn
     context('when batch mode is disabled', function () {
       it('should schedule multiple ComputeCertificabilityJob', async function () {
         // given
-        await featureToggles.set('scheduleCertificabilityBatchMode', false);
+        await useFeatureToggle('scheduleCertificabilityBatchMode', false);
         const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
           new ScheduleComputeOrganizationLearnersCertificabilityJobController();
 

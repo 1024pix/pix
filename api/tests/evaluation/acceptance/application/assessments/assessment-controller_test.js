@@ -26,6 +26,7 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 import { waitForStreamFinalizationToBeDone } from '../../../../tooling/test-utils/wait.js';
 
 describe('Acceptance | Controller | assessment-controller', function () {
@@ -746,7 +747,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
     context('when user is authenticated', function () {
       context('when feature toggle is enabled', function () {
         beforeEach(function () {
-          return featureToggles.set('isEmbedLLMEnabled', true);
+          return useFeatureToggle('isEmbedLLMEnabled', true);
         });
 
         it('should start a new chat', async function () {
@@ -803,7 +804,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
 
       context('when feature toggle is disabled', function () {
         beforeEach(function () {
-          return featureToggles.set('isEmbedLLMEnabled', false);
+          return useFeatureToggle('isEmbedLLMEnabled', false);
         });
 
         it('should throw a 503 status code', async function () {
@@ -846,7 +847,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
     context('when user is authenticated', function () {
       context('when feature toggle is disabled', function () {
         beforeEach(function () {
-          return featureToggles.set('isEmbedLLMEnabled', false);
+          return useFeatureToggle('isEmbedLLMEnabled', false);
         });
 
         it('should throw a 503 status code', async function () {
@@ -867,7 +868,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
 
       context('when feature toggle is enabled', function () {
         beforeEach(function () {
-          return featureToggles.set('isEmbedLLMEnabled', true);
+          return useFeatureToggle('isEmbedLLMEnabled', true);
         });
 
         it('should receive LLM response as stream', async function () {

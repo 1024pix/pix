@@ -12,9 +12,9 @@ import {
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | authenticate-user', function () {
   beforeEach(function () {
@@ -56,7 +56,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | authenti
 
     describe('when isSessionLogoutEnabled is true', function () {
       beforeEach(async function () {
-        await featureToggles.set('isSessionLogoutEnabled', true);
+        await useFeatureToggle('isSessionLogoutEnabled', true);
       });
 
       it('generates a JWT for refresh token', async function () {
