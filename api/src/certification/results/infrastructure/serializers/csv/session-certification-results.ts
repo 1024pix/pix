@@ -319,7 +319,7 @@ export function serialize(
 }
 
 function formatStatus(certificationResult: CertificationResultForCsv, i18n: I18n) {
-  if (certificationResult.status === CERTIFICATION_RESULT_STATUSES.CANCELLED) {
+  if (isCancelled(certificationResult)) {
     return i18n.__(`${I18N_VALUES_PREFIX}.CERTIFICATION_CANCELLED`);
   }
   if (certificationResult.status === CERTIFICATION_RESULT_STATUSES.REJECTED) {
@@ -334,7 +334,7 @@ function formatCleaStatus(certificationResult: CertificationResultForCsv, i18n: 
   if (certificationResult.framework !== Frameworks.CLEA) {
     return i18n.__(`${I18N_VALUES_PREFIX}.COMPLEMENTARY_CERTIFICATION_NOT_DONE`);
   }
-  if (certificationResult.status === CERTIFICATION_RESULT_STATUSES.CANCELLED) {
+  if (isCancelled(certificationResult)) {
     return i18n.__(`${I18N_VALUES_PREFIX}.COMPLEMENTARY_CERTIFICATION_CANCELLED`);
   }
   if (certificationResult.status === CERTIFICATION_RESULT_STATUSES.REJECTED) {
@@ -353,7 +353,7 @@ function formatDate(date: Date | string, i18n: I18n) {
 }
 
 function formatReachedLevel(certificationResult: CertificationResultForCsv, i18n: I18n) {
-  if (certificationResult.status === CERTIFICATION_RESULT_STATUSES.CANCELLED) {
+  if (isCancelled(certificationResult)) {
     return '-';
   }
   if (certificationResult.status === CERTIFICATION_RESULT_STATUSES.REJECTED) {
@@ -367,7 +367,7 @@ function formatReachedLevel(certificationResult: CertificationResultForCsv, i18n
 }
 
 function formatPixScore(certificationResult: CertificationResultForCsv) {
-  if (certificationResult.status === CERTIFICATION_RESULT_STATUSES.CANCELLED) {
+  if (isCancelled(certificationResult)) {
     return '-';
   }
   if (certificationResult.status === CERTIFICATION_RESULT_STATUSES.REJECTED) {
@@ -379,7 +379,7 @@ function formatPixScore(certificationResult: CertificationResultForCsv) {
 }
 
 function formatCompetenceLevel(certificationResult: CertificationResultForCsv, competenceCode: string) {
-  if (certificationResult.status === CERTIFICATION_RESULT_STATUSES.CANCELLED) {
+  if (isCancelled(certificationResult)) {
     return '-';
   }
   if (certificationResult.status === CERTIFICATION_RESULT_STATUSES.REJECTED) {
@@ -400,4 +400,11 @@ function sortByLastNameThenFirstName(locale: string) {
           sensitivity: 'base',
         });
   };
+}
+
+function isCancelled(certificationResult: CertificationResultForCsv) {
+  return (
+    certificationResult.status === CERTIFICATION_RESULT_STATUSES.CANCELLED ||
+    certificationResult.status === CERTIFICATION_RESULT_STATUSES.CANCELLED_BY_JURY
+  );
 }

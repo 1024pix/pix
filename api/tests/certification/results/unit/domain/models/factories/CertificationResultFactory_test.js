@@ -112,6 +112,34 @@ describe('Certification | Results | Unit | Domain | Models | Factories | Certifi
           ]);
           expect(errors).to.deep.equal({});
         });
+
+        it('builds a certification result for a certification cancelled by jury', function () {
+          const certificationData = [
+            {
+              ...baseCertificationData,
+              ...baseResults,
+              status: CERTIFICATION_RESULT_STATUSES.CANCELLED_BY_JURY,
+              algorithmEngineVersion: AlgorithmEngineVersion.V3,
+              framework: Frameworks.CORE,
+            },
+          ];
+
+          const { certificationResults, errors } = CertificationResultFactory.buildAll(
+            {
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            },
+            uuidGenerator,
+          );
+
+          sinon.assert.match(certificationResults, [
+            sinon.match({ status: CERTIFICATION_RESULT_STATUSES.CANCELLED_BY_JURY }),
+          ]);
+          expect(errors).to.deep.equal({});
+        });
       });
 
       context('learner data', function () {
