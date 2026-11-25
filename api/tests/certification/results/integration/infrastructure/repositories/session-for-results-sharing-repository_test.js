@@ -14,6 +14,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         time: '14:30:00',
         certificationCenter: 'Centre de test',
         certificationCenterId,
+        version: 3,
       }).id;
       await databaseBuilder.commit();
 
@@ -27,8 +28,21 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
           date: '2024-06-15',
           time: '14:30:00',
           certificationCenter: 'Centre de test',
+          version: 3,
         }),
       );
+    });
+
+    it('should return null when session does not exist', async function () {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      await databaseBuilder.commit();
+
+      // when
+      const result = await sessionForResultsSharingRepository.get(sessionId + 1);
+
+      // then
+      expect(result).to.be.null;
     });
   });
 

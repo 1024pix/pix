@@ -5,6 +5,7 @@ import sinon from 'sinon';
 import { CERTIFICATION_RESULT_STATUSES } from '../../../../../src/certification/results/domain/constants.ts';
 import { CertificationResultsLinkByEmailToken } from '../../../../../src/certification/results/domain/models/tokens/CertificationResultsLinkByEmailToken.js';
 import { CertificationResultsLinkToken } from '../../../../../src/certification/results/domain/models/tokens/CertificationResultsLinkToken.js';
+import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
@@ -74,41 +75,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           // given
           const server = await getServer();
 
-          const dbf = databaseBuilder.factory;
-
-          const session = dbf.buildSession({ date: '2020/01/01', time: '12:00' });
-          const sessionId = session.id;
-
-          const candidate1 = dbf.buildCertificationCandidate({
-            sessionId,
-            userId: dbf.buildUser().id,
-            resultRecipientEmail: 'recipientEmail@example.net',
-          });
-          const candidate2 = dbf.buildCertificationCandidate({
-            sessionId,
-            userId: dbf.buildUser().id,
-            resultRecipientEmail: 'recipientEmail@example.net',
-          });
-
-          const certif1 = dbf.buildCertificationCourse({
-            sessionId: candidate1.sessionId,
-            userId: candidate1.userId,
-            lastName: candidate1.lastName,
-            birthdate: candidate1.birthdate,
-            createdAt: candidate1.createdAt,
-          });
-          const certif2 = dbf.buildCertificationCourse({
-            sessionId: candidate2.sessionId,
-            userId: candidate2.userId,
-            lastName: candidate2.lastName,
-            birthdate: candidate2.birthdate,
-            createdAt: candidate1.createdAt,
-          });
-
-          const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
-          dbf.buildAssessment({ certificationCourseId: certif2.id });
-
-          dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
+          const sessionId = buildLegacySessionResults();
 
           const token = CertificationResultsLinkByEmailToken.generate({
             sessionId,
@@ -132,6 +99,34 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
         });
       });
 
+      context('FT readNewCertificationResults enabled and session is not V3', function () {
+        beforeEach(async function () {
+          await featureToggles.set('readNewCertificationResults', true);
+        });
+
+        it('should return the csv built from legacy data', async function () {
+          // given
+          const server = await getServer();
+          const sessionId = buildLegacySessionResults({ version: AlgorithmEngineVersion.V2, publishedAt: new Date() });
+          const token = CertificationResultsLinkByEmailToken.generate({
+            sessionId,
+            resultRecipientEmail: 'recipientEmail@example.net',
+            daysBeforeExpiration: 30,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const response = await server.inject({
+            method: 'GET',
+            url: `/api/sessions/download-results/${token}`,
+            payload: {},
+          });
+
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+
       context('FT readNewCertificationResults enabled', function () {
         beforeEach(async function () {
           await featureToggles.set('readNewCertificationResults', true);
@@ -145,6 +140,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
             date: '2020-01-01',
             time: '12:00:00',
             publishedAt: new Date(),
+            version: AlgorithmEngineVersion.V3,
           }).id;
           databaseBuilder.factory.learningContent.buildCompetence({
             id: 'competenceABC123',
@@ -201,42 +197,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           // given
           const server = await getServer();
 
-          const dbf = databaseBuilder.factory;
-
-          const session = dbf.buildSession({ date: '2020/01/01', time: '12:00' });
-          const sessionId = session.id;
-
-          const candidate1 = dbf.buildCertificationCandidate({
-            sessionId,
-            resultRecipientEmail: 'recipientEmail@example.net',
-          });
-          const candidate2 = dbf.buildCertificationCandidate({
-            sessionId,
-            resultRecipientEmail: 'recipientEmail@example.net',
-          });
-
-          const certif1 = dbf.buildCertificationCourse({
-            sessionId: candidate1.sessionId,
-            userId: candidate1.userId,
-            lastName: candidate1.lastName,
-            birthdate: candidate1.birthdate,
-            createdAt: candidate1.createdAt,
-          });
-          const certif2 = dbf.buildCertificationCourse({
-            sessionId: candidate2.sessionId,
-            userId: candidate2.userId,
-            lastName: candidate2.lastName,
-            birthdate: candidate2.birthdate,
-            createdAt: candidate2.createdAt,
-          });
-
-          const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
-          dbf.buildAssessment({
-            certificationCourseId: certif2.id,
-            commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
-          });
-
-          dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
+          const sessionId = buildLegacySessionResults();
 
           const token = CertificationResultsLinkToken.generate({ sessionId });
 
@@ -256,6 +217,30 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
         });
       });
 
+      context('FT readNewCertificationResults enabled and session is not V3', function () {
+        beforeEach(async function () {
+          await featureToggles.set('readNewCertificationResults', true);
+        });
+
+        it('should return the csv built from legacy data', async function () {
+          // given
+          const server = await getServer();
+          const sessionId = buildLegacySessionResults({ version: AlgorithmEngineVersion.V2, publishedAt: new Date() });
+          const token = CertificationResultsLinkToken.generate({ sessionId });
+          await databaseBuilder.commit();
+
+          // when
+          const response = await server.inject({
+            method: 'POST',
+            url: `/api/sessions/download-all-results`,
+            payload: { token },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+
       context('FT readNewCertificationResults enabled', function () {
         beforeEach(async function () {
           await featureToggles.set('readNewCertificationResults', true);
@@ -268,6 +253,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
             date: '2020-01-01',
             time: '12:00:00',
             publishedAt: new Date(),
+            version: AlgorithmEngineVersion.V3,
           }).id;
           databaseBuilder.factory.learningContent.buildCompetence({
             id: 'competenceABC123',
@@ -540,4 +526,44 @@ function buildCertificationResult(
     certificationResultId,
   });
   return data;
+}
+
+function buildLegacySessionResults({ version = AlgorithmEngineVersion.V2, publishedAt = null } = {}) {
+  const dbf = databaseBuilder.factory;
+  const sessionId = dbf.buildSession({ date: '2020/01/01', time: '12:00', version, publishedAt }).id;
+
+  const candidate1 = dbf.buildCertificationCandidate({
+    sessionId,
+    userId: dbf.buildUser().id,
+    resultRecipientEmail: 'recipientEmail@example.net',
+  });
+  const candidate2 = dbf.buildCertificationCandidate({
+    sessionId,
+    userId: dbf.buildUser().id,
+    resultRecipientEmail: 'recipientEmail@example.net',
+  });
+
+  const certif1 = dbf.buildCertificationCourse({
+    sessionId,
+    userId: candidate1.userId,
+    lastName: candidate1.lastName,
+    birthdate: candidate1.birthdate,
+    createdAt: candidate1.createdAt,
+  });
+  const certif2 = dbf.buildCertificationCourse({
+    sessionId,
+    userId: candidate2.userId,
+    lastName: candidate2.lastName,
+    birthdate: candidate2.birthdate,
+    createdAt: candidate2.createdAt,
+  });
+
+  const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
+  dbf.buildAssessment({
+    certificationCourseId: certif2.id,
+    commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+  });
+  dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
+
+  return sessionId;
 }
