@@ -71,7 +71,7 @@ test(
     });
 
     await test.step('Check all enrolled candidates', async () => {
-      const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData();
+      const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData(5);
       expect(enrolledCandidatesSoFar).toHaveLength(5);
       const coreEnrolled = enrolledCandidatesSoFar.find(
         (enrolled) => enrolled['Prénom'] === userDataCoreSubscription.firstName,

@@ -23,38 +23,40 @@ describe('Certification | Results | Unit | Infrastructure | Serializer | CSV | s
         '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Type de certification";"Statut";"Niveau";"Score en Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n';
 
       context('when certification is cancelled', function () {
-        it('writes the appropriate certification in the csv', function () {
-          // given
-          const certificationResult = new CertificationResultForCsv({
-            certificationId: 123,
-            firstName: 'jean',
-            lastName: 'coulignant',
-            birthdate: '1986-07-14',
-            birthplace: 'puit-en-velin',
-            externalId: 'uuid',
-            framework: Frameworks.CORE,
-            status: CERTIFICATION_RESULT_STATUSES.CANCELLED,
-            reachedMeshIndex: null,
-            pixScore: null,
-            competenceMarks: [],
-            hasAcquiredClea: null,
-            commentForOrganization: 'c super',
-            commentByAutoJury: null,
-            sessionId: 123654,
-            certificationCenter: 'autre part',
-            startedAt: new Date('2023-01-08'),
+        [CERTIFICATION_RESULT_STATUSES.CANCELLED, CERTIFICATION_RESULT_STATUSES.CANCELLED_BY_JURY].forEach((status) => {
+          it(`writes the appropriate certification in the csv for status ${status}`, function () {
+            // given
+            const certificationResult = new CertificationResultForCsv({
+              certificationId: 123,
+              firstName: 'jean',
+              lastName: 'coulignant',
+              birthdate: '1986-07-14',
+              birthplace: 'puit-en-velin',
+              externalId: 'uuid',
+              framework: Frameworks.CORE,
+              status,
+              reachedMeshIndex: 3,
+              pixScore: 100,
+              competenceMarks: [{ competenceCode: '1.1', level: 3 }],
+              hasAcquiredClea: null,
+              commentForOrganization: 'c super',
+              commentByAutoJury: null,
+              sessionId: 123654,
+              certificationCenter: 'autre part',
+              startedAt: new Date('2023-01-08'),
+            });
+
+            // when
+            const csv = serialize([certificationResult], i18n);
+
+            // then
+            const expectedContent =
+              '\uFEFF' +
+              expectedCsvHeaders +
+              '"123";"jean";"coulignant";"14/07/1986";"puit-en-velin";"uuid";"Pix";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"c super";"123654";"autre part";"08/01/2023"';
+
+            expect(csv).to.equal(expectedContent);
           });
-
-          // when
-          const csv = serialize([certificationResult], i18n);
-
-          // then
-          const expectedContent =
-            '\uFEFF' +
-            expectedCsvHeaders +
-            '"123";"jean";"coulignant";"14/07/1986";"puit-en-velin";"uuid";"Pix";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"c super";"123654";"autre part";"08/01/2023"';
-
-          expect(csv).to.equal(expectedContent);
         });
       });
 
@@ -213,38 +215,40 @@ describe('Certification | Results | Unit | Infrastructure | Serializer | CSV | s
         '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Type de certification";"Statut";"Certification CléA";"Niveau";"Score en Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n';
 
       context('when certification is cancelled', function () {
-        it('writes the appropriate certification in the csv', function () {
-          // given
-          const certificationResult = new CertificationResultForCsv({
-            certificationId: 123,
-            firstName: 'jean',
-            lastName: 'coulignant',
-            birthdate: '1986-07-14',
-            birthplace: 'puit-en-velin',
-            externalId: 'uuid',
-            framework: Frameworks.CLEA,
-            status: CERTIFICATION_RESULT_STATUSES.CANCELLED,
-            reachedMeshIndex: null,
-            pixScore: null,
-            competenceMarks: [],
-            hasAcquiredClea: false,
-            commentForOrganization: 'c super',
-            commentByAutoJury: null,
-            sessionId: 123654,
-            certificationCenter: 'autre part',
-            startedAt: new Date('2023-01-08'),
+        [CERTIFICATION_RESULT_STATUSES.CANCELLED, CERTIFICATION_RESULT_STATUSES.CANCELLED_BY_JURY].forEach((status) => {
+          it(`writes the appropriate certification in the csv for status ${status}`, function () {
+            // given
+            const certificationResult = new CertificationResultForCsv({
+              certificationId: 123,
+              firstName: 'jean',
+              lastName: 'coulignant',
+              birthdate: '1986-07-14',
+              birthplace: 'puit-en-velin',
+              externalId: 'uuid',
+              framework: Frameworks.CLEA,
+              status,
+              reachedMeshIndex: 3,
+              pixScore: 100,
+              competenceMarks: [{ competenceCode: '1.1', level: 3 }],
+              hasAcquiredClea: false,
+              commentForOrganization: 'c super',
+              commentByAutoJury: null,
+              sessionId: 123654,
+              certificationCenter: 'autre part',
+              startedAt: new Date('2023-01-08'),
+            });
+
+            // when
+            const csv = serialize([certificationResult], i18n);
+
+            // then
+            const expectedContent =
+              '\uFEFF' +
+              expectedCsvHeaders +
+              '"123";"jean";"coulignant";"14/07/1986";"puit-en-velin";"uuid";"CléA Numérique by Pix";"Annulée";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"c super";"123654";"autre part";"08/01/2023"';
+
+            expect(csv).to.equal(expectedContent);
           });
-
-          // when
-          const csv = serialize([certificationResult], i18n);
-
-          // then
-          const expectedContent =
-            '\uFEFF' +
-            expectedCsvHeaders +
-            '"123";"jean";"coulignant";"14/07/1986";"puit-en-velin";"uuid";"CléA Numérique by Pix";"Annulée";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"c super";"123654";"autre part";"08/01/2023"';
-
-          expect(csv).to.equal(expectedContent);
         });
       });
 
@@ -415,39 +419,43 @@ describe('Certification | Results | Unit | Infrastructure | Serializer | CSV | s
           { framework: Frameworks.PRO_SANTE, expectedCertificationLabel: 'Pix+ Pro Santé' },
           { framework: Frameworks.DROIT, expectedCertificationLabel: 'Pix+ Droit' },
         ].forEach(({ framework, expectedCertificationLabel }) => {
-          it(`writes the appropriate certification in the csv for ${framework}`, function () {
-            // given
-            const certificationResult = new CertificationResultForCsv({
-              certificationId: 123,
-              firstName: 'jean',
-              lastName: 'coulignant',
-              birthdate: '1986-07-14',
-              birthplace: 'puit-en-velin',
-              externalId: 'uuid',
-              framework,
-              status: CERTIFICATION_RESULT_STATUSES.CANCELLED,
-              reachedMeshIndex: null,
-              pixScore: null,
-              competenceMarks: [],
-              hasAcquiredClea: null,
-              commentForOrganization: 'c super',
-              commentByAutoJury: null,
-              sessionId: 123654,
-              certificationCenter: 'autre part',
-              startedAt: new Date('2023-01-08'),
-            });
+          [CERTIFICATION_RESULT_STATUSES.CANCELLED, CERTIFICATION_RESULT_STATUSES.CANCELLED_BY_JURY].forEach(
+            (status) => {
+              it(`writes the appropriate certification in the csv for ${framework} and status ${status}`, function () {
+                // given
+                const certificationResult = new CertificationResultForCsv({
+                  certificationId: 123,
+                  firstName: 'jean',
+                  lastName: 'coulignant',
+                  birthdate: '1986-07-14',
+                  birthplace: 'puit-en-velin',
+                  externalId: 'uuid',
+                  framework,
+                  status,
+                  reachedMeshIndex: 3,
+                  pixScore: null,
+                  competenceMarks: [],
+                  hasAcquiredClea: null,
+                  commentForOrganization: 'c super',
+                  commentByAutoJury: null,
+                  sessionId: 123654,
+                  certificationCenter: 'autre part',
+                  startedAt: new Date('2023-01-08'),
+                });
 
-            // when
-            const csv = serialize([certificationResult], i18n);
+                // when
+                const csv = serialize([certificationResult], i18n);
 
-            // then
-            const expectedContent =
-              '\uFEFF' +
-              expectedCsvHeaders +
-              `"123";"jean";"coulignant";"14/07/1986";"puit-en-velin";"uuid";"${expectedCertificationLabel}";"Annulée";"-";"c super";"123654";"autre part";"08/01/2023"`;
+                // then
+                const expectedContent =
+                  '\uFEFF' +
+                  expectedCsvHeaders +
+                  `"123";"jean";"coulignant";"14/07/1986";"puit-en-velin";"uuid";"${expectedCertificationLabel}";"Annulée";"-";"c super";"123654";"autre part";"08/01/2023"`;
 
-            expect(csv).to.equal(expectedContent);
-          });
+                expect(csv).to.equal(expectedContent);
+              });
+            },
+          );
         });
       });
 

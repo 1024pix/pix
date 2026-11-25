@@ -66,7 +66,7 @@ test(
         ...userDataCoreSubscription,
         enrollFor: 'CORE',
       });
-      const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData();
+      const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData(1);
       expect(enrolledCandidatesSoFar).toMatchObject([
         {
           'Nom de naissance': userDataCoreSubscription.lastName,
@@ -94,7 +94,7 @@ test(
       ).toBeVisible();
       await pixCertifProPage.getByRole('button', { name: 'Fermer la notification' }).click();
       await sessionManagementPage.goBackToCandidatesList();
-      const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData();
+      const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData(1);
       expect(enrolledCandidatesSoFar).toMatchObject([
         {
           'Nom de naissance': userDataCoreSubscription.lastName,
@@ -143,7 +143,7 @@ test(
     });
 
     await test.step('Check all enrolled candidates', async () => {
-      const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData();
+      const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData(5);
       expect(enrolledCandidatesSoFar).toHaveLength(5);
       const coreEnrolled = enrolledCandidatesSoFar.find(
         (enrolled) => enrolled['Prénom'] === userDataCoreSubscription.firstName,

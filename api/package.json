@@ -186,6 +186,7 @@
     "@types/pg": "8.23.1",
     "@types/sinon": "22.0.2",
     "@types/sinon-chai": "4.0.1",
+    "@types/yargs": "17.0.35",
     "@types/zip-stream": "7.0.0",
     "@typescript/native": "npm:typescript@7.0.2",
     "chai": "6.3.0",

@@ -6,4 +6,5 @@ export const CERTIFICATION_RESULT_STATUSES = {
   VALIDATED: 'validated',
   REJECTED: 'rejected',
   CANCELLED: 'cancelled',
+  CANCELLED_BY_JURY: 'cancelled_by_jury',
 } as const;
