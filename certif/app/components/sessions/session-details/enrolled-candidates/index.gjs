@@ -10,7 +10,7 @@ import { formatPercentage } from 'pix-certif/helpers/format-percentage';
 import formatUtcDate from 'pix-certif/helpers/format-utc-date';
 
 import CandidateDeletionModal from './candidate-deletion-modal';
-import CandidateDetailsModal from './candidate-details-modal';
+import CandidateDetails from './candidate-details';
 import CandidateEditionModal from './candidate-edition-modal';
 
 const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
@@ -20,9 +20,9 @@ export default class EnrolledCandidates extends Component {
   @service intl;
   @service pixToast;
   @service featureToggles;
-  @tracked shouldDisplayCertificationCandidateModal = false;
+  @tracked shouldDisplayCertificationCandidateDetails = false;
   @tracked shouldDisplayEditCertificationCandidateModal = false;
-  @tracked certificationCandidateInDetailsModal = null;
+  @tracked certificationCandidateInDetails = null;
   @tracked certificationCandidateInEditModal = null;
   @tracked candidateToDelete = null;
   @tracked showCandidateDeletionModal = false;
@@ -69,9 +69,9 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
-  openCertificationCandidateDetailsModal(candidate) {
-    this.shouldDisplayCertificationCandidateModal = true;
-    this.certificationCandidateInDetailsModal = candidate;
+  openCertificationCandidateDetails(candidate) {
+    this.shouldDisplayCertificationCandidateDetails = true;
+    this.certificationCandidateInDetails = candidate;
   }
 
   @action
@@ -81,9 +81,9 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
-  closeCertificationCandidateDetailsModal() {
-    this.shouldDisplayCertificationCandidateModal = false;
-    this.certificationCandidateInDetailsModal = null;
+  closeCertificationCandidateDetails() {
+    this.shouldDisplayCertificationCandidateDetails = false;
+    this.certificationCandidateInDetails = null;
   }
 
   @action
@@ -216,7 +216,7 @@ export default class EnrolledCandidates extends Component {
                   <PixIconButton
                     @iconName='eye'
                     @plainIcon={{true}}
-                    @triggerAction={{fn this.openCertificationCandidateDetailsModal candidate}}
+                    @triggerAction={{fn this.openCertificationCandidateDetails candidate}}
                     @ariaLabel='{{t
                       "pages.sessions.detail.candidates.list.actions.details.extra-information"
                     }} {{candidate.firstName}} {{candidate.lastName}}'
@@ -286,11 +286,11 @@ export default class EnrolledCandidates extends Component {
       </div>
     {{/if}}
 
-    {{#if this.shouldDisplayCertificationCandidateModal}}
-      <CandidateDetailsModal
-        @showModal={{this.shouldDisplayCertificationCandidateModal}}
-        @closeModal={{this.closeCertificationCandidateDetailsModal}}
-        @candidate={{this.certificationCandidateInDetailsModal}}
+    {{#if this.shouldDisplayCertificationCandidateDetails}}
+      <CandidateDetails
+        @showCandidateDetails={{this.shouldDisplayCertificationCandidateDetails}}
+        @closeCandidateDetails={{this.closeCertificationCandidateDetails}}
+        @candidate={{this.certificationCandidateInDetails}}
       />
     {{/if}}
 

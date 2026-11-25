@@ -1,4 +1,4 @@
-import { PixButton, PixModal } from '@1024pix/nebulix-ember';
+import { PixButton, PixSidePanel } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -95,11 +95,11 @@ export default class CandidateDetailsModal extends Component {
   }
 
   <template>
-    <PixModal
+    <PixSidePanel
       @title={{t 'pages.sessions.detail.candidates.detail-modal.title'}}
-      @onCloseButtonClick={{@closeModal}}
+      @onClose={{@closeCandidateDetails}}
       class='certification-candidate-details-modal'
-      @showModal={{@showModal}}
+      @showSidePanel={{@showCandidateDetails}}
     >
       <:content>
         <ul class='certification-candidate-details-modal__list'>
@@ -132,10 +132,10 @@ export default class CandidateDetailsModal extends Component {
 
       <:footer>
         <PixButton
-          @triggerAction={{@closeModal}}
+          @triggerAction={{@closeCandidateDetails}}
           aria-label='{{t "pages.sessions.detail.candidates.detail-modal.actions.close-extra-information"}}'
         >{{t 'common.actions.close'}}</PixButton>
       </:footer>
-    </PixModal>
+    </PixSidePanel>
   </template>
 }

@@ -1,14 +1,14 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import CandidateDetailsModal from 'pix-certif/components/sessions/session-details/enrolled-candidates/candidate-details-modal';
+import CandidateDetails from 'pix-certif/components/sessions/session-details/enrolled-candidates/candidate-details';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module(
-  'Integration | Component | Sessions | SessionDetails | EnrolledCandidates | candidate-details-modal',
+  'Integration | Component | Sessions | SessionDetails | EnrolledCandidates | candidate-details',
   function (hooks) {
     setupIntlRenderingTest(hooks);
 
@@ -44,14 +44,9 @@ module(
         subscription: 'EDU_1ER_DEGRE',
       });
 
-      const closeModalStub = sinon.stub();
-
       // when
-      const screen = await render(
-        <template>
-          <CandidateDetailsModal @closeModal={{closeModalStub}} @showModal={{true}} @candidate={{candidate}} />
-        </template>,
-      );
+      const screen = await render(<template><CandidateDetails @candidate={{candidate}} /></template>);
+
       // then
       assert.dom(screen.getByText('Détail du candidat')).exists();
       assert.dom(screen.getByText('Jean-Paul')).exists();
@@ -90,13 +85,9 @@ module(
         subscription: cleaSubscription,
       });
 
-      const closeModalStub = sinon.stub();
-
       // when
       const screen = await render(
-        <template>
-          <CandidateDetailsModal @closeModal={{closeModalStub}} @showModal={{true}} @candidate={{candidate}} />
-        </template>,
+        <template><CandidateDetails @showModal={{true}} @candidate={{candidate}} /></template>,
       );
 
       // then
@@ -120,14 +111,8 @@ module(
           subscription: 'CORE',
         });
 
-        const closeModalStub = sinon.stub();
-
         // when
-        const screen = await render(
-          <template>
-            <CandidateDetailsModal @closeModal={{closeModalStub}} @showModal={{true}} @candidate={{candidate}} />
-          </template>,
-        );
+        const screen = await render(<template><CandidateDetails @candidate={{candidate}} /></template>);
 
         // then
         assert.strictEqual(screen.getAllByText('-').length, 13);
@@ -158,12 +143,8 @@ module(
           subscription: 'CORE',
         });
 
-        const closeModalStub = sinon.stub();
-
         // when
-        const screen = await render(
-          <template><CandidateDetailsModal @closeModal={{closeModalStub}} @candidate={{candidate}} /></template>,
-        );
+        const screen = await render(<template><CandidateDetails @candidate={{candidate}} /></template>);
 
         // then
         assert.dom(screen.getByText('Détail du candidat')).exists();
@@ -207,12 +188,8 @@ module(
           subscription: 'CORE',
         });
 
-        const closeModalStub = sinon.stub();
-
         // when
-        const screen = await render(
-          <template><CandidateDetailsModal @closeModal={{closeModalStub}} @candidate={{candidate}} /></template>,
-        );
+        const screen = await render(<template><CandidateDetails @candidate={{candidate}} /></template>);
 
         // then
         assert.dom(screen.getByText('Détail du candidat')).exists();
@@ -234,23 +211,27 @@ module(
     });
 
     module('when top close button is clicked', () => {
-      test('it closes candidate details modal', async function (assert) {
+      test('it closes candidate details', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const candidate = store.createRecord('certification-candidate', { subscriptions: [] });
-        const closeModalStub = sinon.stub();
+        const closeStub = sinon.stub();
 
         // when
         const screen = await render(
           <template>
-            <CandidateDetailsModal @showModal={{true}} @closeModal={{closeModalStub}} @candidate={{candidate}} />
+            <CandidateDetails
+              @showCandidateDetails={{true}}
+              @closeCandidateDetails={{closeStub}}
+              @candidate={{candidate}}
+            />
           </template>,
         );
 
         await click(screen.getByRole('button', { name: 'Fermer la fenêtre de détail du candidat' }));
 
         // then
-        sinon.assert.calledOnce(closeModalStub);
+        sinon.assert.calledOnce(closeStub);
         assert.ok(true);
       });
     });
@@ -260,18 +241,22 @@ module(
         // given
         const store = this.owner.lookup('service:store');
         const candidate = store.createRecord('certification-candidate', { subscriptions: [] });
-        const closeModalStub = sinon.stub();
+        const closeStub = sinon.stub();
 
         // when
         const screen = await render(
           <template>
-            <CandidateDetailsModal @showModal={{true}} @closeModal={{closeModalStub}} @candidate={{candidate}} />
+            <CandidateDetails
+              @showCandidateDetails={{true}}
+              @closeCandidateDetails={{closeStub}}
+              @candidate={{candidate}}
+            />
           </template>,
         );
         await click(screen.getByRole('button', { name: 'Fermer la fenêtre de détail du candidat' }));
 
         // then
-        sinon.assert.calledOnce(closeModalStub);
+        sinon.assert.calledOnce(closeStub);
         assert.ok(true);
       });
     });
