@@ -1,9 +1,15 @@
 import * as CombinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
 import { CLIENTS, PIX_ORGA } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { AuditLoggingJob } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
+import {
+  AuditLoggingJob,
+  CampaignParticipationLoggerContext,
+} from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
+import chunk from '../../../../shared/infrastructure/utils/chunk.js';
 import { CampaignBelongsToCombinedCourseError } from '../errors.js';
 import { CampaignsDestructor } from '../models/CampaignsDestructor.js';
+
+const CHUNK_SIZE = 1000;
 
 const deleteCampaigns = async ({
   userId,
@@ -21,6 +27,7 @@ const deleteCampaigns = async ({
   userRole,
   keepPreviousDeletion = false,
   isPartOfDeletingCombinedCourse = false,
+  chunkSize = CHUNK_SIZE,
 }) => {
   let membership;
   let pixAdminRole = userRole;
@@ -57,22 +64,22 @@ const deleteCampaigns = async ({
   });
   campaignDestructor.delete({ keepPreviousDeletion });
 
-  const auditLoggingJobs = [];
+  const auditLoggingJobs = chunk(campaignDestructor.campaignParticipations, chunkSize).map(
+    (campaignParticipationsChunk) =>
+      AuditLoggingJob.forUsers({
+        client: client ?? CLIENTS.ORGA,
+        action: CampaignParticipationLoggerContext.DELETION,
+        role: userRole ?? PIX_ORGA.ROLES.ADMIN,
+        userIds: campaignParticipationsChunk.map(({ id }) => id),
+        updatedByUserId: userId,
+        data: {},
+      }),
+  );
+
   const campaignParticipationsToUpdate = [];
 
   await DomainTransaction.execute(async () => {
     for (const campaignParticipation of campaignDestructor.campaignParticipations) {
-      auditLoggingJobs.push(
-        AuditLoggingJob.forUser({
-          client: client ?? CLIENTS.ORGA,
-          action: campaignParticipation.loggerContext,
-          role: userRole ?? PIX_ORGA.ROLES.ADMIN,
-          userId: campaignParticipation.id,
-          updatedByUserId: userId,
-          data: {},
-        }),
-      );
-
       campaignParticipationsToUpdate.push(campaignParticipation.dataToUpdateOnDeletion);
     }
 

@@ -151,6 +151,50 @@ describe('Integration | UseCases | delete-campaign-participation', function () {
     });
   });
 
+  context('when there are several campaign participations for the same learner', function () {
+    let improvedCampaignParticipationId;
+
+    beforeEach(async function () {
+      improvedCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        isImproved: true,
+        organizationLearnerId,
+        userId,
+        campaignId,
+      }).id;
+      await databaseBuilder.commit();
+    });
+
+    it('should publish one event for all campaign participations', async function () {
+      // when
+      await usecases.deleteCampaignParticipation({
+        userId: adminUserId,
+        campaignId,
+        campaignParticipationId,
+        userRole: 'ORGA_ADMIN',
+        client: 'PIX_ORGA',
+      });
+
+      // then
+      const [job] = await expect(AuditLoggingJob.name).to.have.been.performed.withJobsCount(1);
+      expect(job.data.targetUserIds).to.have.members([improvedCampaignParticipationId, campaignParticipationId]);
+    });
+
+    it('should publish one event per chunk of campaign participations', async function () {
+      // when
+      await usecases.deleteCampaignParticipation({
+        userId: adminUserId,
+        campaignId,
+        campaignParticipationId,
+        userRole: 'ORGA_ADMIN',
+        client: 'PIX_ORGA',
+        chunkSize: 1,
+      });
+
+      // then
+      await expect(AuditLoggingJob.name).to.have.been.performed.withJobsCount(2);
+    });
+  });
+
   context('when there are badges linked to the campaign participations', function () {
     let badgesAcquisitions;
     let certifiableBadge;

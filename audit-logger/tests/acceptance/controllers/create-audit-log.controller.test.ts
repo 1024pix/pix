@@ -90,6 +90,35 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
         // then
         expect(response.statusCode).toEqual(204);
       });
+
+      test('creates all audit logs', async () => {
+        // given
+        options.payload = [
+          {
+            targetUserId: '2',
+            userId: '3',
+            action: 'ANONYMIZATION',
+            occurredAt: '2024-06-25T16:09:05.761Z',
+            role: 'SUPER_ADMIN',
+            client: 'PIX_ADMIN',
+          },
+          {
+            targetUserId: '4',
+            userId: '3',
+            action: 'ANONYMIZATION',
+            occurredAt: '2024-06-25T16:09:05.761Z',
+            role: 'SUPER_ADMIN',
+            client: 'PIX_ADMIN',
+          },
+        ];
+
+        // when
+        await server.inject(options);
+
+        // then
+        const targetUserIds = await knex('audit-log').pluck('targetUserId').orderBy('targetUserId');
+        expect(targetUserIds).toEqual(['2', '4']);
+      });
     });
   });
 
