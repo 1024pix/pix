@@ -47,12 +47,6 @@ class OrganizationLearnerNotBelongToOrganizationIdentityError extends DomainErro
   }
 }
 
-class OrganizationLearnerIdentityNotFoundError extends DomainError {
-  constructor(message = 'Organization Learner Identity not found.') {
-    super(message);
-  }
-}
-
 class MissingOrInvalidCredentialsError extends DomainError {
   constructor(meta = {}) {
     super('Missing or invalid credentials', 'MISSING_OR_INVALID_CREDENTIALS');
@@ -117,7 +111,6 @@ export {
   MissingClientApplicationScopesError,
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
-  OrganizationLearnerIdentityNotFoundError,
   OrganizationLearnerNotBelongToOrganizationIdentityError,
   PasswordResetDemandNotFoundError,
   PasswordResetTokenInvalidOrExpired,

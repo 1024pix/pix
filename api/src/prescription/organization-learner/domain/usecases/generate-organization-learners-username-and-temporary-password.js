@@ -1,5 +1,5 @@
-import { OrganizationLearnerIdentities } from '../../../../identity-access-management/domain/models/OrganizationLearnerIdentities.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../shared/domain/errors.js';
+import { OrganizationLearnerIdentities } from '../models/OrganizationLearnerIdentities.js';
 import { OrganizationLearnerPasswordResetDTO } from '../models/OrganizationLearnerPasswordResetDTO.js';
 
 const ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE =

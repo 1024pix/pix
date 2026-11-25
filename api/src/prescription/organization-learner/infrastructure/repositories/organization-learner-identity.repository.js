@@ -1,5 +1,5 @@
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { OrganizationLearnerIdentityNotFoundError } from '../../domain/errors.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { OrganizationLearnerIdentityNotFoundError } from '../../domain/error.js';
 import { OrganizationLearnerIdentity } from '../../domain/models/OrganizationLearnerIdentity.js';
 
 const USER_TABLE_NAME = 'users';

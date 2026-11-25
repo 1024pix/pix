@@ -1,4 +1,4 @@
-import { OrganizationLearnerNotBelongToOrganizationIdentityError } from '../errors.js';
+import { OrganizationLearnerNotBelongToOrganizationIdentityError } from '../../../../identity-access-management/domain/errors.js';
 
 export class OrganizationLearnerIdentities {
   /**
