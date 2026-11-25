@@ -50,7 +50,7 @@ class FlashAssessmentAlgorithm {
    * @param {CalibratedChallenge[]} params.challenges
    * @param {number} [params.initialCapacity]
    */
-  getPossibleNextChallenges({ assessmentAnswers, challenges, initialCapacity }) {
+  getPossibleNextChallenges({ assessmentAnswers, challenges, initialCapacity, skills }) {
     const maximumAssessmentLength = this._configuration.maximumAssessmentLength;
     if (assessmentAnswers?.length > maximumAssessmentLength) {
       throw new RangeError('User answered more questions than allowed');
@@ -71,7 +71,7 @@ class FlashAssessmentAlgorithm {
       return [];
     }
 
-    const challengesAfterRulesApplication = this.#applyChallengeSelectionRules(assessmentAnswers, challenges);
+    const challengesAfterRulesApplication = this.#applyChallengeSelectionRules(assessmentAnswers, challenges, skills);
 
     if (challengesAfterRulesApplication?.length === 0) {
       throw new AssessmentLackOfChallengesError({
@@ -125,10 +125,11 @@ class FlashAssessmentAlgorithm {
    * @param {Answer[]} assessmentAnswers
    * @param {CalibratedChallenge[]} challenges
    */
-  #applyChallengeSelectionRules(assessmentAnswers, challenges) {
+  #applyChallengeSelectionRules(assessmentAnswers, challenges, skills) {
     return this.ruleEngine.execute({
       assessmentAnswers,
       allChallenges: challenges,
+      skills,
     });
   }
 

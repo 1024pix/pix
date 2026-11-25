@@ -74,6 +74,7 @@ export async function getNextChallengeForCampaignAssessment({
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
       assessmentAnswers: allAnswers,
       challenges,
+      skills: targetSkills,
     });
 
     if (possibleChallenges.length === 0) {
