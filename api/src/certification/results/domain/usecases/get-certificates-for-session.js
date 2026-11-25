@@ -11,7 +11,7 @@ export async function getCertificatesForSession({
   },
 }) {
   const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
-  if (!sessionAuthorization || !sessionAuthorization.canCreateCertificatesPdf) {
+  if (!sessionAuthorization || !sessionAuthorization.canRetrieveResults) {
     throw new NoCertificationResultsToDownloadError();
   }
 

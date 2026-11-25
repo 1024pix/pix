@@ -4,10 +4,13 @@ import { SessionForResultsSharing } from '../../domain/read-models/SessionForRes
 export async function get(sessionId) {
   const knexConn = DomainTransaction.getConnection();
   const sessionDTO = await knexConn
-    .select('id', 'date', 'time', 'certificationCenter')
+    .select('id', 'date', 'time', 'certificationCenter', 'version')
     .from('sessions')
     .where('id', sessionId)
     .first();
+  if (!sessionDTO) {
+    return null;
+  }
   return new SessionForResultsSharing(sessionDTO);
 }
 

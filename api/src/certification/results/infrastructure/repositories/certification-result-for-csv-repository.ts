@@ -44,10 +44,32 @@ export async function findBySessionAndResultRecipient({
     .whereILike('certification-candidates.resultRecipientEmail', resultRecipientEmail)
     .orderBy('certification_results.id');
 
+  if (rows.length === 0) {
+    return [];
+  }
+
   const pixCompetences = await competenceRepository.listPixCompetencesOnly();
   const codeById = new Map<string, string>(
     pixCompetences.map((pixCompetence) => [pixCompetence.id, pixCompetence.index]),
   );
+
+  return rows.map((row: Row) => toDomain(row, codeById));
+}
+
+export async function findBySession({ sessionId }: { sessionId: number }) {
+  const rows = await baseQuery()
+    .where('user_certification_results.sessionId', sessionId)
+    .orderBy('certification_results.id');
+
+  if (rows.length === 0) {
+    return [];
+  }
+
+  const pixCompetences = await competenceRepository.listPixCompetencesOnly();
+  const codeById = new Map<string, string>(
+    pixCompetences.map((pixCompetence) => [pixCompetence.id, pixCompetence.index]),
+  );
+
   return rows.map((row: Row) => toDomain(row, codeById));
 }
 
@@ -61,6 +83,9 @@ export async function findMostRecentByLearners({ learnerIds }: { learnerIds: num
     .as('mostRecentByLearner');
 
   const rows = await knexConn.select('*').from(mostRecentByLearner).orderBy('lastName').orderBy('firstName');
+  if (rows.length === 0) {
+    return [];
+  }
 
   const codesById = await findCompetenceCodesbyId();
   return rows.map((row: Row) => toDomain(row, codesById));

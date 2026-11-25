@@ -34,6 +34,7 @@ import { getCleaCertifiedCandidateBySession } from './get-clea-certified-candida
 import { getPrivateCertificate } from './get-private-certificate.js';
 import { getScoCertificationResultsByDivision } from './get-sco-certification-results-by-division.js';
 import { getSessionCertificationReports } from './get-session-certification-reports.js';
+import { getSessionResults } from './get-session-results.ts';
 import { getSessionResultsForRecipient } from './get-session-results-for-recipient.js';
 import { getShareableCertificate } from './get-shareable-certificate.js';
 
@@ -99,6 +100,7 @@ const usecasesWithoutInjectedDependencies = {
   getSessionCertificationResultsCsv,
   getShareableCertificate,
   getSessionResultsForRecipient,
+  getSessionResults,
   getCertificationResultsForDivision,
 };
 

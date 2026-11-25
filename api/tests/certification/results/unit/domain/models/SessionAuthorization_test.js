@@ -4,13 +4,13 @@ import { SessionAuthorization } from '../../../../../../src/certification/result
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Certification | Result | Domain | Models | SessionAuthorization', function () {
-  describe('#get canResultRecipientDownloadResult', function () {
+  describe('#get canRetrieveResults', function () {
     it('returns true when session is processed', function () {
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().processed().build();
 
       const sessionAuthorization = new SessionAuthorization({ id: 123, sessionStatus });
 
-      expect(sessionAuthorization.canResultRecipientDownloadResult()).to.be.true;
+      expect(sessionAuthorization.canRetrieveResults).to.be.true;
     });
 
     it('returns false when session is not processed', function () {
@@ -18,7 +18,7 @@ describe('Unit | Certification | Result | Domain | Models | SessionAuthorization
 
       const sessionAuthorization = new SessionAuthorization({ id: 123, sessionStatus });
 
-      expect(sessionAuthorization.canResultRecipientDownloadResult()).to.be.false;
+      expect(sessionAuthorization.canRetrieveResults).to.be.false;
     });
   });
 });
