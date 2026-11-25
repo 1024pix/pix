@@ -1,10 +1,87 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
+import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 
+const PIX_PLUS_V2_FRAMEWORKS = [
+  Frameworks.EDU_1ER_DEGRE,
+  Frameworks.EDU_CPE,
+  Frameworks.EDU_2ND_DEGRE,
+  Frameworks.PRO_SANTE,
+  Frameworks.DROIT,
+];
+
 export async function findBySessionId(sessionId) {
+  return findSourceData((queryBuilder) => queryBuilder.where('sessions.id', sessionId));
+}
+
+export async function findByCertificationCourseIds(certificationCourseIds) {
+  if (certificationCourseIds.length === 0) {
+    return emptySourceData();
+  }
+  return findSourceData((queryBuilder) => queryBuilder.whereIn('certification-courses.id', certificationCourseIds));
+}
+
+async function findSourceData(applyFilter) {
+  const certificationData = await findCertificationData(applyFilter);
+  if (certificationData.length === 0) {
+    return emptySourceData();
+  }
+
+  const organizationLearnerIds = certificationData
+    .map(({ organizationLearnerId }) => organizationLearnerId)
+    .filter(Boolean);
+  const cleaIds = certificationData
+    .filter(({ framework }) => framework === Frameworks.CLEA)
+    .map(({ certificationCourseId }) => certificationCourseId);
+  const pixPlusV2Ids = certificationData
+    .filter(
+      ({ framework, algorithmEngineVersion }) =>
+        PIX_PLUS_V2_FRAMEWORKS.includes(framework) && algorithmEngineVersion === AlgorithmEngineVersion.V2,
+    )
+    .map(({ certificationCourseId }) => certificationCourseId);
+
+  const learnerData = await findLearnerData(organizationLearnerIds);
+  const cleaData = await findComplementaryResults({
+    certificationCourseIds: cleaIds,
+    badgeIdAlias: 'cleaBadgeId',
+    acquiredAlias: 'hasAcquiredClea',
+  });
+  const pixPlusV2VoletPixData = await findComplementaryResults({
+    certificationCourseIds: pixPlusV2Ids,
+    badgeIdAlias: 'v2ComplementaryVoletPixBadgeId',
+    acquiredAlias: 'v2ComplementaryVoletPixAcquired',
+    source: ComplementaryCertificationCourseResult.sources.PIX,
+  });
+  const pixPlusV2VoletExterneData = await findComplementaryResults({
+    certificationCourseIds: pixPlusV2Ids,
+    badgeIdAlias: 'v2EduVoletExterneBadgeId',
+    acquiredAlias: 'v2EduVoletExterneAcquired',
+    source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+  });
+
+  return {
+    certificationData,
+    learnerData,
+    cleaData,
+    pixPlusV2VoletPixData,
+    pixPlusV2VoletExterneData,
+  };
+}
+
+function emptySourceData() {
+  return {
+    certificationData: [],
+    learnerData: [],
+    cleaData: [],
+    pixPlusV2VoletPixData: [],
+    pixPlusV2VoletExterneData: [],
+  };
+}
+
+async function findCertificationData(applyFilter) {
   const knexConn = DomainTransaction.getConnection();
-  const certificationData = await knexConn
+  const query = knexConn
     .select({
       certificationCourseId: 'certification-courses.id',
       userId: 'certification-courses.userId',
@@ -39,7 +116,6 @@ export async function findBySessionId(sessionId) {
           ORDER BY "competence-marks"."competenceId" asc
         )`),
     })
-    .where('sessions.id', sessionId)
     .where('certification-courses.isPublished', true)
     .from('certification-courses')
     .leftJoin('certification_versions', 'certification_versions.id', 'certification-courses.versionId')
@@ -64,112 +140,55 @@ export async function findBySessionId(sessionId) {
       'certification_versions.id',
     )
     .orderBy('certification-courses.id');
-  if (certificationData.length === 0) {
-    return {
-      certificationData: [],
-      learnerData: [],
-      cleaData: [],
-      pixPlusV2VoletPixData: [],
-      pixPlusV2VoletExterneData: [],
-    };
-  }
-
-  const organizationLearnerIds = certificationData
-    .map(({ organizationLearnerId }) => organizationLearnerId)
-    .filter(Boolean);
-
-  let learnerData = [];
-  if (organizationLearnerIds.length > 0) {
-    learnerData = await knexConn
-      .select({
-        organizationLearnerId: 'id',
-        middleName: 'middleName',
-        thirdName: 'thirdName',
-        nationalStudentId: 'nationalStudentId',
-      })
-      .from('organization-learners')
-      .whereIn('id', organizationLearnerIds)
-      .orderBy('id');
-  }
-
-  let cleaData = [];
-  const cleaIds = certificationData
-    .filter(({ framework }) => framework === Frameworks.CLEA)
-    .map(({ certificationCourseId }) => certificationCourseId);
-  if (cleaIds.length > 0) {
-    cleaData = await knexConn
-      .select({
-        certificationCourseId: 'complementary-certification-courses.certificationCourseId',
-        hasAcquiredClea: 'complementary-certification-course-results.acquired',
-        cleaBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
-      })
-      .from('complementary-certification-course-results')
-      .innerJoin(
-        'complementary-certification-courses',
-        'complementary-certification-courses.id',
-        'complementary-certification-course-results.complementaryCertificationCourseId',
-      )
-      .whereIn('complementary-certification-courses.certificationCourseId', cleaIds)
-      .orderBy('complementary-certification-courses.certificationCourseId');
-  }
-
-  let pixPlusV2VoletExterneData = [];
-  let pixPlusV2VoletPixData = [];
-  const pixPlusV2Ids = certificationData
-    .filter(
-      ({ framework, algorithmEngineVersion }) =>
-        [
-          Frameworks.EDU_1ER_DEGRE,
-          Frameworks.EDU_CPE,
-          Frameworks.EDU_2ND_DEGRE,
-          Frameworks.PRO_SANTE,
-          Frameworks.DROIT,
-        ].includes(framework) && algorithmEngineVersion === AlgorithmEngineVersion.V2,
-    )
-    .map(({ certificationCourseId }) => certificationCourseId);
-  if (pixPlusV2Ids.length > 0) {
-    pixPlusV2VoletPixData = await knexConn
-      .select({
-        certificationCourseId: 'complementary-certification-courses.certificationCourseId',
-        v2ComplementaryVoletPixBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
-        v2ComplementaryVoletPixAcquired: 'complementary-certification-course-results.acquired',
-      })
-      .from('complementary-certification-course-results')
-      .innerJoin(
-        'complementary-certification-courses',
-        'complementary-certification-courses.id',
-        'complementary-certification-course-results.complementaryCertificationCourseId',
-      )
-      .whereIn('complementary-certification-courses.certificationCourseId', pixPlusV2Ids)
-      .where('complementary-certification-course-results.source', 'PIX')
-      .orderBy('complementary-certification-courses.certificationCourseId');
-    pixPlusV2VoletExterneData = await knexConn
-      .select({
-        certificationCourseId: 'complementary-certification-courses.certificationCourseId',
-        v2EduVoletExterneBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
-        v2EduVoletExterneAcquired: 'complementary-certification-course-results.acquired',
-      })
-      .from('complementary-certification-course-results')
-      .innerJoin(
-        'complementary-certification-courses',
-        'complementary-certification-courses.id',
-        'complementary-certification-course-results.complementaryCertificationCourseId',
-      )
-      .whereIn('complementary-certification-courses.certificationCourseId', pixPlusV2Ids)
-      .where('complementary-certification-course-results.source', 'EXTERNAL')
-      .orderBy('complementary-certification-courses.certificationCourseId');
-  }
+  applyFilter(query);
+  const certificationData = await query;
 
   for (const certificationItem of certificationData) {
     if (certificationItem.competenceMarks[0].competenceId === null) {
       certificationItem.competenceMarks = [];
     }
   }
-  return {
-    certificationData,
-    learnerData,
-    cleaData,
-    pixPlusV2VoletPixData,
-    pixPlusV2VoletExterneData,
-  };
+  return certificationData;
+}
+
+async function findLearnerData(organizationLearnerIds) {
+  if (organizationLearnerIds.length === 0) {
+    return [];
+  }
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn
+    .select({
+      organizationLearnerId: 'id',
+      middleName: 'middleName',
+      thirdName: 'thirdName',
+      nationalStudentId: 'nationalStudentId',
+    })
+    .from('organization-learners')
+    .whereIn('id', organizationLearnerIds)
+    .orderBy('id');
+}
+
+async function findComplementaryResults({ certificationCourseIds, badgeIdAlias, acquiredAlias, source }) {
+  if (certificationCourseIds.length === 0) {
+    return [];
+  }
+  const knexConn = DomainTransaction.getConnection();
+  const query = knexConn
+    .select({
+      certificationCourseId: 'complementary-certification-courses.certificationCourseId',
+      [badgeIdAlias]: 'complementary-certification-course-results.complementaryCertificationBadgeId',
+      [acquiredAlias]: 'complementary-certification-course-results.acquired',
+    })
+    .from('complementary-certification-course-results')
+    .innerJoin(
+      'complementary-certification-courses',
+      'complementary-certification-courses.id',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+    )
+    .whereIn('complementary-certification-courses.certificationCourseId', certificationCourseIds)
+    .orderBy('complementary-certification-courses.certificationCourseId');
+  if (source) {
+    query.where('complementary-certification-course-results.source', source);
+  }
+  return query;
 }

@@ -116,12 +116,141 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       });
     });
   });
+
+  describe('#findByCertificationCourseIds', function () {
+    context('when given an empty list', function () {
+      it('returns empty source data', async function () {
+        const sourceData = await certificationResultSourceDataRepository.findByCertificationCourseIds([]);
+
+        expect(sourceData).to.deep.equal({
+          certificationData: [],
+          learnerData: [],
+          cleaData: [],
+          pixPlusV2VoletPixData: [],
+          pixPlusV2VoletExterneData: [],
+        });
+      });
+    });
+
+    context('when no data found for given certification course ids', function () {
+      it('returns empty source data', async function () {
+        const sourceData = await certificationResultSourceDataRepository.findByCertificationCourseIds([123, 456]);
+
+        expect(sourceData).to.deep.equal({
+          certificationData: [],
+          learnerData: [],
+          cleaData: [],
+          pixPlusV2VoletPixData: [],
+          pixPlusV2VoletExterneData: [],
+        });
+      });
+    });
+
+    context('when data found for given certification course ids', function () {
+      let expectedCoreV3Data, expectedCleaV3Data, expectedEduV2Data, unpublishedData;
+
+      beforeEach(function () {
+        const sessionId = databaseBuilder.factory.buildSession({
+          certificationCenterId: null,
+          certificationCenter: 'Nom du centre au moment de la session',
+          publishedAt: new Date('2026-01-03'),
+        }).id;
+        const anotherSessionId = databaseBuilder.factory.buildSession({
+          certificationCenterId: null,
+          certificationCenter: 'Nom du centre au moment de la session',
+          publishedAt: new Date('2026-01-03'),
+        }).id;
+        const versionId = databaseBuilder.factory.buildCertificationVersion({
+          scope: SCOPES.CORE,
+          challengesConfiguration: {},
+          status: 'active',
+          maxReachableLevel: 7,
+        }).id;
+        const cleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+          key: 'CLEA',
+        }).id;
+        const cleaComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          complementaryCertificationId: cleaComplementaryCertificationId,
+        }).id;
+        const eduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+          key: 'EDU_1ER_DEGRE',
+        }).id;
+        const eduComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          complementaryCertificationId: eduComplementaryCertificationId,
+        }).id;
+
+        expectedCoreV3Data = buildCertificateData({
+          framework: Frameworks.CORE,
+          sessionId,
+          withOrgaLearner: true,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          versionId,
+        });
+        expectedCleaV3Data = buildCertificateData({
+          framework: Frameworks.CLEA,
+          sessionId: anotherSessionId,
+          withOrgaLearner: true,
+          versionId,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          complementaryCertificationId: cleaComplementaryCertificationId,
+          complementaryCertificationBadgeId: cleaComplementaryCertificationBadgeId,
+        });
+        expectedEduV2Data = buildCertificateData({
+          framework: Frameworks.EDU_1ER_DEGRE,
+          sessionId: anotherSessionId,
+          withOrgaLearner: false,
+          algorithmEngineVersion: AlgorithmEngineVersion.V2,
+          complementaryCertificationId: eduComplementaryCertificationId,
+          complementaryCertificationBadgeId: eduComplementaryCertificationBadgeId,
+        });
+        unpublishedData = buildCertificateData({
+          framework: Frameworks.CORE,
+          sessionId,
+          withOrgaLearner: true,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          versionId,
+          isPublished: false,
+        });
+        // NOISE
+        buildCertificateData({
+          framework: Frameworks.CORE,
+          sessionId,
+          withOrgaLearner: true,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          versionId,
+        });
+        return databaseBuilder.commit();
+      });
+
+      it('returns all source data from the given published certifications', async function () {
+        const sourceData = await certificationResultSourceDataRepository.findByCertificationCourseIds([
+          expectedEduV2Data.certificationData.certificationCourseId,
+          expectedCoreV3Data.certificationData.certificationCourseId,
+          unpublishedData.certificationData.certificationCourseId,
+          expectedCleaV3Data.certificationData.certificationCourseId,
+        ]);
+
+        const expectedAllCertificationData = [expectedCoreV3Data, expectedCleaV3Data, expectedEduV2Data].map(
+          ({ certificationData }) => certificationData,
+        );
+        const expectedAllLearnerData = [expectedCoreV3Data, expectedCleaV3Data].map(({ learnerData }) => learnerData);
+        expect(sourceData).to.deep.equal({
+          certificationData: expectedAllCertificationData,
+          learnerData: expectedAllLearnerData,
+          cleaData: [expectedCleaV3Data.cleaData],
+          pixPlusV2VoletPixData: [expectedEduV2Data.pixPlusV2VoletPixData],
+          pixPlusV2VoletExterneData: [expectedEduV2Data.pixPlusV2VoletExterneData],
+        });
+      });
+    });
+  });
 });
 
 function buildCertificateData({
   framework,
   sessionId,
   withOrgaLearner,
+  isPublished = true,
   algorithmEngineVersion,
   versionId,
   complementaryCertificationId,
@@ -183,7 +312,7 @@ function buildCertificateData({
     versionId,
     framework,
     sessionId,
-    isPublished: true,
+    isPublished,
     version: expectedCertifData.algorithmEngineVersion,
     firstName: expectedCertifData.firstName,
     lastName: expectedCertifData.lastName,
