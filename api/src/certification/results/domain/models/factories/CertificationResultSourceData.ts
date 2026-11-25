@@ -35,23 +35,23 @@ type CompetenceMarkDataProps = {
   level: number;
   competenceId: string;
 };
-type LearnerDataProps = {
+export type LearnerDataProps = {
   organizationLearnerId: number;
   middleName: string | null;
   thirdName: string | null;
   nationalStudentId: string | null;
 };
-type CleaDataProps = {
+export type CleaDataProps = {
   certificationCourseId: number;
   cleaBadgeId: number;
   hasAcquiredClea: boolean;
 };
-type PixPlusV2VoletPixDataProps = {
+export type PixPlusV2VoletPixDataProps = {
   certificationCourseId: number;
   v2ComplementaryVoletPixBadgeId: number;
   v2ComplementaryVoletPixAcquired: boolean;
 };
-type PixPlusV2VoletExterneDataProps = {
+export type PixPlusV2VoletExterneDataProps = {
   certificationCourseId: number;
   v2EduVoletExterneBadgeId: number;
   v2EduVoletExterneAcquired: boolean;
