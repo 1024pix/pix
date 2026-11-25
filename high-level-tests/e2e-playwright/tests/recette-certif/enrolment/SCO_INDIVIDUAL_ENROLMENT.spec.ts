@@ -46,7 +46,7 @@ test(
         firstName: userDataCoreSubscription.firstName,
         lastName: userDataCoreSubscription.lastName,
       });
-      const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData();
+      const enrolledCandidatesSoFar = await sessionManagementPage.getEnrolledCandidatesData(1);
       expect(enrolledCandidatesSoFar).toMatchObject([
         {
           'Nom de naissance': userDataCoreSubscription.lastName,
@@ -63,7 +63,7 @@ test(
     });
 
     await test.step('Check enrolled candidate', async () => {
-      const enrolledCandidates = await sessionManagementPage.getEnrolledCandidatesData();
+      const enrolledCandidates = await sessionManagementPage.getEnrolledCandidatesData(1);
       expect(enrolledCandidates).toHaveLength(1);
       const coreEnrolled = enrolledCandidates.find(
         (enrolled) => enrolled['Prénom'] === userDataCoreSubscription.firstName,

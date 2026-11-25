@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 
 import { CERTIFICATIONS_DATA } from '../../helpers/db-data.ts';
 import { SessionFinalizationPage } from './SessionFinalizationPage.ts';
@@ -142,9 +142,10 @@ export class SessionManagementPage {
     await this.page.getByRole('button', { name: 'Inscrire' }).click();
   }
 
-  async getEnrolledCandidatesData() {
+  async getEnrolledCandidatesData(expectedCount: number) {
     await this.page.getByRole('link', { name: /^Candidats/ }).click();
     await this.page.waitForURL(/\/sessions\/\d+\/candidats$/);
+    await expect(this.page.getByText(`Liste des candidats (${expectedCount})`)).toBeVisible();
     const table = this.page.locator('table');
     const headers = await table.locator('thead th').allTextContents();
     const rows = await table.locator('tbody tr').all();
