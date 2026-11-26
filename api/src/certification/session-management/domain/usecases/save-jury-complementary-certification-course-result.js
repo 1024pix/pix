@@ -5,6 +5,8 @@ export async function saveJuryComplementaryCertificationCourseResult({
   complementaryCertificationCourseId,
   juryLevel,
   complementaryCertificationCourseResultRepository,
+  complementaryCertificationCourseRepository,
+  certificationResultAdapter,
 }) {
   const pixSourceComplementaryCertificationCourseResult =
     await complementaryCertificationCourseResultRepository.getPixSourceResultByComplementaryCertificationCourseId({
@@ -20,6 +22,13 @@ export async function saveJuryComplementaryCertificationCourseResult({
   if (juryLevel === ComplementaryCertificationCourseResult.juryOptions.UNSET) {
     await complementaryCertificationCourseResultRepository.removeExternalJuryResult({
       complementaryCertificationCourseId,
+    });
+    await updateCertificationResult({
+      complementaryCertificationCourseId,
+      v2EduVoletExterneBadgeId: null,
+      v2EduVoletExterneAcquired: null,
+      complementaryCertificationCourseRepository,
+      certificationResultAdapter,
     });
     return;
   }
@@ -40,5 +49,29 @@ export async function saveJuryComplementaryCertificationCourseResult({
     complementaryCertificationCourseId,
   });
 
-  return complementaryCertificationCourseResultRepository.save(externalComplementaryCertificationCourseResult);
+  await complementaryCertificationCourseResultRepository.save(externalComplementaryCertificationCourseResult);
+  await updateCertificationResult({
+    complementaryCertificationCourseId,
+    v2EduVoletExterneBadgeId: externalComplementaryCertificationCourseResult.complementaryCertificationBadgeId,
+    v2EduVoletExterneAcquired: externalComplementaryCertificationCourseResult.acquired,
+    complementaryCertificationCourseRepository,
+    certificationResultAdapter,
+  });
+}
+
+async function updateCertificationResult({
+  complementaryCertificationCourseId,
+  v2EduVoletExterneBadgeId,
+  v2EduVoletExterneAcquired,
+  complementaryCertificationCourseRepository,
+  certificationResultAdapter,
+}) {
+  const certificationCourseId = await complementaryCertificationCourseRepository.getCertificationCourseId({
+    complementaryCertificationCourseId,
+  });
+  await certificationResultAdapter.updateEduV2ExternalJuryResult({
+    certificationCourseId,
+    v2EduVoletExterneBadgeId,
+    v2EduVoletExterneAcquired,
+  });
 }

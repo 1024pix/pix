@@ -160,6 +160,27 @@ describe('Certification | Results | Unit | application | api | certif results', 
       });
     });
   });
+
+  describe('#updateEduV2ExternalJuryResult', function () {
+    it('calls the usecase with the given parameters', async function () {
+      // given
+      sinon.stub(usecases, 'updateEduV2ExternalJuryResult').resolves();
+
+      // when
+      await certificationResultApi.updateEduV2ExternalJuryResult({
+        certificationCourseId: 123,
+        v2EduVoletExterneBadgeId: 456,
+        v2EduVoletExterneAcquired: true,
+      });
+
+      // then
+      expect(usecases.updateEduV2ExternalJuryResult).to.have.been.calledOnceWithExactly({
+        certificationCourseId: 123,
+        v2EduVoletExterneBadgeId: 456,
+        v2EduVoletExterneAcquired: true,
+      });
+    });
+  });
 });
 
 function buildSourceData(certificationData) {

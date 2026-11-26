@@ -53,3 +53,24 @@ export async function buildForSession({
 export async function updateEduV3ExternalJuryResult({ certificationCourseId, v3EduExternalJuryResult }) {
   return usecases.updateEduV3ExternalJuryResult({ certificationCourseId, v3EduExternalJuryResult });
 }
+
+/**
+ * @function
+ * @name updateEduV2ExternalJuryResult
+ * @param {object} params
+ * @param {number} params.certificationCourseId
+ * @param {number | null} params.v2EduVoletExterneBadgeId
+ * @param {boolean | null} params.v2EduVoletExterneAcquired
+ * @returns {Promise<void>}
+ */
+export async function updateEduV2ExternalJuryResult({
+  certificationCourseId,
+  v2EduVoletExterneBadgeId,
+  v2EduVoletExterneAcquired,
+}) {
+  return usecases.updateEduV2ExternalJuryResult({
+    certificationCourseId,
+    v2EduVoletExterneBadgeId,
+    v2EduVoletExterneAcquired,
+  });
+}

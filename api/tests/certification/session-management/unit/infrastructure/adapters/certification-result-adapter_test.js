@@ -10,9 +10,11 @@ describe('Certification | SessionManagement | Unit | Adapter | certification res
     certificationResultApi = {
       buildForSession: sinon.stub(),
       updateEduV3ExternalJuryResult: sinon.stub(),
+      updateEduV2ExternalJuryResult: sinon.stub(),
     };
     certificationResultApi.buildForSession.resolves();
     certificationResultApi.updateEduV3ExternalJuryResult.resolves();
+    certificationResultApi.updateEduV2ExternalJuryResult.resolves();
     dependencies = {
       certificationResultApi,
     };
@@ -42,6 +44,23 @@ describe('Certification | SessionManagement | Unit | Adapter | certification res
       sinon.assert.calledOnceWithExactly(certificationResultApi.updateEduV3ExternalJuryResult, {
         certificationCourseId: 123,
         v3EduExternalJuryResult: PIX_PLUS_EDU_EXTERNAL_LEVELS.EXPERT,
+      });
+    });
+  });
+
+  context('#updateEduV2ExternalJuryResult', function () {
+    it('updates the external jury result by passing the certification course id, the badge and the acquisition', async function () {
+      await certificationResultAdapter.updateEduV2ExternalJuryResult({
+        certificationCourseId: 123,
+        v2EduVoletExterneBadgeId: 456,
+        v2EduVoletExterneAcquired: true,
+        dependencies,
+      });
+
+      sinon.assert.calledOnceWithExactly(certificationResultApi.updateEduV2ExternalJuryResult, {
+        certificationCourseId: 123,
+        v2EduVoletExterneBadgeId: 456,
+        v2EduVoletExterneAcquired: true,
       });
     });
   });

@@ -23,3 +23,22 @@ export async function updateEduV3ExternalJuryResult({
     v3EduExternalJuryResult: eduV3ExternalJuryResult,
   });
 }
+
+/**
+ * @param {object} params
+ * @param {number} params.certificationCourseId
+ * @param {number | null} params.v2EduVoletExterneBadgeId
+ * @param {boolean | null} params.v2EduVoletExterneAcquired
+ */
+export async function updateEduV2ExternalJuryResult({
+  certificationCourseId,
+  v2EduVoletExterneBadgeId,
+  v2EduVoletExterneAcquired,
+  dependencies = { certificationResultApi },
+}) {
+  await dependencies.certificationResultApi.updateEduV2ExternalJuryResult({
+    certificationCourseId,
+    v2EduVoletExterneBadgeId,
+    v2EduVoletExterneAcquired,
+  });
+}

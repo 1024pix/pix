@@ -30,6 +30,7 @@ import * as certificationCompanionAlertRepository from '../../infrastructure/rep
 import * as certificationOfficerRepository from '../../infrastructure/repositories/certification-officer-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
+import * as complementaryCertificationCourseRepository from '../../infrastructure/repositories/complementary-certification-course-repository.ts';
 import * as courseAssessmentResultRepository from '../../infrastructure/repositories/course-assessment-result-repository.js';
 import * as cpfExportRepository from '../../infrastructure/repositories/cpf-export-repository.js';
 import * as finalizedSessionRepository from '../../infrastructure/repositories/finalized-session-repository.js';
@@ -179,6 +180,7 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {invigilatorAccessRepository} InvigilatorAccessRepository
  * @typedef {certificationCenterAccessRepository} CertificationCenterAccessRepository
+ * @typedef {complementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
  *
  *
  **/
@@ -197,6 +199,7 @@ const dependencies = {
   certificationChallengeLiveAlertRepository,
   sessionForInvigilatorKitRepository,
   complementaryCertificationCourseResultRepository,
+  complementaryCertificationCourseRepository,
   issueReportCategoryRepository,
   jurySessionRepository,
   certificationOfficerRepository,
