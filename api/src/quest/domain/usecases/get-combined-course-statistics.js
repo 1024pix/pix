@@ -8,7 +8,7 @@ export const getCombinedCourseStatistics = async ({ combinedCourseId, organizati
   const completedParticipations = allCombinedCourseParticipations.filter((participation) => participation.isCompleted);
 
   return new CombinedCourseStatistics({
-    id: combinedCourseId,
+    combinedCourseId,
     participationsCount: allCombinedCourseParticipations.length,
     completedParticipationsCount: completedParticipations.length,
   });
