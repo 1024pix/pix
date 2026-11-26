@@ -15,6 +15,7 @@ import FeedbackPanel from 'mon-pix/components/challenge/feedback/feedback-panel'
 import FocusedOutNotification from 'mon-pix/components/challenge/focusedOutNotification';
 import ChallengeItem from 'mon-pix/components/challenge/item';
 import ModeBanner from 'mon-pix/components/challenge/mode-banner';
+import ChallengeEmbedSimulator from 'mon-pix/components/challenge-embed-simulator';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
 
 export default class ChallengeContent extends Component {
@@ -25,10 +26,25 @@ export default class ChallengeContent extends Component {
   @tracked answerValue = '';
   @tracked hasError = true;
   @tracked displayErrorMessage = false;
+  @tracked autoReplyErrorMessage = '';
 
   @service router;
   @service store;
   @service currentUser;
+  @service intl;
+
+  @action
+  receiveAutoReplyMessage(message) {
+    if (message.validity != null) this.autoReplyErrorMessage = message.validity;
+
+    if (message.answer == null) return;
+    this.answerValue = String(message.answer);
+    this.hasError = this.answerValue.length < 1;
+  }
+
+  get autoReplyDisplayedErrorMessage() {
+    return this.autoReplyErrorMessage || this.intl.t('pages.challenge.skip-error-message.qroc-auto-reply');
+  }
 
   get hasAnswer() {
     return !!this.args.answer;
@@ -204,6 +220,13 @@ export default class ChallengeContent extends Component {
           />
 
           <ChallengeWrapper @hasAnswer={{this.hasAnswer}} @isCertification={{@assessment.isCertification}}>
+            {{#if (and @challenge.hasValidEmbedDocument @challenge.autoReply)}}
+              <ChallengeEmbedSimulator
+                @challenge={{@challenge}}
+                @assessmentId={{@assessment.id}}
+                @onAutoReplyMessage={{if @challenge.autoReply this.receiveAutoReplyMessage}}
+              />
+            {{/if}}
             <ChallengeItem
               @challenge={{@challenge}}
               @assessment={{@assessment}}
@@ -224,6 +247,7 @@ export default class ChallengeContent extends Component {
               @displayTimer={{this.displayTimer}}
               @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}
               @isAnswerFieldDisabled={{this.hasAnswer}}
+              @autoReplyDisplayedErrorMessage={{this.autoReplyDisplayedErrorMessage}}
             />
           </ChallengeWrapper>
         </PixBlock>

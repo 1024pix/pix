@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import modifierDidInsert from 'mon-pix/modifiers/modifier-did-insert';
 import { isEmbedAllowedOrigin } from 'mon-pix/utils/embed-allowed-origins';
+import { getAutoReplyMessage } from 'mon-pix/utils/embed-auto-reply-message';
 
 export default class ChallengeEmbedSimulator extends Component {
   <template>
@@ -37,9 +38,9 @@ export default class ChallengeEmbedSimulator extends Component {
             tabindex={{unless this.isSimulatorLaunched "-1"}}
             aria-hidden={{unless this.isSimulatorLaunched "true"}}
             class="embed__iframe"
-            src="{{@embedDocument.url}}"
-            title="{{@embedDocument.title}}"
-            {{modifierDidInsert this.configureIframe @embedDocument.url this}}
+            src="{{this.embedDocument.url}}"
+            title="{{this.embedDocument.title}}"
+            {{modifierDidInsert this.configureIframe this.embedDocument.url this}}
             frameBorder="0"
             style="{{this.embedDocumentHeightStyle}}"
             allow="{{this.permissionToClipboardWrite}}"
@@ -82,7 +83,15 @@ export default class ChallengeEmbedSimulator extends Component {
 
   constructor(owner, args) {
     super(owner, args);
-    this.embedHeight = args.embedDocument?.height;
+    this.embedHeight = args.challenge?.embedHeight;
+  }
+
+  get embedDocument() {
+    return {
+      url: this.args.challenge.embedUrl,
+      title: this.args.challenge.embedTitle,
+      height: this.args.challenge.embedHeight,
+    };
   }
 
   get embedDocumentHeightStyle() {
@@ -93,10 +102,10 @@ export default class ChallengeEmbedSimulator extends Component {
   }
 
   get permissionToClipboardWrite() {
-    if (!this.args.embedDocument?.url) {
+    if (!this.embedDocument?.url) {
       return null;
     }
-    return isEmbedAllowedOrigin(this.args.embedDocument.url) ? 'clipboard-write' : null;
+    return isEmbedAllowedOrigin(this.embedDocument.url) ? 'clipboard-write' : null;
   }
 
   configureIframe = (iframe, embedUrl, thisComponent) => {
@@ -112,7 +121,10 @@ export default class ChallengeEmbedSimulator extends Component {
 
     iframe.addEventListener('load', loadListener);
 
-    thisComponent._embedMessageListener = ({ origin, data, ports }) => {
+    window.removeEventListener('message', thisComponent._embedMessageListener);
+
+    thisComponent._embedMessageListener = (event) => {
+      const { origin, data, ports } = event;
       if (!isEmbedAllowedOrigin(origin)) return;
       if (isInitMessage(data)) {
         if (data.enableFetchFromApi) {
@@ -130,6 +142,10 @@ export default class ChallengeEmbedSimulator extends Component {
       }
       if (isHeightMessage(data)) {
         thisComponent.embedHeight = data.height;
+      }
+      if (this.args.onAutoReplyMessage) {
+        const autoReplyMessage = getAutoReplyMessage(event);
+        if (autoReplyMessage) this.args.onAutoReplyMessage(autoReplyMessage);
       }
     };
 

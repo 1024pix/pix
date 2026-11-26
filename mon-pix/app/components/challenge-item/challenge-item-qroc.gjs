@@ -9,24 +9,18 @@ import t from 'ember-intl/helpers/t';
 import eq from 'ember-truth-helpers/helpers/eq';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
 import getQrocInputSize from 'mon-pix/helpers/get-qroc-input-size';
-import { isEmbedAllowedOrigin } from 'mon-pix/utils/embed-allowed-origins';
 import generateRandomString from 'mon-pix/utils/generate-random-string';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
 export default class ChallengeItemQroc extends Component {
   @service intl;
 
-  @tracked autoReplyAnswer = '';
-  @tracked autoReplyErrorMessage = '';
   @tracked qrocProposalAnswerValue = '';
-  postMessageHandler = null;
 
   constructor() {
     super(...arguments);
     this.qrocProposalAnswerValue = this.userAnswer;
-    if (this.args.challenge.autoReply) {
-      this._addEventListener();
-    } else if (this.qrocProposalAnswerValue) {
+    if (this.qrocProposalAnswerValue) {
       this._notifyAnswerChange();
     }
   }
@@ -41,68 +35,15 @@ export default class ChallengeItemQroc extends Component {
   }
 
   _getAnswerValue() {
-    const qrocProposalAnswerValueBis =
-      document.querySelector('[data-uid="qroc-proposal-uid"]')?.value || this.qrocProposalAnswerValue;
-    return this.showProposal ? qrocProposalAnswerValueBis : this.autoReplyAnswer;
+    return document.querySelector('[data-uid="qroc-proposal-uid"]')?.value || this.qrocProposalAnswerValue;
   }
 
   get errorMessage() {
-    if (this.autoReplyErrorMessage) return this.autoReplyErrorMessage;
-    if (this.args.challenge.autoReply) return this.intl.t('pages.challenge.skip-error-message.qroc-auto-reply');
+    if (this.args.challenge.autoReply) return this.args.autoReplyDisplayedErrorMessage;
+
     if (this.args.challenge.format === 'nombre')
       return this.intl.t('pages.challenge.skip-error-message.qroc-positive-number');
     return this.intl.t('pages.challenge.skip-error-message.qroc');
-  }
-
-  _addEventListener() {
-    this.postMessageHandler = this._receiveEmbedMessage.bind(this);
-    window.addEventListener('message', this.postMessageHandler);
-  }
-
-  _receiveEmbedMessage(event) {
-    const message = this._getMessageFromEventData(event);
-    if (message == null || message.from !== 'pix') return;
-
-    if (message.validity != null) this.autoReplyErrorMessage = message.validity;
-
-    if (message.answer == null) return;
-    this.autoReplyAnswer = message.answer;
-    this._notifyAnswerChange();
-  }
-
-  _getMessageFromEventData(event) {
-    if (!isEmbedAllowedOrigin(event.origin)) return null;
-
-    if (this._isNumeric(event.data)) {
-      return this._transformToObjectMessage(event.data);
-    }
-
-    if (typeof event.data === 'string') {
-      try {
-        return JSON.parse(event.data);
-      } catch {
-        return this._transformToObjectMessage(event.data);
-      }
-    }
-
-    if (typeof event.data === 'object') {
-      if (event.data.type && event.data.type !== 'answer') return null;
-      return event.data;
-    }
-
-    return null;
-  }
-
-  _isNumeric(x) {
-    return parseFloat(x).toString() === x;
-  }
-
-  _transformToObjectMessage(answer) {
-    return { answer: answer, from: 'pix' };
-  }
-
-  get showProposal() {
-    return !this.args.challenge.autoReply;
   }
 
   _notifyAnswerChange() {
@@ -142,13 +83,8 @@ export default class ChallengeItemQroc extends Component {
     const inputBlock = this._blocks.find((block) => block.input != null);
     return inputBlock?.defaultValue ?? '';
   }
-  willDestroy() {
-    super.willDestroy(...arguments);
-    window.removeEventListener('message', this.postMessageHandler);
-  }
-
   <template>
-    {{#if this.showProposal}}
+    {{#unless @challenge.autoReply}}
       <div class="challenge-response">
         <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
         <div class="challenge-proposals qroc-proposal">
@@ -250,7 +186,7 @@ export default class ChallengeItemQroc extends Component {
 
         {{yield to="timeGauge"}}
       </div>
-    {{/if}}
+    {{/unless}}
     {{#if @displayErrorMessage}}
       <PixNotificationAlert role="alert" class="challenge-response__alert" @type="error" @withIcon={{true}}>
         {{this.errorMessage}}
