@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import { CreditsLot } from '../../../../../../src/organizational-entities/domain/credits/models/CreditsLot.js';
 import { CreditsLotToCreate } from '../../../../../../src/organizational-entities/domain/credits/models/CreditsLotToCreate.js';
+import { CreditsLot } from '../../../../../../src/organizational-entities/domain/credits/read-models/CreditsLot.js';
 import * as creditsLotRepository from '../../../../../../src/organizational-entities/infrastructure/credits/repositories/credits-lot-repository.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';

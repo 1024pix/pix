@@ -1,6 +1,6 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CreditsLot } from '../../../domain/credits/models/CreditsLot.js';
 import { CreditsLotBalance } from '../../../domain/credits/models/CreditsLotBalance.js';
+import { CreditsLot } from '../../../domain/credits/read-models/CreditsLot.js';
 import { OrganizationCreditsLot } from '../../../domain/credits/read-models/OrganizationCreditsLot.js';
 
 const findByOrganizationIdForUpdate = async function ({ organizationId }) {
