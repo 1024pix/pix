@@ -92,21 +92,21 @@ describe('Integration | Repository | Credits Lot', function () {
 
       const expectedCreditsLot = [
         {
-          id: firstCreditsLot.id,
-          structureId: structure.id,
-          count: 100,
-          reference: 'REF123',
-          activationDate: new Date('2027-01-01'),
-          expirationDate: new Date('2028-01-01'),
-          creatorFullName: 'Bruce Wayne',
-        },
-        {
           id: secondCreditsLot.id,
           structureId: structure.id,
           count: 100,
           reference: 'REF456',
           activationDate: new Date('2027-06-01'),
           expirationDate: new Date('2028-09-01'),
+          creatorFullName: 'Bruce Wayne',
+        },
+        {
+          id: firstCreditsLot.id,
+          structureId: structure.id,
+          count: 100,
+          reference: 'REF123',
+          activationDate: new Date('2027-01-01'),
+          expirationDate: new Date('2028-01-01'),
           creatorFullName: 'Bruce Wayne',
         },
       ];
@@ -121,7 +121,7 @@ describe('Integration | Repository | Credits Lot', function () {
       expect(foundCreditsLot).to.deep.equal(expectedCreditsLot);
     });
 
-    it('should return credits lot ordered by activation date', async function () {
+    it('should return credits lot ordered by activation date or expiration date', async function () {
       // given
       const { structure } = databaseBuilder.factory.buildOrganizationWithStructure();
 
@@ -130,19 +130,27 @@ describe('Integration | Repository | Credits Lot', function () {
       databaseBuilder.factory.buildCreditsLot({
         structureId: structure.id,
         count: 100,
-        reference: 'SECOND',
-        activationDate: '2027-01-01',
+        reference: 'THIRD',
+        activationDate: '2026-01-01',
         expirationDate: '2027-12-31',
-        createdAt: '2026-01-02',
+        createdAt: '2026-01-01',
         createdBy: creator.id,
       });
-
       databaseBuilder.factory.buildCreditsLot({
         structureId: structure.id,
         count: 100,
         reference: 'FIRST',
+        activationDate: '2027-01-01',
+        expirationDate: '2028-12-31',
+        createdAt: '2026-01-02',
+        createdBy: creator.id,
+      });
+      databaseBuilder.factory.buildCreditsLot({
+        structureId: structure.id,
+        count: 100,
+        reference: 'SECOND',
         activationDate: '2026-01-01',
-        expirationDate: '2027-12-31',
+        expirationDate: '2028-12-31',
         createdAt: '2026-01-01',
         createdBy: creator.id,
       });
@@ -155,6 +163,7 @@ describe('Integration | Repository | Credits Lot', function () {
       // then
       expect(foundCreditsLot[0].reference).to.equal('FIRST');
       expect(foundCreditsLot[1].reference).to.equal('SECOND');
+      expect(foundCreditsLot[2].reference).to.equal('THIRD');
     });
   });
 
@@ -163,7 +172,10 @@ describe('Integration | Repository | Credits Lot', function () {
       // given
       const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure();
 
-      const creditsLotId = databaseBuilder.factory.buildCreditsLot({ structureId: structure.id, count: 10 }).id;
+      const creditsLotId = databaseBuilder.factory.buildCreditsLot({
+        structureId: structure.id,
+        count: 10,
+      }).id;
       databaseBuilder.factory.buildCreditsConsumption({
         creditsLotId,
         organizationLearnerId: databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id }).id,
@@ -176,7 +188,9 @@ describe('Integration | Repository | Credits Lot', function () {
       await databaseBuilder.commit();
 
       // when
-      const creditsLots = await creditsLotRepository.findByOrganizationIdForUpdate({ organizationId: organization.id });
+      const creditsLots = await creditsLotRepository.findByOrganizationIdForUpdate({
+        organizationId: organization.id,
+      });
 
       // then
       expect(creditsLots).to.have.lengthOf(1);
@@ -193,7 +207,9 @@ describe('Integration | Repository | Credits Lot', function () {
       await databaseBuilder.commit();
 
       // when
-      const creditsLots = await creditsLotRepository.findByOrganizationIdForUpdate({ organizationId: organization.id });
+      const creditsLots = await creditsLotRepository.findByOrganizationIdForUpdate({
+        organizationId: organization.id,
+      });
 
       // then
       expect(creditsLots[0].consumedCount).to.equal(0);
@@ -207,7 +223,9 @@ describe('Integration | Repository | Credits Lot', function () {
       await databaseBuilder.commit();
 
       // when
-      const creditsLots = await creditsLotRepository.findByOrganizationIdForUpdate({ organizationId: organization.id });
+      const creditsLots = await creditsLotRepository.findByOrganizationIdForUpdate({
+        organizationId: organization.id,
+      });
 
       // then
       expect(creditsLots).to.be.empty;
