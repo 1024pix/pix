@@ -119,7 +119,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
     });
 
     context('when the token is expected to be an access token and has typ header JWT', function () {
-      it('returns true', function () {
+      it('returns false', function () {
         // given
         const payload = { amstram: 'gram' };
         const secret = 'someSecret';
@@ -131,7 +131,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
         const result = tokenService.getDecodedToken(token, secret, { expectedType });
 
         // then
-        expect(result).to.be.an('object');
+        expect(result).to.be.false;
       });
     });
 
