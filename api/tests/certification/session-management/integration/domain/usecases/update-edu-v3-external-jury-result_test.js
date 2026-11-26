@@ -1,10 +1,12 @@
 import { expect } from 'chai';
 
+import { CERTIFICATION_RESULT_STATUSES } from '../../../../../../src/certification/results/domain/constants.ts';
 import { usecases } from '../../../../../../src/certification/session-management/domain/usecases/index.js';
 import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
-import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
+import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
@@ -34,7 +36,9 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
   });
 
   context('success case', function () {
-    it('updates the certification and returns the update certification', async function () {
+    it('updates the certification and its certification result, and returns the updated certification', async function () {
+      await featureToggles.set('writeNewCertificationResults', true);
+
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         isPublished: true,
         framework: Frameworks.EDU_1ER_DEGRE,
@@ -44,6 +48,16 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
         certificationCourseId: certificationCourse.id,
         reachedMeshIndex: 0,
         eduV3ExternalJuryResult: null,
+      });
+      const certificationResult = databaseBuilder.factory.buildCertificationResult({
+        framework: Frameworks.EDU_1ER_DEGRE,
+        status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
+        v3EduExternalJuryResult: null,
+      });
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: certificationResult.id,
+        certificationCourseId: certificationCourse.id,
+        userId: certificationCourse.userId,
       });
       await databaseBuilder.commit();
 
@@ -67,6 +81,11 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
           competenceMarks: [],
         }),
       );
+      const { v3EduExternalJuryResult } = await knex('certification_results')
+        .select('v3EduExternalJuryResult')
+        .where({ id: certificationResult.id })
+        .first();
+      expect(v3EduExternalJuryResult).to.equal(PIX_PLUS_EDU_EXTERNAL_LEVELS.EXPERT);
     });
   });
 });
