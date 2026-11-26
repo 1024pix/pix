@@ -5,4 +5,6 @@ export default class CreditsLot extends Model {
   @attr('string') reference;
   @attr('string') activationDate;
   @attr('string') expirationDate;
+  @attr('string') creatorFullName;
+  @attr('string') status;
 }
