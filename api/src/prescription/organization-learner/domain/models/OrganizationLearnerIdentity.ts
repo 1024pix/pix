@@ -1,18 +1,36 @@
-export class OrganizationLearnerIdentity {
+type OrganizationLearnerIdentityArgs = {
+  id: number;
   firstName: string;
   lastName: string;
-  birthdate: string;
+  birthdate?: string | null;
+  division?: string | null;
+  username?: string | null;
+  userId?: number | null;
+};
 
-  constructor({ firstName, lastName, birthdate }: { firstName: string; lastName: string; birthdate: string }) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.birthdate = birthdate;
+export class OrganizationLearnerIdentity {
+  id: number;
+  firstName: string;
+  lastName: string;
+  birthdate?: string | null;
+  division?: string | null;
+  username?: string | null;
+  userId?: number | null;
+
+  constructor(args: OrganizationLearnerIdentityArgs) {
+    this.id = args.id;
+    this.firstName = args.firstName;
+    this.lastName = args.lastName;
+    this.birthdate = args.birthdate;
+    this.division = args.division;
+    this.username = args.username;
+    this.userId = args.userId;
   }
 
   generateUsername(generateLastPart?: () => string) {
     const normalizedFirstName = normalize(this.firstName);
     const normalizedLastName = normalize(this.lastName);
-    const [, month, day] = this.birthdate.split('-');
+    const [, month, day] = this.birthdate?.split('-') ?? ['', '00', '00'];
 
     const lastPart = generateLastPart?.() ?? `${day}${month}`;
 

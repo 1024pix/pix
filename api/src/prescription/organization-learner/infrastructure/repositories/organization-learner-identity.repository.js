@@ -1,5 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { OrganizationLearnerIdentity } from '../../domain/models/OrganizationLearnerIdentity.js';
+import { OrganizationLearnerIdentity } from '../../domain/models/OrganizationLearnerIdentity.ts';
 
 const USER_TABLE_NAME = 'users';
 const VIEW_ORGANIZATION_LEARNERS_TABLE_NAME = 'view-active-organization-learners';

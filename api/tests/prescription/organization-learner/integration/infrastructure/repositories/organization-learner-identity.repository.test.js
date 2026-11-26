@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { OrganizationLearnerIdentity } from '../../../../../../src/prescription/organization-learner/domain/models/OrganizationLearnerIdentity.js';
+import { OrganizationLearnerIdentity } from '../../../../../../src/prescription/organization-learner/domain/models/OrganizationLearnerIdentity.ts';
 import { organizationLearnerIdentityRepository } from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-identity.repository.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
