@@ -118,6 +118,7 @@ describe('Quest | Integration | Repository | course-repository', function () {
         name: 'Profil partagé',
         category: 'SUBJECT',
         isSimplifiedAccess: false,
+        areKnowledgeElementsResettable: true,
       }).id;
       databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube1' });
       databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube2' });
@@ -148,6 +149,7 @@ describe('Quest | Integration | Repository | course-repository', function () {
       expect(result[0].nbTubes).to.equal(2);
       expect(result[0].category).to.equal('SUBJECT');
       expect(result[0].isSimplifiedAccess).to.equal(false);
+      expect(result[0].areKnowledgeElementsResettable).to.equal(true);
       expect(result[0].durationSpan).to.be.null;
     });
 

@@ -91,6 +91,7 @@ const findSharedByOrganizationId = async (organizationId) =>
       'target-profiles.name',
       'target-profiles.category',
       'target-profiles.isSimplifiedAccess',
+      'target-profiles.areKnowledgeElementsResettable',
       'target-profiles.createdAt',
     );
 

@@ -23,6 +23,7 @@ export type CourseItemArgs = {
   nbModules?: number | null;
   category?: string | null;
   isSimplifiedAccess?: boolean | null;
+  areKnowledgeElementsResettable?: boolean | null;
   areas?: CourseItemArea[];
   durationSpan?: string | null;
   createdAt?: Date | null;
@@ -38,6 +39,7 @@ export class CourseItem {
   nbModules: number | null;
   category: string | null;
   isSimplifiedAccess: boolean | null;
+  areKnowledgeElementsResettable: boolean | null;
   areas: CourseItemArea[];
   durationSpan: string | null;
 
@@ -50,6 +52,7 @@ export class CourseItem {
     nbModules,
     category,
     isSimplifiedAccess,
+    areKnowledgeElementsResettable,
     areas,
     durationSpan,
     createdAt,
@@ -63,6 +66,7 @@ export class CourseItem {
     this.nbModules = nbModules ?? null;
     this.category = category ?? null;
     this.isSimplifiedAccess = isSimplifiedAccess ?? null;
+    this.areKnowledgeElementsResettable = areKnowledgeElementsResettable ?? null;
     this.areas = areas ?? [];
     this.durationSpan = durationSpan ?? null;
   }

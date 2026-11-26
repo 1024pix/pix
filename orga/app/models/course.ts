@@ -13,6 +13,7 @@ export default class Course extends Model {
   @attr<NumberTransform>('number') declare nbModules: number | null;
   @attr<StringTransform>('string') declare category: string | null;
   @attr<BooleanTransform>('boolean') declare isSimplifiedAccess: boolean | null;
+  @attr<BooleanTransform>('boolean') declare areKnowledgeElementsResettable: boolean | null;
   @attr<NumberTransform>('number') declare sourceId: number | null;
   @attr<StringTransform>('string') declare durationSpan: string | null;
 

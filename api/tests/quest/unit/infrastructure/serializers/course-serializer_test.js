@@ -36,6 +36,7 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
           nbTubes: 5,
           category: 'PREDEFINED',
           isSimplifiedAccess: true,
+          areKnowledgeElementsResettable: true,
           areas: [area],
         }),
       ];
@@ -56,6 +57,7 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
               'nb-modules': 3,
               category: null,
               'is-simplified-access': null,
+              'are-knowledge-elements-resettable': null,
               'source-id': 1,
               'duration-span': 'short',
             },
@@ -73,6 +75,7 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
               'nb-modules': null,
               category: 'PREDEFINED',
               'is-simplified-access': true,
+              'are-knowledge-elements-resettable': true,
               'source-id': 2,
               'duration-span': null,
             },

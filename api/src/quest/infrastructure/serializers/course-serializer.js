@@ -11,6 +11,7 @@ const serialize = function (courseItems) {
       'nbModules',
       'category',
       'isSimplifiedAccess',
+      'areKnowledgeElementsResettable',
       'areas',
       'sourceId',
       'durationSpan',

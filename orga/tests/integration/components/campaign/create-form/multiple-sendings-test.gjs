@@ -76,7 +76,7 @@ module('Integration | Component | Campaign::CreateForm::MultipleSendings', funct
   test('it displays an additional info when knowledge elements are resettable', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    data.campaign.targetProfile = store.createRecord('target-profile', { areKnowledgeElementsResettable: true });
+    data.campaign.course = store.createRecord('course', { areKnowledgeElementsResettable: true });
 
     // when
     const screen = await render(
