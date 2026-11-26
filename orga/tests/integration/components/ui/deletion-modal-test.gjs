@@ -10,7 +10,7 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Ui::DeletionModal', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it should display title, content and action buttons', async function (assert) {
+  test('it displays title, content and action buttons', async function (assert) {
     //given
     const noop = () => {};
     const title = 'Coucou';
@@ -40,7 +40,7 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
     assert.ok(screen.getByRole('button', { name: t('components.ui.deletion-modal.confirm-deletion') }));
   });
 
-  test('it should display checkbox for confirmation', async function (assert) {
+  test('it displays checkbox for confirmation', async function (assert) {
     //given
     const triggerActionStub = sinon.stub();
     const onCloseModalStub = sinon.stub();
@@ -73,7 +73,7 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
     );
   });
 
-  test('confirm button should not be clickable if checkbox is not checked', async function (assert) {
+  test('it prevents button from being clickable if confirmation checkbox is not checked', async function (assert) {
     //given
     const triggerActionStub = sinon.stub();
     const onCloseModalStub = sinon.stub();
@@ -106,7 +106,7 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
     assert.dom(confirmButton).hasAttribute('aria-disabled');
   });
 
-  test('it should call onTriggerAction after confirmation when click on confirm', async function (assert) {
+  test('it calls onTriggerAction after confirmation when click on confirm', async function (assert) {
     //given
     const triggerActionStub = sinon.stub();
     const onCloseModalStub = sinon.stub();
@@ -145,7 +145,7 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
     assert.ok(triggerActionStub.called);
   });
 
-  test('it should call onCloseModal when click on annuler', async function (assert) {
+  test('it calls onCloseModal when click on annuler', async function (assert) {
     //given
     const triggerActionStub = sinon.stub();
     const onCloseModalStub = sinon.stub();
