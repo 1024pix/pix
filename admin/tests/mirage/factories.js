@@ -9,6 +9,7 @@ import certificationCenterInvitation from './factories/certification-center-invi
 import certificationFramework from './factories/certification-framework';
 import certificationVersion from './factories/certification-version';
 import certificationVersionSummary from './factories/certification-version-summary';
+import creditsLot from './factories/credits-lot';
 import featureToggle from './factories/feature-toggle';
 import juryCertificationSummary from './factories/jury-certification-summary';
 import organization from './factories/organization';
@@ -28,6 +29,7 @@ export default {
   certificationFramework,
   certificationVersionSummary,
   certificationVersion,
+  creditsLot,
   featureToggle,
   juryCertificationSummary,
   organization,
