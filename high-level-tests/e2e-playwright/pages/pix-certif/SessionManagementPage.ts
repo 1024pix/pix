@@ -124,10 +124,11 @@ export class SessionManagementPage {
         choice = 'Certification Pix';
         break;
     }
-    const radio = this.page.getByRole('radio', { name: choice, exact: true });
+    await this.page.getByRole('button', { name: 'Certification sélectionnée *' }).click();
+    const option = this.page.getByRole('option', { name: choice, exact: true });
 
-    if (await radio.isVisible()) {
-      await radio.check();
+    if (await option?.isVisible()) {
+      await option.click();
     }
     await this.page.getByRole('button', { name: 'Inscrire le candidat' }).click();
     if (checkForSuccess) {
