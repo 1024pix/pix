@@ -76,11 +76,13 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
 
     // then
     expect(await uploadedKeys()).to.deep.equal([
-      'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000002.parquet',
-      'migrated-user-knowledge-elements/2026/03/01/000000000003_000000000003.parquet',
+      'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000002.parquet',
+      'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000003_000000000003.parquet',
     ]);
     expect(
-      await readParquet('migrated-user-knowledge-elements/2026/03/01/000000000001_000000000002.parquet'),
+      await readParquet(
+        'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000002.parquet',
+      ),
     ).to.deep.equal([
       {
         id: 1n,
@@ -108,7 +110,9 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
       },
     ]);
     expect(
-      await readParquet('migrated-user-knowledge-elements/2026/03/01/000000000003_000000000003.parquet'),
+      await readParquet(
+        'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000003_000000000003.parquet',
+      ),
     ).to.deep.equal([
       {
         id: 3n,
@@ -132,14 +136,16 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
 
     expect(await exportFiles()).to.deep.equal([
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000002.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000002.parquet',
         first_id: 1,
         last_id: 2,
         row_count: 2,
         completed_at: runAt,
       },
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/01/000000000003_000000000003.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000003_000000000003.parquet',
         first_id: 3,
         last_id: 3,
         row_count: 1,
@@ -165,29 +171,35 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
 
     // then
     expect(await uploadedKeys()).to.deep.equal([
-      'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000003.parquet',
-      'migrated-user-knowledge-elements/2026/03/02/000000000002_000000000004.parquet',
+      'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000003.parquet',
+      'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=02/000000000002_000000000004.parquet',
     ]);
     expect(
-      (await readParquet('migrated-user-knowledge-elements/2026/03/01/000000000001_000000000003.parquet')).map(
-        ({ id }) => id,
-      ),
+      (
+        await readParquet(
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000003.parquet',
+        )
+      ).map(({ id }) => id),
     ).to.deep.equal([1n, 3n]);
     expect(
-      (await readParquet('migrated-user-knowledge-elements/2026/03/02/000000000002_000000000004.parquet')).map(
-        ({ id }) => id,
-      ),
+      (
+        await readParquet(
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=02/000000000002_000000000004.parquet',
+        )
+      ).map(({ id }) => id),
     ).to.deep.equal([2n, 4n]);
     expect(await exportFiles()).to.deep.equal([
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000003.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000003.parquet',
         first_id: 1,
         last_id: 3,
         row_count: 2,
         completed_at: runAt,
       },
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/02/000000000002_000000000004.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=02/000000000002_000000000004.parquet',
         first_id: 2,
         last_id: 4,
         row_count: 2,
@@ -230,14 +242,16 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
     // of their save was set. The row 3, created the day after, was in another file, not recorded yet.
     await knex('migrated_user_knowledge_elements_export_files').insert([
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000001.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000001.parquet',
         first_id: 1,
         last_id: 1,
         row_count: 1,
         completed_at: previousRunAt,
       },
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/01/000000000002_000000000004.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000002_000000000004.parquet',
         first_id: 2,
         last_id: 4,
         row_count: 3,
@@ -245,7 +259,7 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
       },
     ]);
     await migratedUserKnowledgeElementExportRepository.sendFile(
-      'migrated-user-knowledge-elements/2026/03/01/000000000002_000000000004.parquet',
+      'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000002_000000000004.parquet',
       [],
     );
 
@@ -254,39 +268,45 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
 
     // then
     expect(await uploadedKeys()).to.deep.equal([
-      'migrated-user-knowledge-elements/2026/03/01/000000000002_000000000004.parquet',
-      'migrated-user-knowledge-elements/2026/03/01/000000000006_000000000006.parquet',
-      'migrated-user-knowledge-elements/2026/03/02/000000000003_000000000003.parquet',
+      'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000002_000000000004.parquet',
+      'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000006_000000000006.parquet',
+      'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=02/000000000003_000000000003.parquet',
     ]);
     expect(
-      (await readParquet('migrated-user-knowledge-elements/2026/03/01/000000000002_000000000004.parquet')).map(
-        ({ id }) => id,
-      ),
+      (
+        await readParquet(
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000002_000000000004.parquet',
+        )
+      ).map(({ id }) => id),
     ).to.deep.equal([2n, 4n]);
     expect(await exportFiles()).to.deep.equal([
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000001.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000001.parquet',
         first_id: 1,
         last_id: 1,
         row_count: 1,
         completed_at: previousRunAt,
       },
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/01/000000000002_000000000004.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000002_000000000004.parquet',
         first_id: 2,
         last_id: 4,
         row_count: 2,
         completed_at: runAt,
       },
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/02/000000000003_000000000003.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=02/000000000003_000000000003.parquet',
         first_id: 3,
         last_id: 3,
         row_count: 1,
         completed_at: runAt,
       },
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/01/000000000006_000000000006.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000006_000000000006.parquet',
         first_id: 6,
         last_id: 6,
         row_count: 1,
@@ -296,7 +316,7 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
     const savedAt = await savedAtById();
     expect([2, 3, 4, 6].map((id) => savedAt.get(id))).to.deep.equal([runAt, runAt, runAt, runAt]);
     expect(logger.warn).to.have.been.calledOnceWithExactly(
-      'Export file migrated-user-knowledge-elements/2026/03/01/000000000002_000000000004.parquet was not completed by a previous run: written again',
+      'Export file migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000002_000000000004.parquet was not completed by a previous run: written again',
     );
   });
 
@@ -320,11 +340,12 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
     // then
     expect(error).to.equal(savedAtError);
     expect(await uploadedKeys()).to.deep.equal([
-      'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000001.parquet',
+      'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000001.parquet',
     ]);
     expect(await exportFiles()).to.deep.equal([
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000001.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000001.parquet',
         first_id: 1,
         last_id: 1,
         row_count: 1,
@@ -356,7 +377,8 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
     expect(await uploadedKeys()).to.deep.equal([]);
     expect(await exportFiles()).to.deep.equal([
       {
-        filename: 'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000001.parquet',
+        filename:
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000001_000000000001.parquet',
         first_id: 1,
         last_id: 1,
         row_count: 1,

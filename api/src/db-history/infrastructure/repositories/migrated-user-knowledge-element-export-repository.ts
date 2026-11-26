@@ -18,18 +18,28 @@ const getClient = () =>
   (storage.client ??= S3ObjectStorageProvider.createClient(config.migratedUserKnowledgeElementsExport.storage.client));
 
 const FILE_NAME_PATTERN = new RegExp(
-  `^${FILE_PREFIX}(\\d{4})/(\\d{2})/(\\d{2})/\\d{${ID_WIDTH}}_\\d{${ID_WIDTH}}\\.parquet$`,
+  `^${FILE_PREFIX}created_year=(\\d{4})/created_month=(\\d{2})/created_day=(\\d{2})/\\d{${ID_WIDTH}}_\\d{${ID_WIDTH}}\\.parquet$`,
 );
 
 /**
- * The name of a file, in the folder of the day its rows were created, in Paris
+ * The folder of a day, as a Spark/Hive partition: Spark reads a partition only
+ * from folders named `column=value`, a folder `2026/03/01/` being a mere prefix.
+ */
+const partitionOf = (day: string): string => {
+  const [year, month, dayOfMonth] = day.split('-');
+
+  return `created_year=${year}/created_month=${month}/created_day=${dayOfMonth}`;
+};
+
+/**
+ * The name of a file, in the partition of the day its rows were created, in Paris
  * time, from the ids of its first and last rows, padded so that the files list
  * in the order of the ids. The data lake partitions the knowledge elements by
  * day of creation, so a file holds rows of one day only. A file retried after
  * a failure gets the same name, and is rewritten instead of added.
  */
 export const fileName = (day: string, firstId: number, lastId: number): string =>
-  `${FILE_PREFIX}${day.replaceAll('-', '/')}/${String(firstId).padStart(ID_WIDTH, '0')}_${String(lastId).padStart(ID_WIDTH, '0')}.parquet`;
+  `${FILE_PREFIX}${partitionOf(day)}/${String(firstId).padStart(ID_WIDTH, '0')}_${String(lastId).padStart(ID_WIDTH, '0')}.parquet`;
 
 /** The day of the rows of a file, read back from its name. */
 export const dayOf = (filename: string): string => {

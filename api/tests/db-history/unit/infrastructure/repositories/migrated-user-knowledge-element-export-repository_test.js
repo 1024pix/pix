@@ -9,16 +9,18 @@ describe('Unit | History-db | Infrastructure | Repository | migrated-user-knowle
   describe('#fileName', function () {
     it('should name the file in the folder of its day, from its first and last ids', function () {
       expect(fileName('2026-03-01', 12, 3456)).to.equal(
-        'migrated-user-knowledge-elements/2026/03/01/000000000012_000000003456.parquet',
+        'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000012_000000003456.parquet',
       );
     });
   });
 
   describe('#dayOf', function () {
     it('should give the day of the file back from its name', function () {
-      expect(dayOf('migrated-user-knowledge-elements/2026/03/01/000000000012_000000003456.parquet')).to.equal(
-        '2026-03-01',
-      );
+      expect(
+        dayOf(
+          'migrated-user-knowledge-elements/created_year=2026/created_month=03/created_day=01/000000000012_000000003456.parquet',
+        ),
+      ).to.equal('2026-03-01');
     });
 
     it('should refuse a name without a day', function () {
