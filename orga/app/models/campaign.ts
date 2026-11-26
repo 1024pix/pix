@@ -15,7 +15,6 @@ import type NullableTextTransform from '../transforms/nullable-text';
 import type Badge from './badge';
 import type CampaignCollectiveResult from './campaign-collective-result';
 import type CampaignResultLevelsPerTubesAndCompetence from './campaign-result-levels-per-tubes-and-competence';
-import type CombinedCourseBlueprint from './combined-course-blueprint';
 import type Course from './course';
 import type Division from './division';
 import type Group from './group';
@@ -70,9 +69,6 @@ export default class Campaign extends Model {
 
   @belongsTo<TargetProfile>('target-profile', { async: true, inverse: null })
   declare targetProfile: AsyncBelongsTo<TargetProfile>;
-
-  @belongsTo('combined-course-blueprint', { async: true, inverse: null })
-  declare combinedCourseBlueprint: AsyncBelongsTo<CombinedCourseBlueprint>;
 
   @belongsTo<Course>('course', { async: false, inverse: null }) declare course: Course | null;
 

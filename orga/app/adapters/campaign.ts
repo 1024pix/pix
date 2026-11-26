@@ -39,11 +39,10 @@ export default class CampaignAdapter extends ApplicationAdapter {
   createRecord(store: Store, type: ModelSchema, snapshot: Snapshot) {
     const payload = this.serialize(snapshot, {}) as unknown as CampaignPayload;
     const campaign = snapshot.record as Campaign;
-    const source = campaign.isTypeCombinedCourse ? campaign.combinedCourseBlueprint : campaign.targetProfile;
     const relationship = campaign.isTypeCombinedCourse ? 'combined-course-blueprint' : 'target-profile';
     const resource = campaign.isTypeCombinedCourse ? 'combined-courses' : 'campaigns';
 
-    payload.data.relationships[relationship] = { data: { id: source?.id || campaign.course?.sourceId } };
+    payload.data.relationships[relationship] = { data: { id: campaign.course?.sourceId } };
     return this.ajax(this.apiUrl(resource), 'POST', { data: payload });
   }
 
