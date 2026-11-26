@@ -126,7 +126,9 @@ describe('Acceptance | History-db | Application | Jobs | ScheduleExportMigratedU
     // then
     const keys = await bucket.keys();
     expect(keys).to.have.lengthOf(1);
-    expect(keys[0]).to.match(/^migrated-user-knowledge-elements\/2026\/03\/01\/\d{12}_\d{12}\.parquet$/);
+    expect(keys[0]).to.match(
+      /^migrated-user-knowledge-elements\/created_year=2026\/created_month=03\/created_day=01\/\d{12}_\d{12}\.parquet$/,
+    );
 
     const rows = await bucket.readParquet(keys[0]);
     const exportedKnowledgeElement = (skillId, source) => ({
