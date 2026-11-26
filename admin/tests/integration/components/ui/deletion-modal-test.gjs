@@ -24,7 +24,6 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
         <UiDeletionModal
           @title={{this.title}}
           @showModal={{true}}
-          @count={{0}}
           @onTriggerAction={{this.triggerActionStub}}
           @onCloseModal={{this.onCloseModalStub}}
         >
@@ -106,7 +105,6 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
         <UiDeletionModal
           @title={{this.title}}
           @showModal={{true}}
-          @count={{1}}
           @onTriggerAction={{this.triggerActionStub}}
           @onCloseModal={{this.onCloseModalStub}}
         >
@@ -125,5 +123,100 @@ module('Integration | Component | Ui::DeletionModal', function (hooks) {
 
     // then
     assert.ok(this.onCloseModalStub.called);
+  });
+
+  module('confirmation checkbox', function () {
+    test('it resets confirmation checkbox on confirmation button click', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <UiDeletionModal
+            @title={{this.title}}
+            @showModal={{true}}
+            @onTriggerAction={{this.triggerActionStub}}
+            @onCloseModal={{this.onCloseModalStub}}
+          >
+            <:content>
+              {{this.content}}
+            </:content>
+          </UiDeletionModal>
+        </template>,
+      );
+
+      const confirmationCheckbox = screen.getByRole('checkbox', {
+        name: t('common.actions.are-you-sure'),
+      });
+      const confirmButton = screen.getByRole('button', {
+        name: t('common.actions.confirm-deletion'),
+      });
+
+      await click(confirmationCheckbox);
+      await click(confirmButton);
+
+      // then
+      assert.dom(confirmationCheckbox).isNotChecked();
+    });
+
+    test('it resets confirmation checkbox on cancel button click', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <UiDeletionModal
+            @title={{this.title}}
+            @showModal={{true}}
+            @onTriggerAction={{this.triggerActionStub}}
+            @onCloseModal={{this.onCloseModalStub}}
+          >
+            <:content>
+              {{this.content}}
+            </:content>
+          </UiDeletionModal>
+        </template>,
+      );
+
+      const confirmationCheckbox = screen.getByRole('checkbox', {
+        name: t('common.actions.are-you-sure'),
+      });
+      const cancelButton = screen.getByRole('button', {
+        name: t('common.actions.cancel'),
+      });
+
+      await click(confirmationCheckbox);
+      await click(cancelButton);
+
+      // then
+      assert.dom(confirmationCheckbox).isNotChecked();
+    });
+
+    test('it resets confirmation checkbox on exit button click', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <UiDeletionModal
+            @title={{this.title}}
+            @showModal={{true}}
+            @onTriggerAction={{this.triggerActionStub}}
+            @onCloseModal={{this.onCloseModalStub}}
+          >
+            <:content>
+              {{this.content}}
+            </:content>
+          </UiDeletionModal>
+        </template>,
+      );
+
+      const confirmationCheckbox = screen.getByRole('checkbox', {
+        name: t('common.actions.are-you-sure'),
+      });
+      const exitButton = screen.getByRole('button', {
+        name: 'Fermer',
+      });
+
+      await click(confirmationCheckbox);
+      await click(exitButton);
+
+      // then
+      assert.dom(confirmationCheckbox).isNotChecked();
+    });
   });
 });
