@@ -31,6 +31,10 @@ import { databaseBuffer } from '../database-buffer.ts';
  * @property {string} status
  * @property {string} framework
  * @property {number | null} franceCompetencesMinScore
+ * @property {string | null} commentByAutoJury
+ * @property {string | null} commentByJury
+ * @property {string | null} commentForCandidate
+ * @property {string | null} commentForOrganization
  * @property {number} maxReachableLevel
  * @property {number | null} reachedMeshIndex
  * @property {number | null} pixScore
@@ -42,6 +46,8 @@ import { databaseBuffer } from '../database-buffer.ts';
  * @property {boolean | null} v2ComplementaryVoletPixAcquired
  * @property {number | null} v2EduVoletExterneBadgeId
  * @property {boolean | null} v2EduVoletExterneAcquired
+ * @property {Date} createdAt
+ * @property {Date} updatedAt
  */
 
 /**
@@ -68,6 +74,10 @@ import { databaseBuffer } from '../database-buffer.ts';
  * @param {undefined | string} params.status
  * @param {undefined | string} params.framework
  * @param {undefined | number | null} params.franceCompetencesMinScore
+ * @param {undefined | string | null} params.commentByAutoJury
+ * @param {undefined | string | null} params.commentByJury
+ * @param {undefined | string | null} params.commentForCandidate
+ * @param {undefined | string | null} params.commentForOrganization
  * @param {undefined | number} params.maxReachableLevel
  * @param {undefined | number | null} params.reachedMeshIndex
  * @param {undefined | number | null} params.pixScore
@@ -79,6 +89,8 @@ import { databaseBuffer } from '../database-buffer.ts';
  * @param {undefined | boolean | null} params.v2ComplementaryVoletPixAcquired
  * @param {undefined | number | null} params.v2EduVoletExterneBadgeId
  * @param {undefined | boolean | null} params.v2EduVoletExterneAcquired
+ * @param {undefined | Date} params.createdAt
+ * @param {undefined | Date} params.updatedAt
  * @returns {CertificationResultRow}
  */
 export function buildCertificationResult({
@@ -102,6 +114,10 @@ export function buildCertificationResult({
   status = 'cancelled',
   framework = 'CORE',
   franceCompetencesMinScore = 100,
+  commentByAutoJury = null,
+  commentByJury = null,
+  commentForCandidate = null,
+  commentForOrganization = null,
   maxReachableLevel = 7,
   reachedMeshIndex = 2,
   pixScore = 186,
@@ -113,6 +129,8 @@ export function buildCertificationResult({
   v2ComplementaryVoletPixAcquired = null,
   v2EduVoletExterneBadgeId = null,
   v2EduVoletExterneAcquired = null,
+  createdAt = new Date('2022-01-01'),
+  updatedAt = new Date('2022-02-01'),
 } = {}) {
   const competences =
     competenceMarks?.map(({ competenceId, level }) => ({
@@ -141,6 +159,10 @@ export function buildCertificationResult({
     status,
     framework,
     franceCompetencesMinScore,
+    commentByAutoJury,
+    commentByJury,
+    commentForCandidate,
+    commentForOrganization,
     maxReachableLevel,
     reachedMeshIndex,
     pixScore,
@@ -151,6 +173,8 @@ export function buildCertificationResult({
     v2ComplementaryVoletPixAcquired,
     v2EduVoletExterneBadgeId,
     v2EduVoletExterneAcquired,
+    createdAt,
+    updatedAt,
   };
   databaseBuffer.pushInsertable({
     tableName: 'certification_results',

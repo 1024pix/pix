@@ -23,6 +23,26 @@ export async function save({ certificationResults, userCertificationResults }) {
   }
 }
 
+export async function updateEduV3ExternalJuryResult({ certificationResultId, newExternalJuryResult }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  await knexConn('certification_results')
+    .where('certification_results.id', certificationResultId)
+    .update({ v3EduExternalJuryResult: newExternalJuryResult, updatedAt: knexConn.fn.now() });
+}
+
+export async function updateEduV2ExternalJuryResult({
+  certificationResultId,
+  v2EduVoletExterneBadgeId,
+  v2EduVoletExterneAcquired,
+}) {
+  const knexConn = DomainTransaction.getConnection();
+
+  await knexConn('certification_results')
+    .where('certification_results.id', certificationResultId)
+    .update({ v2EduVoletExterneBadgeId, v2EduVoletExterneAcquired, updatedAt: knexConn.fn.now() });
+}
+
 function toDB({ certificationResults, userCertificationResults }) {
   const certificationResultsData = certificationResults.map((certificationResult) => ({
     id: certificationResult.id,
