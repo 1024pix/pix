@@ -1,5 +1,32 @@
 # Pix Changelog
 
+# [5.551.0](https://github.com/1024pix/pix/compare/v5.550.0...v5.551.0) (2026-11-26)
+
+### :rocket: Amélioration
+
+- [#19029](https://github.com/1024pix/pix/pull/19029) Adapter le contenu de la page de vérification d'un Certificat Pix Cœur (PIX-24235).
+- [#19111](https://github.com/1024pix/pix/pull/19111) Ajoute des toasts explicites lors du détachement d'organisations en masse (PIX-24876)
+- [#19044](https://github.com/1024pix/pix/pull/19044) Finaliser la mise en place du tooltip de définition dans les modules (PIX-25212)
+- [#19059](https://github.com/1024pix/pix/pull/19059) Ne pas passer par la page de résultat des campagnes faisant partie d'un parcours combiné (PIX-25029)
+
+### :building_construction: Tech
+
+- [#18902](https://github.com/1024pix/pix/pull/18902) Ajout d'un script pour rétro-calculer les résultats de certification des V3 (PIX-25136)
+- [#19028](https://github.com/1024pix/pix/pull/19028) Alléger les images des certificats PDF pour réduire la mémoire et le temps de génération.
+- [#19109](https://github.com/1024pix/pix/pull/19109) Corriger le test unitaire de UserRefreshToken
+- [#19108](https://github.com/1024pix/pix/pull/19108) Gérer les cas d'utilisateurs ou learners anonymisés lors de la construction des résultats de certification (PIX-25252)
+- [#19110](https://github.com/1024pix/pix/pull/19110) Renommer le paramètre id de CombinedCourseStatistics en combinedCourseId
+- [#18909](https://github.com/1024pix/pix/pull/18909) Utiliser la nouvelle table de résultats pour le téléchargement des résultats d'une session en CSV via PixAdmin (PIX-25152)
+
+### :arrow_up: Montée de version
+
+- [#19114](https://github.com/1024pix/pix/pull/19114) Update aws-sdk-js-v3 monorepo to v3.1172.0 (api)
+- [#19116](https://github.com/1024pix/pix/pull/19116) Update dependency @testing-library/user-event to v14.6.13 (mon-pix)
+- [#19113](https://github.com/1024pix/pix/pull/19113) Update dependency eslint-plugin-ember to v13.11.1 (orga,mon-pix,junior,certif,admin)
+- [#19117](https://github.com/1024pix/pix/pull/19117) Update dependency jose to v6.2.18 (api)
+- [#19115](https://github.com/1024pix/pix/pull/19115) Update dependency knip to v6.46.0 (api)
+- [#19118](https://github.com/1024pix/pix/pull/19118) Update dependency knip to v6.46.1 (api)
+
 # [5.550.0](https://github.com/1024pix/pix/compare/v5.549.1...v5.550.0) (2026-11-25)
 
 ### :rocket: Amélioration
