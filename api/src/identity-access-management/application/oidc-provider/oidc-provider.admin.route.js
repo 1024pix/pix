@@ -65,7 +65,8 @@ export const oidcProviderAdminRoutes = [
       handler: (request, h) => oidcProviderAdminController.reconcileUserForAdmin(request, h),
       notes: [
         "- Cette route permet d'ajouter le fournisseur d'identité d'où provient l'utilisateur comme méthode de connexion à son compte Pix.\n" +
-          "- Cette action s'effectue après que l'utilisateur se soit identifié auprès de son fournisseur d'identité",
+          "- Cette action s'effectue après que l'utilisateur se soit identifié auprès de son fournisseur d'identité\n" +
+          "- L'email utilisé pour retrouver le compte Pix est celui de la session OIDC. Le champ `email` du payload est conservé pour compatibilité et n'est pas utilisé.",
       ],
       tags: ['identity-access-management', 'api', 'admin', 'oidc'],
     },
