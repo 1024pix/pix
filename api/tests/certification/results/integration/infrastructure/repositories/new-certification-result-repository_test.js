@@ -332,6 +332,62 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
     });
   });
 
+  describe('#getByCertificationCourseId', function () {
+    it('returns the certification result of the given certification course', async function () {
+      // given
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const certificationResult = databaseBuilder.factory.buildCertificationResult({
+        competenceMarks: [
+          { competenceId: 'competenceDEF456', level: 5 },
+          { competenceId: 'competenceABC123', level: 2 },
+        ],
+      });
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: certificationResult.id,
+        certificationCourseId: certificationCourse.id,
+        userId: certificationCourse.userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundCertificationResult = await newCertificationResultRepository.getByCertificationCourseId(
+        certificationCourse.id,
+      );
+
+      // then
+      expect(foundCertificationResult).to.deep.equal(
+        domainBuilder.certification.results.buildNewCertificationResult({
+          ...certificationResult,
+          competenceMarks: [
+            { competenceId: 'competenceABC123', level: 2 },
+            { competenceId: 'competenceDEF456', level: 5 },
+          ],
+        }),
+      );
+    });
+
+    it('returns null when the certification course has no certification result', async function () {
+      // given
+      const certificationCourseWithoutResult = databaseBuilder.factory.buildCertificationCourse();
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const certificationResult = databaseBuilder.factory.buildCertificationResult();
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: certificationResult.id,
+        certificationCourseId: certificationCourse.id,
+        userId: certificationCourse.userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundCertificationResult = await newCertificationResultRepository.getByCertificationCourseId(
+        certificationCourseWithoutResult.id,
+      );
+
+      // then
+      expect(foundCertificationResult).to.be.null;
+    });
+  });
+
   describe('#updateEduV3ExternalJuryResult', function () {
     it('updates the external jury result and the update date', async function () {
       // given

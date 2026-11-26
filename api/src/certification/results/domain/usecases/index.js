@@ -13,6 +13,7 @@ import * as certificationResultForCsvRepository from '../../infrastructure/repos
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
+import * as newCertificationResultRepository from '../../infrastructure/repositories/new-certification-result-repository.js';
 import * as parcoursupCertificationResultRepository from '../../infrastructure/repositories/parcoursup-certification-result-repository.js';
 import * as resultRecipientRepository from '../../infrastructure/repositories/result-recipient-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
@@ -37,6 +38,8 @@ import { getSessionCertificationReports } from './get-session-certification-repo
 import { getSessionResults } from './get-session-results.ts';
 import { getSessionResultsForRecipient } from './get-session-results-for-recipient.js';
 import { getShareableCertificate } from './get-shareable-certificate.js';
+import { updateEduV2ExternalJuryResult } from './update-edu-v2-external-jury-result.ts';
+import { updateEduV3ExternalJuryResult } from './update-edu-v3-external-jury-result.ts';
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
@@ -59,6 +62,7 @@ import { getShareableCertificate } from './get-shareable-certificate.js';
  * @typedef {sessionAuthorizationAdapter} SessionAuthorizationAdapter
  * @typedef {organizationLearnerAdapter} OrganizationLearnerAdapter
  * @typedef {certificationResultForCsvRepository} CertificationResultForCsvRepository
+ * @typedef {newCertificationResultRepository} NewCertificationResultRepository
  **/
 
 const dependencies = {
@@ -79,6 +83,7 @@ const dependencies = {
   competenceTreeRepository,
   certificationLivretScolaireRepository,
   certificateSummaryRepository,
+  newCertificationResultRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -102,6 +107,8 @@ const usecasesWithoutInjectedDependencies = {
   getSessionResultsForRecipient,
   getSessionResults,
   getCertificationResultsForDivision,
+  updateEduV2ExternalJuryResult,
+  updateEduV3ExternalJuryResult,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
