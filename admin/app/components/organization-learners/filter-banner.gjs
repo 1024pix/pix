@@ -46,6 +46,7 @@ export default class LearnersFilterBanner extends Component {
 
   @action
   refreshLearnersList() {
+    this.args.onFiltersChange?.();
     this.router.transitionTo({
       queryParams: {
         organizationLearnerId: this.organizationLearnerId,

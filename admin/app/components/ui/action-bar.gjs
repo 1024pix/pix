@@ -1,0 +1,10 @@
+<template>
+  <div class="action-bar">
+    <p class="action-bar__informations">
+      {{yield to="information"}}
+    </p>
+    <div class="action-bar__actions">
+      {{yield to="actions"}}
+    </div>
+  </div>
+</template>

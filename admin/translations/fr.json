@@ -3,7 +3,7 @@
     "actions": {
       "add": "Ajouter",
       "archive": "Archiver",
-      "are-you-sure": "En cochant cette case vous affirmer avoir les droits d'effectuer cette action.",
+      "are-you-sure": "En cochant cette case vous affirmez avoir les droits d'effectuer cette action.",
       "cancel": "Annuler",
       "close": "Fermer",
       "confirm": "Confirmer",
@@ -1068,7 +1068,7 @@
     },
     "organization-learner-information": {
       "deletion-modal": {
-        "success-message": "l'utilisateur a bien été supprimé de l'organisation.",
+        "success-message": "L'utilisateur a bien été supprimé de l'organisation.",
         "title": "Confirmer la suppression du prescrit",
         "warning-message": "Vous êtes sur le point de supprimer {firstName} {lastName} de l'organisation {organizationName}. Cette action est irréversible."
       },
@@ -1098,7 +1098,16 @@
     },
     "organization-learners": {
       "list-table": {
+        "action-bar": {
+          "delete-button": "Supprimer",
+          "information": "{count, plural, =1 {{count} prescrit sélectionné} other {{count} prescrits sélectionnés}}"
+        },
         "caption": "Liste des apprenants des organisations. Contient prénom, nom, date de naissance, INE, classe, organisation et identifiant utilisateur associé.",
+        "deletion-modal": {
+          "success-message": "{count, plural, =1 {{count} prescrit a été supprimé.} other {{count} prescrits ont été supprimés.}}",
+          "title": "Confirmer la suppression des prescrits",
+          "warning-message": "{count, plural, =1 {Vous êtes sur le point de supprimer {count} prescrit sélectionné. Cette action est irréversible.} other {Vous êtes sur le point de supprimer les {count} prescrits sélectionnés. Cette action est irréversible.}}"
+        },
         "headers": {
           "active": "Actif",
           "birthdate": "Date de naissance",
@@ -1108,8 +1117,27 @@
           "last-name": "Nom",
           "national-student-id": "INE",
           "organization": "Organisation",
+          "select-all": "Sélectionner/Désélectionner tous les prescrits",
           "updated-at": "Date MAJ",
           "user-id": "User ID"
+        },
+        "select-learner": "Sélectionner/Désélectionner {firstname} {lastname}",
+        "sort": {
+          "birthdate": {
+            "asc": "Trier par birthdate asc",
+            "default": "Trier par birthdate",
+            "desc": "Trier par birthdate desc"
+          },
+          "organization": {
+            "asc": "Trier par orga asc",
+            "default": "Trier par orga",
+            "desc": "Trier par orga desc"
+          },
+          "updated-at": {
+            "asc": "Trier par date maj asc",
+            "default": "Trier par date maj",
+            "desc": "Trier par date maj desc"
+          }
         },
         "view-learner": "Voir plus d'informations sur le prescrit {learner} - lien externe",
         "view-organization": "Voir l'organisation",

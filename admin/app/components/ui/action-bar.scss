@@ -1,0 +1,36 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/shadows';
+
+$app-sidebar-width: calc(#{var(--pix-navigation-width)} + #{var(--pix-spacing-12x)});
+
+.action-bar {
+  @extend %pix-body-m;
+  @extend %pix-shadow-default;
+
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - #{$app-sidebar-width});
+  height: 4.5rem;
+  color: var(--pix-neutral-500);
+  background-color: var(--pix-neutral-0);
+
+  .action-bar__informations {
+    display: flex;
+    align-items: baseline;
+    margin-left: var(--pix-spacing-10x);
+  }
+
+  .action-bar__actions {
+    display: flex;
+    padding: 0 var(--pix-spacing-6x);
+
+    .pix-button {
+      margin: 0 var(--pix-spacing-2x);
+    }
+  }
+}

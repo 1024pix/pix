@@ -44,4 +44,21 @@ module('Unit | Adapter | organization-learner', function (hooks) {
       assert.true(url.endsWith('/organizations/777/organization-learners/123'), url);
     });
   });
+
+  module('#deleteOrganizationLearners', function () {
+    test('it builds an url to delete multiple organization learners', async function (assert) {
+      // given
+      const learner1Id = 1;
+      const learner2Id = 2;
+      const expectedUrl = `${ENV.APP.API_HOST}/api/admin/organization-learners`;
+
+      // when
+      adapter.deleteOrganizationLearners([learner1Id, learner2Id]);
+
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(expectedUrl, 'DELETE', { data: { organizationLearnerIds: [learner1Id, learner2Id] } }),
+      );
+    });
+  });
 });
