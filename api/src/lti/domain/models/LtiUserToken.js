@@ -24,14 +24,14 @@ export class LtiUserToken {
    * @param {string} args.userSub
    * @param {string} args.clientId
    */
-  constructor({ clientId, userSub }) {
-    this.clientId = clientId;
+  constructor({ userSub, clientId }) {
     this.userSub = userSub;
+    this.clientId = clientId;
 
     validateEntity(
       Joi.object({
-        clientId: Joi.string().required(),
         userSub: Joi.string().required(),
+        clientId: Joi.string().required(),
       }),
       this,
     );
@@ -47,8 +47,8 @@ export class LtiUserToken {
   get encoded() {
     return tokenService.encodeToken(
       {
-        'https://pix.org/claims/lti-client-id': this.clientId,
         'https://pix.org/claims/lti-sub': this.userSub,
+        'https://pix.org/claims/lti-client-id': this.clientId,
       },
       config.authentication.secret,
       config.lti.ltiUserTokenLifespan,
@@ -68,8 +68,8 @@ export class LtiUserToken {
     if (!decoded) throw new InvalidInputDataError();
 
     return new LtiUserToken({
-      clientId: decoded['https://pix.org/claims/lti-client-id'],
       userSub: decoded['https://pix.org/claims/lti-sub'],
+      clientId: decoded['https://pix.org/claims/lti-client-id'],
     });
   }
 

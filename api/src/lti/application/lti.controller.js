@@ -218,8 +218,8 @@ async function resourceLink(
   }
 
   const ltiUserToken = new LtiUserToken({
-    clientId: registration.clientId,
     userSub: verifiedToken.sub,
+    clientId: registration.clientId,
   });
 
   const campaignId = Number(verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom']?.campaign_id);

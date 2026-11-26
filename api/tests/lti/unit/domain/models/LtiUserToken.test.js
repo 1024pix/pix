@@ -42,8 +42,8 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
     it('returns an encoded token for a Set-Cookie header', function () {
       // given
       const token = new LtiUserToken({
-        clientId: 'Abcd1234',
         userSub: 'moodle-user-sub',
+        clientId: 'Abcd1234',
       });
 
       // when
@@ -76,8 +76,8 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
     it('returns an encoded token typed as LTI user token', function () {
       // given
       const token = new LtiUserToken({
-        clientId: 'Abcd1234',
         userSub: 'moodle-user-sub',
+        clientId: 'Abcd1234',
       });
 
       // when
@@ -89,8 +89,8 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
 
       const { iat, exp, ...claims } = decodedToken.payload;
       expect(claims).to.deep.equal({
-        'https://pix.org/claims/lti-client-id': 'Abcd1234',
         'https://pix.org/claims/lti-sub': 'moodle-user-sub',
+        'https://pix.org/claims/lti-client-id': 'Abcd1234',
       });
       expect(iat).to.be.a('number');
       expect(exp - iat).to.equal(ms(config.lti.ltiUserTokenLifespan) / 1000);
@@ -102,8 +102,8 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
       // given
       const encodedToken = jsonwebtoken.sign(
         {
-          'https://pix.org/claims/lti-client-id': 'Abcd1234',
           'https://pix.org/claims/lti-sub': 'moodle-user-sub',
+          'https://pix.org/claims/lti-client-id': 'Abcd1234',
         },
         config.authentication.secret,
         { expiresIn: config.lti.ltiUserTokenLifespan, header: { typ: 'JWT' } },
@@ -115,8 +115,8 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
       // then
       expect(token).to.deepEqualInstance(
         new LtiUserToken({
-          clientId: 'Abcd1234',
           userSub: 'moodle-user-sub',
+          clientId: 'Abcd1234',
         }),
       );
     });
@@ -124,8 +124,8 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
     it('decodes a token produced by encoded', function () {
       // given
       const token = new LtiUserToken({
-        clientId: 'Abcd1234',
         userSub: 'moodle-user-sub',
+        clientId: 'Abcd1234',
       });
 
       // when
@@ -153,8 +153,8 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
         // given
         const encodedToken = jsonwebtoken.sign(
           {
-            'https://pix.org/claims/lti-client-id': 'Abcd1234',
             'https://pix.org/claims/lti-sub': 'moodle-user-sub',
+            'https://pix.org/claims/lti-client-id': 'Abcd1234',
           },
           config.authentication.secret,
           { expiresIn: config.lti.ltiUserTokenLifespan, header: { typ: 'at+jwt' } },
@@ -173,8 +173,8 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
         // given
         const encodedToken = jsonwebtoken.sign(
           {
-            'https://pix.org/claims/lti-client-id': 'Abcd1234',
             'https://pix.org/claims/lti-sub': 'moodle-user-sub',
+            'https://pix.org/claims/lti-client-id': 'Abcd1234',
           },
           config.authentication.secret,
           { expiresIn: -1, header: { typ: 'JWT' } },
@@ -193,8 +193,8 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
         // given
         const encodedToken = jsonwebtoken.sign(
           {
-            'https://pix.org/claims/lti-client-id': 'Abcd1234',
             'https://pix.org/claims/lti-sub': 'moodle-user-sub',
+            'https://pix.org/claims/lti-client-id': 'Abcd1234',
           },
           'another-secret',
           { expiresIn: config.lti.ltiUserTokenLifespan, header: { typ: 'JWT' } },
