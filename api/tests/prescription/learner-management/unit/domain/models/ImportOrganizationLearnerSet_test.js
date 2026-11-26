@@ -4,7 +4,7 @@ import { CommonOrganizationLearner } from '../../../../../../src/prescription/le
 import { ImportOrganizationLearnerSet } from '../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnerSet.js';
 import { VALIDATION_ERRORS } from '../../../../../../src/shared/constants.js';
 import { CsvImportError, ImportLearnerConfigurationError } from '../../../../../../src/shared/domain/errors.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { catchErr, catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Models | ImportOrganizationLearnerSet', function () {
   const organizationId = 123;
@@ -950,6 +950,50 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
         expect(learnerSet.learners.list).to.have.lengthOf(2);
       });
+    });
+  });
+
+  describe('#addLearner and #throwIfErrors (line by line)', function () {
+    it('should add learners one by one without throwing', function () {
+      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+
+      learnerSet.addLearner(learnerAttributes);
+      learnerSet.addLearner({ ...learnerAttributes, prénom: 'Mieto', nom: 'Nataka' });
+
+      expect(learnerSet.learners.list).to.have.lengthOf(2);
+      expect(() => learnerSet.throwIfErrors()).to.not.throw();
+    });
+
+    it('should not throw when a line is invalid, but accumulate errors with the line number', function () {
+      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+
+      expect(() => learnerSet.addLearner(learnerAttributes)).to.not.throw();
+      expect(() => learnerSet.addLearner({ ...learnerAttributes })).to.not.throw();
+      expect(() => learnerSet.addLearner({ ...learnerAttributes })).to.not.throw();
+
+      const errors = catchErrSync(() => learnerSet.throwIfErrors())();
+
+      expect(errors).lengthOf(2);
+      expect(errors[0]).instanceOf(CsvImportError);
+      expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
+      expect(errors[0].meta.line).to.equal(3);
+      expect(errors[1].meta.line).to.equal(4);
+    });
+
+    it('should keep counting lines across several calls to addLearners', function () {
+      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+
+      learnerSet.addLearners([learnerAttributes]);
+      const errors = catchErrSync(() => learnerSet.addLearners([{ ...learnerAttributes }]))();
+
+      expect(errors).lengthOf(1);
+      expect(errors[0].meta.line).to.equal(3);
+    });
+
+    it('should not throw when no learner was added', function () {
+      const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+
+      expect(() => learnerSet.throwIfErrors()).to.not.throw();
     });
   });
 

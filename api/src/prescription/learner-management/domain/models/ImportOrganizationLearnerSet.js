@@ -19,6 +19,7 @@ class ImportOrganizationLearnerSet {
   #columnMapping;
 
   #unicityKeys;
+  #addedLinesCount = 0;
 
   #unicityColumns;
   #unicityColumnMapping;
@@ -141,18 +142,29 @@ class ImportOrganizationLearnerSet {
   }
 
   addLearners(learners) {
-    learners.forEach((learner, index) => {
-      try {
-        this.#validateRules(learner);
-        const commonOrganizationLearner = new CommonOrganizationLearner(
-          this.#lineToOrganizationLearnerAttributes(learner),
-        );
-        this.#learners.push(commonOrganizationLearner);
-      } catch (errors) {
-        this.#handleValidationError(errors, index);
-      }
-    });
+    learners.forEach((learner) => this.addLearner(learner));
 
+    this.throwIfErrors();
+  }
+
+  /**
+   * Adds a single learner line, meant to be fed one by one while a file is streamed.
+   * Validation errors are accumulated and not thrown, call `throwIfErrors` once all lines were added.
+   */
+  addLearner(learner) {
+    try {
+      this.#validateRules(learner);
+      const commonOrganizationLearner = new CommonOrganizationLearner(
+        this.#lineToOrganizationLearnerAttributes(learner),
+      );
+      this.#learners.push(commonOrganizationLearner);
+    } catch (errors) {
+      this.#handleValidationError(errors, this.#addedLinesCount);
+    }
+    this.#addedLinesCount++;
+  }
+
+  throwIfErrors() {
     if (this.#errors.length > 0) {
       throw this.#errors;
     }
