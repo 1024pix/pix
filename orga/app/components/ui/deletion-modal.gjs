@@ -13,8 +13,21 @@ export default class DeletionModal extends Component {
   giveDeletionPermission() {
     this.allowDeletion = !this.allowDeletion;
   }
+
+  @action
+  closeModal() {
+    this.args.onCloseModal?.();
+    this.allowDeletion = false;
+  }
+
+  @action
+  triggerAction() {
+    this.args.onTriggerAction?.();
+    this.allowDeletion = false;
+  }
+
   <template>
-    <PixModal @title={{@title}} @showModal={{@showModal}} @onCloseButtonClick={{@onCloseModal}}>
+    <PixModal @title={{@title}} @showModal={{@showModal}} @onCloseButtonClick={{this.closeModal}}>
       <:content>
         {{yield to="content"}}
         <PixCheckbox
@@ -31,10 +44,10 @@ export default class DeletionModal extends Component {
         </PixCheckbox>
       </:content>
       <:footer>
-        <PixButton @variant="secondary" @triggerAction={{@onCloseModal}}>
+        <PixButton @variant="secondary" @triggerAction={{this.closeModal}}>
           {{t "common.actions.cancel"}}
         </PixButton>
-        <PixButton @variant="error" @triggerAction={{@onTriggerAction}} @isDisabled={{not this.allowDeletion}}>
+        <PixButton @variant="error" @triggerAction={{this.triggerAction}} @isDisabled={{not this.allowDeletion}}>
           {{t "components.ui.deletion-modal.confirm-deletion"}}
         </PixButton>
       </:footer>
