@@ -1,6 +1,21 @@
-import EmberObject from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+
+class SessionDetailsModel {
+  @tracked certificationCandidates;
+
+  constructor({ session, sessionManagement, certificationCandidates, loadCertificationCandidates }) {
+    this.session = session;
+    this.sessionManagement = sessionManagement;
+    this.certificationCandidates = certificationCandidates;
+    this.loadCertificationCandidates = loadCertificationCandidates;
+  }
+
+  async reloadCertificationCandidate() {
+    this.certificationCandidates = await this.loadCertificationCandidates();
+  }
+}
 
 export default class SessionsDetailsRoute extends Route {
   @service currentUser;
@@ -19,15 +34,11 @@ export default class SessionsDetailsRoute extends Route {
       });
     const certificationCandidates = await loadCertificationCandidates();
 
-    return EmberObject.create({
+    return new SessionDetailsModel({
       session: sessionEnrolment,
       sessionManagement,
       certificationCandidates,
-      async reloadCertificationCandidate() {
-        const certificationCandidates = await loadCertificationCandidates();
-        // eslint-disable-next-line ember/classic-decorator-no-classic-methods
-        this.set('certificationCandidates', certificationCandidates);
-      },
+      loadCertificationCandidates,
     });
   }
 
