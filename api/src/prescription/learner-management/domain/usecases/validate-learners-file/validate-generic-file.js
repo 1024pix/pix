@@ -1,4 +1,3 @@
-import { getDataBuffer } from '../../../../../shared/infrastructure/utils/buffer.js';
 import { GenericParser } from '../../../infrastructure/serializers/csv/parsers/generic-parser.js';
 import { AggregateImportError } from '../../errors.js';
 import { ImportOrganizationLearnerSet } from '../../models/ImportOrganizationLearnerSet.js';
@@ -10,7 +9,6 @@ const validateGenericFile = async function ({
   importFromGenericFileJobRepository,
   organizationImportRepository,
   importStorage,
-  dependencies = { getDataBuffer },
 }) {
   const errors = [];
 
@@ -20,18 +18,19 @@ const validateGenericFile = async function ({
     const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
 
     const readableStream = await importStorage.readFile({ filename: organizationImport.filename });
-    const buffer = await dependencies.getDataBuffer(readableStream);
 
-    const parser = GenericParser.buildParser({ buffer, importFormat });
-
-    const learners = parser.parse(organizationImport.encoding);
+    const parser = GenericParser.buildParser({ importFormat });
 
     const learnerSet = ImportOrganizationLearnerSet.buildSet({
       organizationId,
       importFormat,
     });
 
-    learnerSet.addLearners(learners);
+    for await (const learner of parser.parseStream({ readableStream, encoding: organizationImport.encoding })) {
+      learnerSet.addLearner(learner);
+    }
+
+    learnerSet.throwIfErrors();
   } catch (error) {
     if (Array.isArray(error)) {
       errors.push(...error);
