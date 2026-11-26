@@ -8,12 +8,6 @@ export default ApplicationSerializer.extend({
     }
 
     return {
-      campaigns: {
-        related: `/api/organizations/${organization.id}/campaigns`,
-      },
-      targetProfiles: {
-        related: `/api/organizations/${organization.id}/target-profiles`,
-      },
       combinedCourseBlueprints: {
         related: `/api/organizations/${organization.id}/combined-course-blueprints`,
       },

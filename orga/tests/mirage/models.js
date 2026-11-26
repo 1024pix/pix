@@ -111,14 +111,11 @@ export default {
   missionLearner: Model.extend(),
   oidcIdentityProvider: Model.extend(),
   organization: Model.extend({
-    campaigns: hasMany('campaign'),
     combinedCourseBlueprints: hasMany('combinedCourseBlueprint'),
-    combinedCourses: hasMany('combinedCourse'),
     divisions: hasMany('division'),
     groups: hasMany('group'),
     organizationInvitations: hasMany('organizationInvitation'),
     participationStatistics: belongsTo('participationStatistic'),
-    targetProfiles: hasMany('targetProfile'),
   }),
   organizationImportDetail: Model.extend(),
   organizationInvitation: Model.extend({

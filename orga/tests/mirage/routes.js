@@ -354,10 +354,6 @@ export default function routes() {
     return campaign.update({ isArchived: true });
   });
 
-  this.get('/organizations/:id/target-profiles', (schema) => {
-    return schema.targetProfiles.all();
-  });
-
   this.get('/organizations/:id/combined-course-blueprints', (schema) => {
     return schema.combinedCourseBlueprints.all();
   });

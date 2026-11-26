@@ -65,7 +65,7 @@ export default class Campaign extends Model {
   @attr<NumberTransform>('number') declare totalStage: number | null;
   @attr<NumberTransform>('number') declare reachedStage: number | null;
 
-  @belongsTo<Organization>('organization', { async: true, inverse: 'campaigns' })
+  @belongsTo<Organization>('organization', { async: true, inverse: null })
   declare organization: AsyncBelongsTo<Organization>;
 
   @belongsTo<TargetProfile>('target-profile', { async: true, inverse: null })
