@@ -56,16 +56,6 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
               'external-id': 'EXTID',
             },
             relationships: {
-              campaigns: {
-                links: {
-                  related: '/api/organizations/10293/campaigns',
-                },
-              },
-              'target-profiles': {
-                links: {
-                  related: '/api/organizations/10293/target-profiles',
-                },
-              },
               memberships: {
                 links: {
                   related: '/api/organizations/10293/memberships',

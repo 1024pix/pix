@@ -310,16 +310,6 @@ function createExpectedPrescriberSerializedWithOneMoreField({
               related: '/api/organizations/123/participation-statistics',
             },
           },
-          'target-profiles': {
-            links: {
-              related: `/api/organizations/${organization.id}/target-profiles`,
-            },
-          },
-          'combined-courses': {
-            links: {
-              related: `/api/organizations/${organization.id}/combined-courses`,
-            },
-          },
           'combined-course-blueprints': {
             links: {
               related: `/api/organizations/${organization.id}/combined-course-blueprints`,
@@ -436,16 +426,6 @@ function createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSe
           'participation-statistics': {
             links: {
               related: '/api/organizations/123/participation-statistics',
-            },
-          },
-          'target-profiles': {
-            links: {
-              related: `/api/organizations/${organization.id}/target-profiles`,
-            },
-          },
-          'combined-courses': {
-            links: {
-              related: `/api/organizations/${organization.id}/combined-courses`,
             },
           },
           'combined-course-blueprints': {
