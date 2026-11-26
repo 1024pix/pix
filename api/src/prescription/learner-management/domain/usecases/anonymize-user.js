@@ -3,25 +3,19 @@ import { withTransaction } from '../../../../shared/domain/DomainTransaction.js'
 export const anonymizeUser = withTransaction(
   async ({ userId, campaignParticipationRepositoryFromBC, organizationLearnerRepository }) => {
     const learners = await organizationLearnerRepository.findByUserId({ userId });
-    const campaignParticipationToAnonymize = [];
-    const learnerIds = [];
 
     for (const learner of learners) {
       learner.detachUser();
-      learnerIds.push(learner.id);
       await organizationLearnerRepository.update(learner);
     }
 
-    const campaignParticipations =
-      await campaignParticipationRepositoryFromBC.getAllCampaignParticipationsForOrganizationLearnerIds({
-        organizationLearnerIds: learnerIds,
-      });
+    const campaignParticipations = await campaignParticipationRepositoryFromBC.findAllByUserId({ userId });
 
-    for (const campaignParticipation of campaignParticipations) {
+    const campaignParticipationsToAnonymize = campaignParticipations.map((campaignParticipation) => {
       campaignParticipation.detachUser();
-      campaignParticipationToAnonymize.push(campaignParticipation.dataToUpdateOnAnonymisation);
-    }
+      return campaignParticipation.dataToUpdateOnAnonymisation;
+    });
 
-    await campaignParticipationRepositoryFromBC.updateInBatchByIds(campaignParticipationToAnonymize);
+    await campaignParticipationRepositoryFromBC.updateInBatchByIds(campaignParticipationsToAnonymize);
   },
 );
