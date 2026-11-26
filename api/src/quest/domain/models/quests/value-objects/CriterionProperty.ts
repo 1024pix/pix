@@ -1,3 +1,4 @@
+import type { ValidationErrorItem } from 'joi';
 import Joi from 'joi';
 
 import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
@@ -8,6 +9,25 @@ export const COMPARISONS = {
   ONE_OF: 'one-of',
   ALL: 'all',
   LIKE: 'like',
+} as const;
+
+type CriterionPropertyComparison = (typeof COMPARISONS)[keyof typeof COMPARISONS];
+
+type CriterionPropertyValue = string | number | boolean;
+
+type CriterionPropertyData = CriterionPropertyValue | CriterionPropertyValue[];
+
+type CriterionPropertyItem = Record<string, CriterionPropertyData >;
+
+type CriterionPropertyArgs = {
+  key: string;
+  data: CriterionPropertyData;
+  comparison: CriterionPropertyComparison;
+};
+
+type CriterionPropertyErrorArgs = {
+  message: string;
+  details: ValidationErrorItem[];
 };
 
 const allowedArrayComparaison = Joi.alternatives().try(Joi.number(), Joi.string(), Joi.boolean());
@@ -40,18 +60,20 @@ const schema = Joi.object({
 });
 
 export class CriterionPropertyError extends Error {
-  constructor({ message, details }) {
+  details: ValidationErrorItem[];
+
+  constructor({ message, details }: CriterionPropertyErrorArgs) {
     super(message);
     this.details = details;
   }
 }
 
 export class CriterionProperty {
-  #key;
-  #data;
-  #comparison;
+  #key: string;
+  #data: CriterionPropertyData;
+  #comparison: CriterionPropertyComparison;
 
-  constructor(args) {
+  constructor(args: CriterionPropertyArgs) {
     const { key, data, comparison } = args;
 
     this.#key = key;
@@ -61,27 +83,27 @@ export class CriterionProperty {
     this.#validate(args);
   }
 
-  #validate(args) {
+  #validate(args: CriterionPropertyArgs): void {
     const { error } = schema.validate(args);
     if (error) {
       throw new CriterionPropertyError({ message: 'arguments are invalid', details: error.details });
     }
   }
 
-  get key() {
+  get key(): string {
     return this.#key;
   }
 
-  get data() {
+  get data(): Readonly<CriterionPropertyData> {
     return Object.freeze(this.#data);
   }
 
-  get comparison() {
+  get comparison(): CriterionPropertyComparison {
     return this.#comparison;
   }
 
-  check(item) {
-    let error;
+  check(item: CriterionPropertyItem): boolean {
+    let error: InvalidComparisonError | undefined;
     const criterionAttr = this.#data;
     const dataAttr = item[this.#key];
     if (Array.isArray(criterionAttr)) {
