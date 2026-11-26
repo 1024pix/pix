@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { Criterion } from '../../../../../src/quest/domain/models/quests/value-objects/Criterion.js';
-import { COMPARISONS as CRITERION_PROPERTY_COMPARISONS } from '../../../../../src/quest/domain/models/quests/value-objects/CriterionProperty.js';
+import { COMPARISONS as CRITERION_PROPERTY_COMPARISONS } from '../../../../../src/quest/domain/models/quests/value-objects/CriterionProperty.ts';
 
 describe('Quest | Unit | Domain | Models | Criterion ', function () {
   describe('#validate', function () {

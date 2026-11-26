@@ -1,5 +1,3 @@
-import Joi from 'joi';
-
 import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
 import { InvalidComparisonError } from '../../../errors.js';
 
@@ -8,50 +6,38 @@ export const COMPARISONS = {
   ONE_OF: 'one-of',
   ALL: 'all',
   LIKE: 'like',
+} as const;
+
+type CriterionPropertyComparison = (typeof COMPARISONS)[keyof typeof COMPARISONS];
+
+type CriterionPropertyValue = string | number | boolean;
+
+type CriterionPropertyData = CriterionPropertyValue | CriterionPropertyValue[];
+
+type CriterionPropertyItem = Record<string, CriterionPropertyData>;
+
+type CriterionPropertyArgs = {
+  key: string;
+  data: CriterionPropertyData;
+  comparison: CriterionPropertyComparison;
 };
 
-const allowedArrayComparaison = Joi.alternatives().try(Joi.number(), Joi.string(), Joi.boolean());
-
-const schema = Joi.object({
-  key: Joi.string().required(),
-  comparison: Joi.string()
-    .valid(...Object.values(COMPARISONS))
-    .required(),
-  data: Joi.alternatives()
-    .conditional('comparison', [
-      {
-        is: COMPARISONS.EQUAL,
-        then: allowedArrayComparaison,
-      },
-      {
-        is: COMPARISONS.ONE_OF,
-        then: Joi.array().min(1).items(allowedArrayComparaison),
-      },
-      {
-        is: COMPARISONS.LIKE,
-        then: Joi.string(),
-      },
-      {
-        is: COMPARISONS.ALL,
-        then: Joi.array().min(1).items(allowedArrayComparaison),
-      },
-    ])
-    .required(),
-});
+type CriterionPropertyErrorArgs = {
+  message: string;
+};
 
 export class CriterionPropertyError extends Error {
-  constructor({ message, details }) {
+  constructor({ message }: CriterionPropertyErrorArgs) {
     super(message);
-    this.details = details;
   }
 }
 
 export class CriterionProperty {
-  #key;
-  #data;
-  #comparison;
+  #key: string;
+  #data: CriterionPropertyData;
+  #comparison: CriterionPropertyComparison;
 
-  constructor(args) {
+  constructor(args: CriterionPropertyArgs) {
     const { key, data, comparison } = args;
 
     this.#key = key;
@@ -61,27 +47,32 @@ export class CriterionProperty {
     this.#validate(args);
   }
 
-  #validate(args) {
-    const { error } = schema.validate(args);
-    if (error) {
-      throw new CriterionPropertyError({ message: 'arguments are invalid', details: error.details });
+  #validate(args: CriterionPropertyArgs): void {
+    if (args.comparison === COMPARISONS.ONE_OF || args.comparison === COMPARISONS.ALL) {
+      if (!Array.isArray(args.data) || args.data.length === 0) {
+        throw new CriterionPropertyError({ message: 'missing comparison element in data' });
+      }
+    }
+
+    if (args.comparison === COMPARISONS.LIKE && typeof args.data !== 'string') {
+      throw new CriterionPropertyError({ message: 'comparison element must be a string' });
     }
   }
 
-  get key() {
+  get key(): string {
     return this.#key;
   }
 
-  get data() {
+  get data(): Readonly<CriterionPropertyData> {
     return Object.freeze(this.#data);
   }
 
-  get comparison() {
+  get comparison(): CriterionPropertyComparison {
     return this.#comparison;
   }
 
-  check(item) {
-    let error;
+  check(item: CriterionPropertyItem): boolean {
+    let error: InvalidComparisonError | undefined;
     const criterionAttr = this.#data;
     const dataAttr = item[this.#key];
     if (Array.isArray(criterionAttr)) {
