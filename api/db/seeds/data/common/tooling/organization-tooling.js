@@ -39,6 +39,7 @@ export { createOrganization };
  * @param {number} countryCode
  * @param configOrganization {learnerCount: number }
  * @param {number} categoryId
+ * @param {number} [structureId] existing structure to attach the organization to
  * @returns {Promise<{organizationId: number}>}
  */
 async function createOrganization({
@@ -71,6 +72,7 @@ async function createOrganization({
   countryCode = COUNTRY_FRANCE_CODE,
   organizationLearnerTypeId,
   categoryId,
+  structureId,
 }) {
   organizationId = _buildOrganization({
     databaseBuilder,
@@ -97,6 +99,7 @@ async function createOrganization({
     countryCode,
     organizationLearnerTypeId,
     categoryId,
+    structureId,
   }).id;
 
   _buildMemberships({
@@ -224,6 +227,7 @@ function _buildOrganization({
   countryCode,
   organizationLearnerTypeId,
   categoryId,
+  structureId,
 }) {
   return databaseBuilder.factory.buildOrganization({
     id: organizationId,
@@ -249,5 +253,6 @@ function _buildOrganization({
     countryCode,
     organizationLearnerTypeId,
     categoryId,
+    structureId,
   });
 }
