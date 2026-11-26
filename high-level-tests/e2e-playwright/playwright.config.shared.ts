@@ -68,6 +68,7 @@ export function setupWebServer(app: App, reuseExistingServer: boolean): WebServe
           JOBS_DATABASE_URL: process.env.JOBS_DATABASE_URL ?? '',
           REDIS_URL: process.env.REDIS_URL ?? '',
           START_JOB_IN_WEB_PROCESS: 'true',
+          E2E_TESTS: 'true',
           MAILING_ENABLED: 'false',
           LCMS_API_URL: process.env.LCMS_API_URL ?? '',
           LCMS_API_KEY: process.env.LCMS_API_KEY ?? '',

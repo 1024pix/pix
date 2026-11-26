@@ -429,6 +429,7 @@ export const config = {
     containerName: process.env.CONTAINER,
     hostname: process.env.HOSTNAME || 'pix-api',
     isReviewApp: toBoolean(process.env.REVIEW_APP),
+    isE2eTests: toBoolean(process.env.E2E_TESTS),
     concurrencyForHeavyOperations: _getNumber(process.env.INFRA_CONCURRENCY_HEAVY_OPERATIONS, 2),
     chunkSizeForCampaignResultProcessing: _getNumber(process.env.INFRA_CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING, 10),
     // L'export de collecte de profils charge, pour chaque participation d'un lot, le snapshot

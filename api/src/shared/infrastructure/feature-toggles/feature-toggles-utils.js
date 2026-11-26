@@ -5,3 +5,11 @@ export function isEnabledByContainerRatio(featureToggleValue) {
   const [dividend, divisor] = featureToggleValue.split('/').map((s) => parseInt(s));
   return containerIndex % divisor < dividend;
 }
+
+/**
+ * @returns {'test' | 'reviewApp' | undefined}
+ */
+export function getFeatureTogglesEnvironment({ isTestEnv, isE2eTests, isReviewApp }) {
+  if (isTestEnv || isE2eTests) return 'test';
+  if (isReviewApp) return 'reviewApp';
+}

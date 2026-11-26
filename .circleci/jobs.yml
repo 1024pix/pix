@@ -1086,6 +1086,7 @@ jobs:
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_datamart
             REDIS_URL: 'redis://localhost:6379'
+            E2E_TESTS: 'true'
             START_JOB_IN_WEB_PROCESS: 'true'
             AUTH_SECRET: 'the-password-must-be-at-least-32-characters-long'
             AUTONOMOUS_COURSES_ORGANIZATION_ID: '777'
@@ -1157,6 +1158,7 @@ jobs:
             DATAWAREHOUSE_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datawarehouse'
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
+            E2E_TESTS: 'true'
             START_JOB_IN_WEB_PROCESS: 'true'
             MAILING_ENABLED: 'false'
             AUTH_SECRET: 'secret'
@@ -1269,6 +1271,7 @@ jobs:
             DATAWAREHOUSE_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci_datawarehouse'
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
+            E2E_TESTS: 'true'
             START_JOB_IN_WEB_PROCESS: 'true'
             MAILING_ENABLED: 'false'
             AUTH_SECRET: 'secret'
