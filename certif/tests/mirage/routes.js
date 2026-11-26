@@ -199,11 +199,11 @@ export default function routes() {
         },
       );
     }
-    if (type.endsWith('add-two-candidates')) {
+    if (type.endsWith('add-three-candidates')) {
       const sessionId = type.split('.')[0];
       const certificationCandidates = schema.certificationCandidates.where({ sessionId });
       certificationCandidates.destroy();
-      server.createList('certification-candidate', 2, { isLinked: false, sessionId });
+      server.createList('certification-candidate', 3, { isLinked: false, sessionId });
     }
     return new Response(204);
   });

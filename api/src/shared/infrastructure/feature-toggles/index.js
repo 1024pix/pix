@@ -2,8 +2,7 @@ import { config as appConfig } from '../../../../config/config.js';
 import config from '../../../../config/feature-toggles-config.js';
 import { featureTogglesStorage } from '../key-value-storages/index.js';
 import { FeatureTogglesClient } from './feature-toggles-client.js';
-
-const isTestEnv = process.env.NODE_ENV === 'test';
+import { getFeatureTogglesEnvironment } from './feature-toggles-utils.js';
 
 let _instance = null;
 
@@ -13,18 +12,21 @@ let _instance = null;
  */
 async function getInstance() {
   if (!_instance) {
-    const environment = getFeatureTogglesEnv();
+    const environment = getFeatureTogglesEnvironment({
+      isTestEnv: appConfig.environment === 'test',
+      isE2eTests: appConfig.infra.isE2eTests,
+      isReviewApp: appConfig.infra.isReviewApp,
+    });
     _instance = new FeatureTogglesClient(featureTogglesStorage, environment);
 
     await _instance.init(config);
+
+    // Force flushing values for E2E
+    if (appConfig.infra.isE2eTests) {
+      await _instance.resetDefaults();
+    }
   }
   return _instance;
-}
-
-function getFeatureTogglesEnv() {
-  if (isTestEnv) return 'test';
-  if (appConfig.infra.isReviewApp) return 'reviewApp';
-  return;
 }
 
 /**

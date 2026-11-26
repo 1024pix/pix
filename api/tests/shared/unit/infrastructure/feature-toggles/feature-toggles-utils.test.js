@@ -2,7 +2,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { config } from '../../../../../config/config.js';
-import { isEnabledByContainerRatio } from '../../../../../src/shared/infrastructure/feature-toggles/feature-toggles-utils.js';
+import {
+  getFeatureTogglesEnvironment,
+  isEnabledByContainerRatio,
+} from '../../../../../src/shared/infrastructure/feature-toggles/feature-toggles-utils.js';
 
 describe('Unit | Infrastructure | Feature Toggles | Utils', function () {
   describe('isEnabledByContainerRatio', function () {
@@ -43,6 +46,24 @@ describe('Unit | Infrastructure | Feature Toggles | Utils', function () {
           // then
           expect(value).to.equal(expectedValue);
         });
+      });
+    });
+  });
+
+  describe('getFeatureTogglesEnvironment', function () {
+    [
+      { isTestEnv: true, isE2eTests: false, isReviewApp: false, expected: 'test' },
+      { isTestEnv: false, isE2eTests: true, isReviewApp: false, expected: 'test' },
+      { isTestEnv: false, isE2eTests: true, isReviewApp: true, expected: 'test' },
+      { isTestEnv: false, isE2eTests: false, isReviewApp: true, expected: 'reviewApp' },
+      { isTestEnv: false, isE2eTests: false, isReviewApp: false, expected: undefined },
+    ].forEach(({ isTestEnv, isE2eTests, isReviewApp, expected }) => {
+      it(`returns ${expected} when isTestEnv=${isTestEnv}, isE2eTests=${isE2eTests}, isReviewApp=${isReviewApp}`, function () {
+        // when
+        const environment = getFeatureTogglesEnvironment({ isTestEnv, isE2eTests, isReviewApp });
+
+        // then
+        expect(environment).to.equal(expected);
       });
     });
   });

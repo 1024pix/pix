@@ -247,7 +247,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         test('it should replace the candidates list with the imported ones', async function (assert) {
           // given
           const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          const file = new Blob(['foo'], { type: `${sessionWithCandidates.id}.add-two-candidates` });
+          const file = new Blob(['foo'], { type: `${sessionWithCandidates.id}.add-three-candidates` });
 
           // when
           const input = await screen.findByLabelText('Importer (.ods)');
@@ -255,7 +255,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           await settled();
 
           // then
-          assert.dom('table tbody tr').exists({ count: 2 });
+          assert.dom('table tbody tr').exists({ count: 3 });
+          assert.dom(screen.getByRole('heading', { name: 'Liste des candidats (3)' })).exists();
+          assert.dom(screen.getByRole('link', { name: 'Candidats (3)' })).exists();
         });
 
         test('it should display a success message when uploading a valid file', async function (assert) {
