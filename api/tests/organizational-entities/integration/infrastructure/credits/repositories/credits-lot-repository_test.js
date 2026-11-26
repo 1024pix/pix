@@ -4,6 +4,7 @@ import { CreditsLot } from '../../../../../../src/organizational-entities/domain
 import { CreditsLotToCreate } from '../../../../../../src/organizational-entities/domain/credits/models/CreditsLotToCreate.js';
 import * as creditsLotRepository from '../../../../../../src/organizational-entities/infrastructure/credits/repositories/credits-lot-repository.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | Repository | Credits Lot', function () {
   context('create', function () {
@@ -211,6 +212,141 @@ describe('Integration | Repository | Credits Lot', function () {
 
       // then
       expect(creditsLots).to.be.empty;
+    });
+  });
+
+  context('findAllWithConsumptionsByOrganizationId', function () {
+    it('returns an empty array when the organization has no credits lot', async function () {
+      // given
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+      await databaseBuilder.commit();
+
+      // when
+      const creditsLots = await creditsLotRepository.findAllWithConsumptionsByOrganizationId({
+        organizationId: organization.id,
+      });
+
+      // then
+      expect(creditsLots).to.deep.equal([]);
+    });
+
+    it('returns the organization lots ordered by activation date with their consumptions', async function () {
+      // given
+      const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure();
+      const { structure: otherStructure } = databaseBuilder.factory.buildOrganizationWithStructure();
+
+      const laterLot = databaseBuilder.factory.buildCreditsLot({
+        structureId: structure.id,
+        count: 5,
+        reference: 'LATER',
+        activationDate: new Date('2026-06-01'),
+        expirationDate: new Date('2027-06-01'),
+      });
+      const earlierLot = databaseBuilder.factory.buildCreditsLot({
+        structureId: structure.id,
+        count: 10,
+        reference: 'EARLIER',
+        activationDate: new Date('2026-01-01'),
+        expirationDate: new Date('2027-01-01'),
+      });
+      databaseBuilder.factory.buildCreditsLot({ structureId: otherStructure.id, reference: 'OTHER' });
+
+      const firstLearner = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        firstName: 'Lucie',
+        lastName: 'Fer',
+      });
+      const secondLearner = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        firstName: 'Paul',
+        lastName: 'Ochon',
+      });
+      databaseBuilder.factory.buildCreditsConsumption({
+        creditsLotId: earlierLot.id,
+        organizationLearnerId: secondLearner.id,
+        consumedAt: new Date('2026-03-01'),
+      });
+      databaseBuilder.factory.buildCreditsConsumption({
+        creditsLotId: earlierLot.id,
+        organizationLearnerId: firstLearner.id,
+        consumedAt: new Date('2026-02-01'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const creditsLots = await creditsLotRepository.findAllWithConsumptionsByOrganizationId({
+        organizationId: organization.id,
+      });
+
+      // then
+      expect(creditsLots).to.have.lengthOf(2);
+      expect(creditsLots[0]).to.deep.equal(
+        domainBuilder.acquisition.buildOrganizationCreditsLot({
+          id: earlierLot.id,
+          count: 10,
+          reference: 'EARLIER',
+          activationDate: new Date('2026-01-01'),
+          expirationDate: new Date('2027-01-01'),
+          consumptions: [
+            {
+              organizationLearnerId: firstLearner.id,
+              firstName: 'Lucie',
+              lastName: 'Fer',
+              consumedAt: new Date('2026-02-01'),
+            },
+            {
+              organizationLearnerId: secondLearner.id,
+              firstName: 'Paul',
+              lastName: 'Ochon',
+              consumedAt: new Date('2026-03-01'),
+            },
+          ],
+        }),
+      );
+      expect(creditsLots[1]).to.deep.equal(
+        domainBuilder.acquisition.buildOrganizationCreditsLot({
+          id: laterLot.id,
+          count: 5,
+          reference: 'LATER',
+          activationDate: new Date('2026-06-01'),
+          expirationDate: new Date('2027-06-01'),
+          consumptions: [],
+        }),
+      );
+    });
+
+    it('counts consumptions of deleted learners without exposing their names', async function () {
+      // given
+      const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure();
+      const creditsLotId = databaseBuilder.factory.buildCreditsLot({ structureId: structure.id, count: 5 }).id;
+      const deletedLearner = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        firstName: 'Lucie',
+        lastName: 'Fer',
+        deletedAt: new Date('2026-04-01'),
+      });
+      databaseBuilder.factory.buildCreditsConsumption({
+        creditsLotId,
+        organizationLearnerId: deletedLearner.id,
+        consumedAt: new Date('2026-02-01'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const [creditsLot] = await creditsLotRepository.findAllWithConsumptionsByOrganizationId({
+        organizationId: organization.id,
+      });
+
+      // then
+      expect(creditsLot.consumptions).to.deep.equal([
+        {
+          organizationLearnerId: deletedLearner.id,
+          firstName: null,
+          lastName: null,
+          consumedAt: new Date('2026-02-01'),
+        },
+      ]);
     });
   });
 });

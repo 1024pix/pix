@@ -1,5 +1,6 @@
 import { buildCreditsLot } from './acquisition/build-credits-lot.js';
 import { buildNetwork } from './acquisition/build-network.js';
+import { buildOrganizationCreditsLot } from './acquisition/build-organization-credits-lot.js';
 import { buildOrganizationLearnerType } from './acquisition/build-organization-learner-type.js';
 import { buildStructure } from './acquisition/build-structure.js';
 import { buildEmptyInformationBanner, buildInformationBanner } from './banner/build-banner-information.js';
@@ -253,6 +254,7 @@ const acquisition = {
   buildCreditsLot,
   buildStructure,
   buildNetwork,
+  buildOrganizationCreditsLot,
   buildOrganizationLearnerType,
 };
 

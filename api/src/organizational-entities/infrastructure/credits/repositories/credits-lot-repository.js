@@ -1,6 +1,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CreditsLot } from '../../../domain/credits/models/CreditsLot.js';
 import { CreditsLotBalance } from '../../../domain/credits/models/CreditsLotBalance.js';
+import { OrganizationCreditsLot } from '../../../domain/credits/read-models/OrganizationCreditsLot.js';
 
 const findByOrganizationIdForUpdate = async function ({ organizationId }) {
   const knexConn = DomainTransaction.getConnection();
@@ -91,4 +92,60 @@ function _toDomain(rawCreditsLot) {
   });
 }
 
-export { create, findAllByStructureId, findByOrganizationIdForUpdate };
+/**
+ * @param {Object} params
+ * @param {number} params.organizationId
+ * @returns {Promise<Array<OrganizationCreditsLot>>}
+ */
+const findAllWithConsumptionsByOrganizationId = async function ({ organizationId }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const lots = await knexConn('credits_lots')
+    .select(
+      'credits_lots.id',
+      'credits_lots.count',
+      'credits_lots.activation_date as activationDate',
+      'credits_lots.expiration_date as expirationDate',
+      'credits_lots.reference',
+    )
+    .join('fct_structures', 'fct_structures.structure_id', 'credits_lots.structure_id')
+    .where('fct_structures.organization_id', organizationId)
+    .orderBy([{ column: 'credits_lots.activation_date' }, { column: 'credits_lots.id' }]);
+
+  if (lots.length === 0) return [];
+
+  const consumptions = await knexConn('credits_consumptions')
+    .select(
+      'credits_consumptions.credit_lot_id as creditsLotId',
+      'credits_consumptions.organization_learner_id as organizationLearnerId',
+      'credits_consumptions.consumed_at as consumedAt',
+      'organization-learners.firstName',
+      'organization-learners.lastName',
+      'organization-learners.deletedAt',
+    )
+    .join('organization-learners', 'organization-learners.id', 'credits_consumptions.organization_learner_id')
+    .whereIn(
+      'credits_consumptions.credit_lot_id',
+      lots.map(({ id }) => id),
+    )
+    .orderBy([{ column: 'credits_consumptions.consumed_at' }, { column: 'credits_consumptions.id' }]);
+
+  const consumptionsByLotId = Object.groupBy(
+    consumptions.map(({ deletedAt, firstName, lastName, ...consumption }) => ({
+      ...consumption,
+      firstName: deletedAt ? null : firstName,
+      lastName: deletedAt ? null : lastName,
+    })),
+    ({ creditsLotId }) => creditsLotId,
+  );
+
+  return lots.map(
+    (lot) =>
+      new OrganizationCreditsLot({
+        ...lot,
+        consumptions: consumptionsByLotId[lot.id] ?? [],
+      }),
+  );
+};
+
+export { create, findAllByStructureId, findAllWithConsumptionsByOrganizationId, findByOrganizationIdForUpdate };
