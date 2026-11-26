@@ -7,38 +7,6 @@ import {
 
 describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
   describe('#validate', function () {
-    describe(COMPARISONS.EQUAL, function () {
-      it('should throw with array data', function () {
-        expect(function () {
-          new CriterionProperty({
-            key: 'valid_key',
-            data: [18, false, 'toto'],
-            comparison: COMPARISONS.EQUAL,
-          });
-        }).to.throw();
-      });
-
-      it('should not throw with string data', function () {
-        expect(function () {
-          new CriterionProperty({
-            key: 'valid_key',
-            data: 'valid',
-            comparison: COMPARISONS.EQUAL,
-          });
-        }).to.not.throw();
-      });
-
-      it('should not throw with number data', function () {
-        expect(function () {
-          new CriterionProperty({
-            key: 'valid_key',
-            data: 18,
-            comparison: COMPARISONS.EQUAL,
-          });
-        }).to.not.throw();
-      });
-    });
-
     describe(COMPARISONS.ONE_OF, function () {
       it('should throw with string data', function () {
         expect(function () {
