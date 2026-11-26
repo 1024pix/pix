@@ -5,7 +5,9 @@ import ListTable from 'pix-admin/components/organization-learners/list-table';
 <template>
   {{pageTitle (t "pages.organization-learners-list.page-title")}}
 
-  <h1>{{t "pages.organization-learners-list.main-title"}}</h1>
+  <div class="organization-learners-list">
+    <h1>{{t "pages.organization-learners-list.main-title"}}</h1>
 
-  <ListTable @organizationLearners={{@model}} />
+    <ListTable @organizationLearners={{@model}} />
+  </div>
 </template>

@@ -1,4 +1,10 @@
-.organization-learner-list {
+.organization-learners-list {
+  margin-bottom: var(--pix-spacing-12x);
+
+  .pix-filter-banner {
+    margin-bottom: var(--pix-spacing-3x);
+  }
+
   &__icon-disabled .pix-icon {
     fill: var(--pix-error-700);
   }

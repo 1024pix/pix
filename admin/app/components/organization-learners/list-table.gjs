@@ -122,7 +122,7 @@ export default class AdminLearnerList extends Component {
         @variant="admin"
         @caption={{t "components.organization-learners.list-table.caption"}}
         @data={{@organizationLearners}}
-        class="table organization-learner-list"
+        class="table"
       >
         <:columns as |organizationLearner context|>
           <PixTableColumn @context={{context}}>
@@ -269,7 +269,7 @@ export default class AdminLearnerList extends Component {
             </:header>
             <:cell>
               {{#if organizationLearner.isDisabled}}
-                <span class="organization-learner-list__icon-disabled">
+                <span class="organization-learners-list__icon-disabled">
                   <PixIcon
                     @name="cancel"
                     @plainIcon={{true}}
@@ -277,7 +277,7 @@ export default class AdminLearnerList extends Component {
                   />
                 </span>
               {{else}}
-                <span class="organization-learner-list__icon-active">
+                <span class="organization-learners-list__icon-active">
                   <PixIcon
                     @name="checkCircle"
                     @plainIcon={{true}}
