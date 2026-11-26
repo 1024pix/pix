@@ -24,7 +24,6 @@ const types = {
   CAMPAIGN: 'CAMPAIGN',
   PIX1D_MISSION: 'PIX1D_MISSION',
   EXAM: 'EXAM',
-  DIAG: 'DIAG',
 };
 
 const TYPES_OF_ASSESSMENT_NEEDING_USER = [types.CERTIFICATION, types.COMPETENCE_EVALUATION, types.CAMPAIGN];
@@ -124,7 +123,7 @@ class Assessment {
   }
 
   isForCampaign() {
-    return this.type === types.CAMPAIGN || this.type === types.DIAG;
+    return this.type === types.CAMPAIGN;
   }
 
   isForExamCampaign() {
@@ -177,8 +176,6 @@ class Assessment {
         return methods.COURSE_DETERMINED;
       case Assessment.types.PREVIEW:
         return methods.CHOSEN;
-      case Assessment.types.DIAG:
-        return methods.IRT;
       default:
         return methods.SMART_RANDOM;
     }

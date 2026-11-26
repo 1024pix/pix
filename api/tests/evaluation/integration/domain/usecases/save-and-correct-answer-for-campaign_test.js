@@ -461,7 +461,8 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
       const assessmentDB = databaseBuilder.factory.buildAssessment({
         userId,
         campaignParticipationId,
-        type: Assessment.types.DIAG,
+        type: Assessment.types.CAMPAIGN,
+        method: Assessment.methods.IRT,
         state: Assessment.states.STARTED,
       });
 

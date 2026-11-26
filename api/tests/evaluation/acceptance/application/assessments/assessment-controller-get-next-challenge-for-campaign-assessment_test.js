@@ -199,7 +199,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
           });
 
           assessment = databaseBuilder.factory.buildAssessment({
-            type: Assessment.types.DIAG,
+            type: Assessment.types.CAMPAIGN,
+            method: Assessment.methods.IRT,
             userId,
             campaignParticipationId: campaignParticipation.id,
             lastQuestionDate: new Date('2020-01-20'),

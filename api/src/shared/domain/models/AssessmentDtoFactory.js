@@ -9,7 +9,6 @@ export class AssessmentDtoFactory {
   static toDto(assessment, globalProgression) {
     switch (assessment.type) {
       case Assessment.types.CAMPAIGN:
-      case Assessment.types.DIAG:
         return new CampaignAssessment(assessment, globalProgression);
       case Assessment.types.CERTIFICATION:
         return new CertificationAssessment(assessment);

@@ -150,6 +150,7 @@ describe('Unit | Domain | Models | Assessment', function () {
       // then
       expect(isForCampaign).to.be.true;
     });
+
     it('should return true when the assessment is for a CAMPAIGN and linked to a participation', function () {
       // given
       const assessment = new Assessment({
@@ -165,36 +166,7 @@ describe('Unit | Domain | Models | Assessment', function () {
       expect(isForCampaign).to.be.true;
     });
 
-    it('should return true when the assessment is for a DIAG and not linked to a participation', function () {
-      // given
-      const assessment = new Assessment({
-        type: 'DIAG',
-        campaign: domainBuilder.buildCampaign(),
-        campaignParticipationId: null,
-      });
-
-      // when
-      const isForCampaign = assessment.isForCampaign();
-
-      // then
-      expect(isForCampaign).to.be.true;
-    });
-    it('should return true when the assessment is for a DIAG and linked to a participation', function () {
-      // given
-      const assessment = new Assessment({
-        type: 'DIAG',
-        campaign: domainBuilder.buildCampaign(),
-        campaignParticipationId: Symbol('campaignParticipationId'),
-      });
-
-      // when
-      const isForCampaign = assessment.isForCampaign();
-
-      // then
-      expect(isForCampaign).to.be.true;
-    });
-
-    it('should return false when the assessment is not a CAMPAIGN or DIAG type', function () {
+    it('should return false when the assessment is not a CAMPAIGN type', function () {
       // given
       const assessment = new Assessment({ type: 'PLACEMENT' });
 
@@ -519,7 +491,6 @@ describe('Unit | Domain | Models | Assessment', function () {
       { assessmentType: 'DEMO', expectedMethod: 'COURSE_DETERMINED' },
       { assessmentType: 'COMPETENCE_EVALUATION', expectedMethod: 'SMART_RANDOM' },
       { assessmentType: 'CAMPAIGN', expectedMethod: 'SMART_RANDOM' },
-      { assessmentType: 'DIAG', expectedMethod: 'IRT' },
     ].forEach(function ({ assessmentType, expectedMethod }) {
       it(`should return "${expectedMethod}" if assessment type is "${assessmentType}"`, function () {
         // when
