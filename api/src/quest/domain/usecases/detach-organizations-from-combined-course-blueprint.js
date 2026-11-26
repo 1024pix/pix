@@ -9,6 +9,9 @@ export async function detachOrganizationsFromCombinedCourseBlueprint({
   if (!blueprint) {
     throw new NotFoundError(`Combined course blueprint with id:${combinedCourseBlueprintId} not found`);
   }
-  blueprint.detachOrganizations({ organizationIds });
+  const { detachedOrganizationIds, alreadyDetachedOrganizationIds } = blueprint.detachOrganizations({
+    organizationIds,
+  });
   await combinedCourseBlueprintRepository.save({ combinedCourseBlueprint: blueprint });
+  return { detachedIds: detachedOrganizationIds, alreadyDetachedIds: alreadyDetachedOrganizationIds };
 }

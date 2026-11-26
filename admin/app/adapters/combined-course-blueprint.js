@@ -1,9 +1,9 @@
 import ApplicationAdapter from './application';
 
 export default class CombinedCourseBlueprintAdapter extends ApplicationAdapter {
-  async detachOrganizations(combinedCourseBlueprintId, organizationIds) {
+  async detachOrganizations({ combinedCourseBlueprintId, organizationIds }) {
     const url = `${this.host}/${this.namespace}/combined-course-blueprints/${combinedCourseBlueprintId}/organizations`;
-    await this.ajax(url, 'DELETE', {
+    return this.ajax(url, 'DELETE', {
       data: { 'organization-ids': organizationIds },
     });
   }

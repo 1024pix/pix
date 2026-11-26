@@ -2,6 +2,7 @@ import { PixButton, PixInput } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -32,15 +33,38 @@ export default class DetachOrganizationsForm extends Component {
     if (this.isDisabledDetachOrganizations) return;
 
     const organizationsToDetach = this._getUniqueOrganizations();
-    const organizationsHaveBeenDetached = await this.args.detachOrganizations(organizationsToDetach);
-    if (!organizationsHaveBeenDetached) {
+    const result = await this.args.detachOrganizations(organizationsToDetach);
+    if (!result) {
       return;
     }
 
+    const { detachedIds, alreadyDetachedIds } = result;
     this.organizationsToDetach = '';
-    await this.pixToast.sendSuccessNotification({
-      message: this.intl.t('components.combined-course-blueprints.organizations.detach-organizations.message.success'),
-    });
+    const message = [];
+
+    if (detachedIds.length > 0) {
+      message.push(
+        this.intl.t('components.combined-course-blueprints.organizations.detach-organizations.message.success'),
+      );
+    } else {
+      message.push(
+        this.intl.t(
+          'components.combined-course-blueprints.organizations.detach-organizations.message.no-organization-detached',
+        ),
+      );
+    }
+
+    if (alreadyDetachedIds.length > 0) {
+      message.push('<br />');
+      message.push(
+        this.intl.t(
+          'components.combined-course-blueprints.organizations.detach-organizations.message.already-detached',
+          { organizationIds: alreadyDetachedIds.join(', ') },
+        ),
+      );
+    }
+
+    await this.pixToast.sendSuccessNotification({ message: htmlSafe(message.join('')) });
     return this.args.reloadAfterSuccess();
   }
 

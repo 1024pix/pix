@@ -926,6 +926,8 @@
           "info": "Ids des organisations, séparés par une virgule",
           "label": "Détacher une ou plusieurs organisation(s)",
           "message": {
+            "already-detached": "Le(s) organisation(s) suivantes étai(en)t déjà détachée(s) : {organizationIds}",
+            "no-organization-detached": "Aucune organisation n'a été détachée.",
             "success": "Organisation(s) détachée(s) avec succès."
           }
         }

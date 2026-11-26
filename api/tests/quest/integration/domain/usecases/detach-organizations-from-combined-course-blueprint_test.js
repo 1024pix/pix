@@ -6,7 +6,7 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Combined course | Domain | UseCases | detach-organizations-from-combined-course-blueprint', function () {
-  it('should detach specified organizations from a combined course blueprint', async function () {
+  it('should return duplicated ids and detached ids for a given combined course blueprint', async function () {
     // given
     const combinedCourseBlueprintShare = databaseBuilder.factory.buildCombinedCourseBlueprintShare();
     const combinedCourseBlueprintShare2 = databaseBuilder.factory.buildCombinedCourseBlueprintShare({
@@ -15,21 +15,30 @@ describe('Integration | Combined course | Domain | UseCases | detach-organizatio
     const combinedCourseBlueprintShare3 = databaseBuilder.factory.buildCombinedCourseBlueprintShare({
       combinedCourseBlueprintId: combinedCourseBlueprintShare.combinedCourseBlueprintId,
     });
+    const organizationNotAttached = databaseBuilder.factory.buildOrganization();
 
     await databaseBuilder.commit();
 
     // when
-    await usecases.detachOrganizationsFromCombinedCourseBlueprint({
+    const result = await usecases.detachOrganizationsFromCombinedCourseBlueprint({
       combinedCourseBlueprintId: combinedCourseBlueprintShare.combinedCourseBlueprintId,
-      organizationIds: [combinedCourseBlueprintShare2.organizationId, combinedCourseBlueprintShare3.organizationId],
+      organizationIds: [
+        combinedCourseBlueprintShare2.organizationId,
+        combinedCourseBlueprintShare3.organizationId,
+        organizationNotAttached.id,
+      ],
     });
 
     // then
-    const result = await usecases.getCombinedCourseBlueprintById({
+    const blueprint = await usecases.getCombinedCourseBlueprintById({
       id: combinedCourseBlueprintShare.combinedCourseBlueprintId,
     });
+    expect(blueprint.organizationIds).deep.equal([combinedCourseBlueprintShare.organizationId]);
 
-    expect(result.organizationIds).deep.equal([combinedCourseBlueprintShare.organizationId]);
+    expect(result).to.deep.equal({
+      alreadyDetachedIds: [organizationNotAttached.id],
+      detachedIds: [combinedCourseBlueprintShare2.organizationId, combinedCourseBlueprintShare3.organizationId],
+    });
   });
 
   it('should throw if combined course blueprint is not found', async function () {

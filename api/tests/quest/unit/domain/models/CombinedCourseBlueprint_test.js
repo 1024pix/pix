@@ -361,6 +361,22 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
       //then
       expect(combinedCourseBlueprint.organizationIds).to.deep.equal([456, 901]);
     });
+
+    it('should return detached organization ids and already detached ids', async function () {
+      //given
+      values.organizationIds = [123, 456, 789, 901];
+      const combinedCourseBlueprint = new CombinedCourseBlueprint(values);
+      const organizationIdNotAttachedToBlueprint = 888;
+
+      //when
+      const { detachedOrganizationIds, alreadyDetachedOrganizationIds } = combinedCourseBlueprint.detachOrganizations({
+        organizationIds: [123, 789, organizationIdNotAttachedToBlueprint],
+      });
+
+      //then
+      expect(detachedOrganizationIds).to.deep.equal([123, 789]);
+      expect(alreadyDetachedOrganizationIds).to.deep.equal([888]);
+    });
   });
 
   describe('#update', function () {

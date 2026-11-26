@@ -17,17 +17,46 @@ describe('Unit | Quest | Application | Controller | CombinedCourseBlueprint', fu
         payload: { 'organization-ids': [organizationToDetachId, otherOrganizationToDetachId] },
       };
 
-      const usecaseStub = sinon.stub(usecases, 'detachOrganizationsFromCombinedCourseBlueprint').resolves();
+      const usecaseStub = sinon
+        .stub(usecases, 'detachOrganizationsFromCombinedCourseBlueprint')
+        .resolves({ detachedIds: [organizationToDetachId], alreadyDetachedIds: [otherOrganizationToDetachId] });
 
       // when
-      const response = await combinedCourseBlueprintController.detachOrganizations(request, hFake);
+      await combinedCourseBlueprintController.detachOrganizations(request, hFake);
 
       // then
-      expect(response.statusCode).to.equal(204);
       expect(usecaseStub).to.have.been.calledWith({
         combinedCourseBlueprintId,
         organizationIds: [organizationToDetachId, otherOrganizationToDetachId],
       });
+    });
+
+    it('should return the serialized detached and already detached organization ids with a 200 status code', async function () {
+      // given
+      const combinedCourseBlueprintId = 'blueprintId123';
+      const request = {
+        params: { blueprintId: combinedCourseBlueprintId },
+        payload: { 'organization-ids': [1, 2] },
+      };
+      const results = { detachedIds: [1], alreadyDetachedIds: [2] };
+      sinon.stub(usecases, 'detachOrganizationsFromCombinedCourseBlueprint').resolves(results);
+
+      const serializedResults = Symbol('serialized results');
+      const combinedCourseBlueprintOrganizationSerializer = {
+        serializeDetachedOrganizations: sinon.stub(),
+      };
+      combinedCourseBlueprintOrganizationSerializer.serializeDetachedOrganizations
+        .withArgs({ ...results, combinedCourseBlueprintId })
+        .returns(serializedResults);
+
+      // when
+      const response = await combinedCourseBlueprintController.detachOrganizations(request, hFake, {
+        combinedCourseBlueprintOrganizationSerializer,
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.source).to.equal(serializedResults);
     });
   });
 });
