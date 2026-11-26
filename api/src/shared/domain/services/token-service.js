@@ -6,7 +6,7 @@ import { config } from '../../../../config/config.js';
 export const tokenType = Object.freeze({
   ACCESS_TOKEN: 'at+jwt',
   REFRESH_TOKEN: 'rt+jwt',
-  LTI_USER_TOKEN: 'lti-user+jwt',
+  JWT: 'JWT',
 });
 
 /**

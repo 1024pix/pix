@@ -52,7 +52,7 @@ export class LtiUserToken {
       },
       config.authentication.secret,
       config.lti.ltiUserTokenLifespan,
-      { type: tokenType.LTI_USER_TOKEN },
+      { type: tokenType.JWT },
     );
   }
 
@@ -63,7 +63,7 @@ export class LtiUserToken {
    */
   static decode(token) {
     const decoded = tokenService.getDecodedToken(token, config.authentication.secret, {
-      expectedType: tokenType.LTI_USER_TOKEN,
+      expectedType: tokenType.JWT,
     });
     if (!decoded) throw new InvalidInputDataError();
 

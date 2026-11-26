@@ -62,7 +62,7 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
       expect(parsed).to.have.property('value').that.is.a('string');
 
       const decodedToken = jsonwebtoken.verify(parsed.value, config.authentication.secret, { complete: true });
-      expect(decodedToken.header).to.deep.equal({ alg: 'HS256', typ: 'lti-user+jwt' });
+      expect(decodedToken.header).to.deep.equal({ alg: 'HS256', typ: 'JWT' });
       expect(decodedToken.payload).to.deep.contain({
         'https://pix.org/claims/lti-client-id': 'Abcd1234',
         'https://pix.org/claims/lti-sub': 'moodle-user-sub',
@@ -85,7 +85,7 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
 
       // then
       const decodedToken = jsonwebtoken.verify(encodedToken, config.authentication.secret, { complete: true });
-      expect(decodedToken.header).to.deep.equal({ alg: 'HS256', typ: 'lti-user+jwt' });
+      expect(decodedToken.header).to.deep.equal({ alg: 'HS256', typ: 'JWT' });
 
       const { iat, exp, ...claims } = decodedToken.payload;
       expect(claims).to.deep.equal({
@@ -106,7 +106,7 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
           'https://pix.org/claims/lti-sub': 'moodle-user-sub',
         },
         config.authentication.secret,
-        { expiresIn: config.lti.ltiUserTokenLifespan, header: { typ: 'lti-user+jwt' } },
+        { expiresIn: config.lti.ltiUserTokenLifespan, header: { typ: 'JWT' } },
       );
 
       // when
@@ -148,7 +148,7 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
       });
     });
 
-    describe('when token type is not lti-user+jwt', function () {
+    describe('when token type is not JWT', function () {
       it('throws an InvalidInputDataError', function () {
         // given
         const encodedToken = jsonwebtoken.sign(
@@ -177,7 +177,7 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
             'https://pix.org/claims/lti-sub': 'moodle-user-sub',
           },
           config.authentication.secret,
-          { expiresIn: -1, header: { typ: 'lti-user+jwt' } },
+          { expiresIn: -1, header: { typ: 'JWT' } },
         );
 
         // when
@@ -197,7 +197,7 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
             'https://pix.org/claims/lti-sub': 'moodle-user-sub',
           },
           'another-secret',
-          { expiresIn: config.lti.ltiUserTokenLifespan, header: { typ: 'lti-user+jwt' } },
+          { expiresIn: config.lti.ltiUserTokenLifespan, header: { typ: 'JWT' } },
         );
 
         // when
@@ -217,7 +217,7 @@ describe('Unit | LTI | Domain | Model | LtiUserToken', function () {
             // missing lti-sub claim
           },
           config.authentication.secret,
-          { expiresIn: config.lti.ltiUserTokenLifespan, header: { typ: 'lti-user+jwt' } },
+          { expiresIn: config.lti.ltiUserTokenLifespan, header: { typ: 'JWT' } },
         );
 
         // when
