@@ -283,7 +283,7 @@ export default class ChallengeContent extends Component {
           </div>
         {{/if}}
 
-        {{#if @assessment }}
+        {{#if @assessment}}
           <FocusedOutNotification
             @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
             @isCertification={{@assessment.isCertification}}
@@ -297,5 +297,8 @@ export default class ChallengeContent extends Component {
         <AssessmentsLiveAlert @message={{t "pages.challenge.live-alerts.companion.message"}} />
       {{/if}}
     </div>
+    {{#if @isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
+      <div class="focus-zone-warning__overlay" />
+    {{/if}}
   </template>
 }

@@ -1,7 +1,7 @@
 import { array } from '@ember/helper';
-import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import Content from 'mon-pix/components/challenge/content';
+import FocusOutAlertBanner from 'mon-pix/components/challenge/focus-out-alert-banner';
 import TimedChallengeInstructions from 'mon-pix/components/challenge/timed-challenge-instructions';
 import FocusedCertificationChallengeInstructions from 'mon-pix/components/focused-certification-challenge-instructions';
 import LevelupNotif from 'mon-pix/components/levelup-notif';
@@ -9,22 +9,6 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 
 <template>
   {{pageTitle @controller.pageTitle}}
-
-  {{#if @controller.couldDisplayInfoAlert}}
-    <div
-      class="challenge__info-alert challenge__info-alert--focus"
-      tabindex="0"
-      role="alert"
-      aria-live="assertive"
-    >
-      <div class="challenge-info-alert__icon">
-        <img src="/images/challenge/focus-mode.svg" />
-      </div>
-      <p>
-        {{t "pages.challenge.is-focused-challenge.info-alert"}}
-      </p>
-    </div>
-  {{/if}}
 
   <main role="main">
     <AssessmentBanner
@@ -72,27 +56,13 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
             @timeoutChallenge={{@controller.timeoutChallenge}}
           />
         {{/each}}
+
+        {{#if @controller.displayInfoAlertForFocusOut}}
+          <FocusOutAlertBanner />
+        {{/if}}
       {{/if}}
     </div>
   </main>
-
-  {{#if @model.challenge.focused}}
-    <div
-      class="challenge__info-alert
-        {{if @controller.displayInfoAlertForFocusOut 'challenge__info-alert--show'}}
-        {{if @controller.couldDisplayInfoAlert 'challenge__info-alert--focus'}}"
-      tabindex="0"
-      role="alert"
-      aria-live="assertive"
-    >
-      <div class="challenge-info-alert__icon">
-        <img src="/images/challenge/focus-mode.svg" />
-      </div>
-      <p>
-        {{t "pages.challenge.is-focused-challenge.info-alert"}}
-      </p>
-    </div>
-  {{/if}}
 
   {{#if @controller.showLevelup}}
     <LevelupNotif @level={{@controller.newLevel}} @competenceName={{@controller.competenceLeveled}} />

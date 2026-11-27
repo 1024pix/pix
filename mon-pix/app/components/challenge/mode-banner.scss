@@ -27,6 +27,8 @@
   }
 
   &__icon {
+    display: flex;
+    align-items: center;
     padding: var(--pix-spacing-1x) var(--pix-spacing-3x);
     color:var(--pix-neutral-0);
     line-height: 0;
@@ -34,16 +36,18 @@
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
 
-    img {
-      height: 48px;
-
-      @include breakpoints.device-is('tablet') {
-        height: 100%;
-      }
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
     }
 
     @include breakpoints.device-is('tablet') {
       padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
     }
   }
 
