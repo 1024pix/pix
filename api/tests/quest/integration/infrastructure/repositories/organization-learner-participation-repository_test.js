@@ -1309,4 +1309,102 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       expect(combinedCourseParticipations.length).to.equal(0);
     });
   });
+
+  describe('#findByUserId', function () {
+    it('should return an empty array when no participation is found for user', async function () {
+      // given
+      const { userId, organizationId } = databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Alice',
+        lastName: 'Azerty',
+        division: '6eme',
+        group: 'Groupe 2',
+      });
+
+      const otherLearner = databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Alice',
+        lastName: 'Azerty',
+        division: '6eme',
+        group: 'Groupe 3',
+      });
+
+      const combinedCourse = databaseBuilder.factory.buildCombinedCourse({ organizationId });
+
+      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
+        organizationLearnerId: otherLearner.id,
+        combinedCourseId: combinedCourse.id,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const combinedCourseParticipations = await organizationLearnerParticipationRepository.findByUserId({
+        userId,
+      });
+
+      // then
+      expect(combinedCourseParticipations.length).to.equal(0);
+    });
+    it('should return an array of participations when multiple participations of type combined course are found', async function () {
+      // given
+      const firstLearner = databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Alice',
+        lastName: 'Azerty',
+        division: '6eme',
+        group: 'Groupe 2',
+      });
+
+      const otherLearner = databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Alice',
+        lastName: 'Azerty',
+        division: '6eme',
+        group: 'Groupe 3',
+      });
+
+      const combinedCourse = databaseBuilder.factory.buildCombinedCourse({
+        organizationId: firstLearner.organizationId,
+      });
+
+      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
+        organizationLearnerId: firstLearner.id,
+        combinedCourseId: combinedCourse.id,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+      });
+
+      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
+        organizationLearnerId: firstLearner.id,
+        combinedCourseId: combinedCourse.id,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+      });
+
+      const module = databaseBuilder.factory.learningContent.buildModule();
+
+      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypePassage({
+        organizationLearnerId: firstLearner.id,
+        moduleId: module.id,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+      });
+
+      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
+        organizationLearnerId: otherLearner.id,
+        combinedCourseId: combinedCourse.id,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const combinedCourseParticipations = await organizationLearnerParticipationRepository.findByUserId({
+        userId: firstLearner.userId,
+      });
+
+      // then
+      expect(combinedCourseParticipations.length).to.equal(2);
+      for (const combinedCourseParticipation of combinedCourseParticipations) {
+        expect(combinedCourseParticipation).to.be.instanceOf(OrganizationLearnerParticipation);
+        expect(combinedCourseParticipation.status).to.not.be.undefined;
+        expect(combinedCourseParticipation.referenceId).to.equal(combinedCourse.id.toString());
+      }
+    });
+  });
 });

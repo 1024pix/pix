@@ -287,3 +287,19 @@ export const findByCombinedCourseIds = async ({ combinedCourseIds }) => {
 
   return results.map((participation) => new OrganizationLearnerParticipation(participation));
 };
+
+export const findByUserId = async ({ userId }) => {
+  const knexConnection = DomainTransaction.getConnection();
+  const results = await knexConnection('organization_learner_participations')
+    .select('organization_learner_participations.status', 'organization_learner_participations.referenceId')
+    .join(
+      'view-active-organization-learners',
+      'view-active-organization-learners.id',
+      'organization_learner_participations.organizationLearnerId',
+    )
+    .where('view-active-organization-learners.userId', userId)
+    .where('organization_learner_participations.type', OrganizationLearnerParticipationTypes.COMBINED_COURSE)
+    .whereNull('organization_learner_participations.deletedAt');
+
+  return results.map((participation) => new OrganizationLearnerParticipation(participation));
+};
