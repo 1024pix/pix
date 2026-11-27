@@ -7,7 +7,9 @@ import { editorLogoUrlValidation, identifiersType } from '../../../shared/domain
 import { Training } from '../../domain/models/Training.js';
 import { trainingController as trainingsController } from './training-controller.js';
 
-const lowerCaseSupportedLocales = getSupportedLocales().map((supportedLocale) => supportedLocale.toLowerCase());
+const lowerCaseSupportedLocales = getSupportedLocales().map((supportedLocale) => {
+  return supportedLocale === 'fr-FR' ? supportedLocale.toLowerCase() : supportedLocale;
+});
 
 const register = async function (server) {
   server.route([
