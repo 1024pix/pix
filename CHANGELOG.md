@@ -1,5 +1,38 @@
 # Pix Changelog
 
+# [5.552.0](https://github.com/1024pix/pix/compare/v5.551.0...v5.552.0) (2026-11-27)
+
+### :rocket: Amélioration
+
+- [#19057](https://github.com/1024pix/pix/pull/19057) Ajout de la suppression de prescrits en batch sur Admin (PIX-25164) 
+- [#19121](https://github.com/1024pix/pix/pull/19121) Changer le design du formulaire d'inscription d'un candidat à une session (PIX-25246)
+- [#19087](https://github.com/1024pix/pix/pull/19087) Consommer un crédit lors d'une participation à une campagne (PIX-24830)
+- [#19126](https://github.com/1024pix/pix/pull/19126) Réduire la consommation mémoire de la validation et de l'import d'un fichier CSV générique (PIX-25237).
+
+### :bug: Correction
+
+- [#19131](https://github.com/1024pix/pix/pull/19131) Anonymiser les participations à partir du userId
+- [#19106](https://github.com/1024pix/pix/pull/19106) Suppression du bloc réponse en cas d'embed auto-validé (PIX-25243). 
+
+### :building_construction: Tech
+
+- [#19123](https://github.com/1024pix/pix/pull/19123) Améliore les performances du service CombinedCourseDetails (PIX-25210)
+- [#19120](https://github.com/1024pix/pix/pull/19120) Correction de bugs identifiés à l'aide des tests de recette e2e certif
+- [#19133](https://github.com/1024pix/pix/pull/19133) Passage de Requirement.js en TS(PIX-25288)
+- [#19024](https://github.com/1024pix/pix/pull/19024) Supprimer les colonnes de lecture des tooltip d'épreuves (PIX-25197).
+
+### :arrow_up: Montée de version
+
+- [#19137](https://github.com/1024pix/pix/pull/19137) Update aws-sdk-js-v3 monorepo to v3.1173.0 (api)
+- [#19142](https://github.com/1024pix/pix/pull/19142) Update dependency @1024pix/oppsy to v1.1.10 (api)
+- [#19135](https://github.com/1024pix/pix/pull/19135) Update dependency baseline-browser-mapping to v2.11.39 (high-level-tests/e2e-playwright)
+- [#19136](https://github.com/1024pix/pix/pull/19136) Update dependency ember-inflector to v7.0.2 (orga)
+- [#19129](https://github.com/1024pix/pix/pull/19129) Update dependency eslint-plugin-ember to v13.11.2 (orga,mon-pix,junior,certif,admin)
+- [#19143](https://github.com/1024pix/pix/pull/19143) Update dependency nodemailer to v10.6.1 (api)
+- [#19124](https://github.com/1024pix/pix/pull/19124) Update dependency pprof-format to v2.4.1 (api)
+- [#19144](https://github.com/1024pix/pix/pull/19144) Update dependency stylelint to v18.1.0 (orga,mon-pix,junior,certif,admin)
+- [#19139](https://github.com/1024pix/pix/pull/19139) Update dependency undici to v8.13.0 (api)
+
 # [5.551.0](https://github.com/1024pix/pix/compare/v5.550.0...v5.551.0) (2026-11-26)
 
 ### :rocket: Amélioration
