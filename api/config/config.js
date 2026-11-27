@@ -146,6 +146,7 @@ export const schema = Joi.object({
   DOMAIN_PIX_ORGA: Joi.string().optional(),
   EMAIL_VALIDATION_DEMAND_TEMPORARY_STORAGE_LIFESPAN: Joi.string().optional().default('3d'),
   ENABLE_KNEX_PERFORMANCE_MONITORING: Joi.string().optional().valid('true', 'false'),
+  EXPLORE_IA_COMBINED_COURSE_IDS: Joi.array().optional(),
   FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE: Joi.string().optional().valid('true', 'false'),
   FT_ENABLE_TEXT_TO_SPEECH_BUTTON: Joi.string().optional().valid('true', 'false'),
   KNEX_ASYNC_STACKTRACE_ENABLED: Joi.string().optional().valid('true', 'false'),
@@ -361,6 +362,9 @@ export const config = {
     pixCertif: process.env.DOMAIN_PIX_CERTIF ?? 'https://certif.pix',
   },
   environment: process.env.NODE_ENV || 'development',
+  exploreIA: {
+    combinedCourseIds: process.env.EXPLORE_IA_COMBINED_COURSE_IDS,
+  },
   features: {
     dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
     dayBeforeCompetenceResetV2: _getNumber(process.env.DAY_BEFORE_COMPETENCE_RESET_V2, 7),
