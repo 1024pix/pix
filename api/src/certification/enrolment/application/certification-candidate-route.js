@@ -209,9 +209,42 @@ async function register(server) {
           }),
           payload: Joi.object({
             data: {
+              type: Joi.string().valid('certification-candidates').required(),
               attributes: {
                 'accessibility-adjustment-needed': Joi.boolean().required(),
+                'last-name': Joi.string().required(),
+                'first-name': Joi.string().required(),
+                'birth-country': Joi.string().required(),
+                'birth-city': Joi.string().allow(null).required(),
+                'birth-postal-code': Joi.string().allow(null).required(),
+                'birth-insee-code': Joi.string().allow(null).required(),
+                'external-id': Joi.string().allow(null).required(),
+                'birth-province-code': Joi.string().allow(null).required(),
+                'result-recipient-email': Joi.string().allow(null).required(),
+                'extra-time-percentage': Joi.number().allow(null).required(),
+                'billing-mode': Joi.string().required(),
+                'prepayment-code': Joi.string().allow(null).required(),
+                'is-linked': Joi.boolean().valid(false).optional(),
+                sex: Joi.string().required(),
+                email: Joi.string().allow(null),
+                birthdate: Joi.date().format('YYYY-MM-DD').raw().required().messages({
+                  'date.format': 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
+                }),
+                'organization-learner-id': Joi.number().empty(null).forbidden(),
+                subscription: Joi.string().valid(...Object.values(Frameworks)),
+                subscriptions: Joi.array()
+                  .items(
+                    Joi.object({
+                      type: Joi.string().valid(...Object.values(SUBSCRIPTION_TYPES)),
+                      complementaryCertificationKey: Joi.string()
+                        .valid(...Object.values(Frameworks))
+                        .allow(null),
+                    }),
+                  )
+                  .min(1)
+                  .max(2),
               },
+              relationships: Joi.any(),
             },
           }),
         },

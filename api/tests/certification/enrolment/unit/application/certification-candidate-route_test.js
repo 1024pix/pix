@@ -246,6 +246,30 @@ describe('Unit | Application | Sessions | Routes', function () {
 
   describe('PATCH /api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}', function () {
     const method = 'PATCH';
+    let correctAttributes;
+
+    beforeEach(function () {
+      correctAttributes = {
+        'first-name': 'prenom',
+        'last-name': 'nom',
+        birthdate: '2000-01-01',
+        'birth-city': null,
+        'birth-province-code': null,
+        'birth-country': 'FRANCE',
+        'birth-postal-code': null,
+        'birth-insee-code': '75115',
+        'accessibility-adjustment-needed': false,
+        email: 'guybrush.threepwood@example.net',
+        'result-recipient-email': 'theotherone@example.net',
+        'external-id': '44AA3355',
+        'extra-time-percentage': 0.15,
+        'organization-learner-id': null,
+        sex: 'F',
+        'billing-mode': 'FREE',
+        'prepayment-code': null,
+        subscription: Frameworks.DROIT,
+      };
+    });
 
     it('should return 204', async function () {
       // given
@@ -261,9 +285,8 @@ describe('Unit | Application | Sessions | Routes', function () {
       const url = `/api/sessions/${id}/certification-candidates/${certificationCandidateId}`;
       const payload = {
         data: {
-          attributes: {
-            'accessibility-adjustment-needed': true,
-          },
+          type: 'certification-candidates',
+          attributes: correctAttributes,
         },
       };
 
@@ -286,9 +309,8 @@ describe('Unit | Application | Sessions | Routes', function () {
         const url = `/api/sessions/${id}/certification-candidates/${certificationCandidateId}`;
         const payload = {
           data: {
-            attributes: {
-              'accessibility-adjustment-needed': true,
-            },
+            type: 'certification-candidates',
+            attributes: correctAttributes,
           },
         };
 
