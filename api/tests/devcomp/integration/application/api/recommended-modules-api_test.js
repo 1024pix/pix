@@ -42,6 +42,7 @@ describe('Integration | Devcomp | Application | Api | RecommendedModules', funct
           id: trainingId,
           moduleId: '5df14039-803b-4db4-9778-67e4b84afbbd',
           shortId: 'ecc13f55',
+          campaignParticipationId,
         }),
       ];
 

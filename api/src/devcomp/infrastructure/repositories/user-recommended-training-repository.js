@@ -35,24 +35,31 @@ const findByCampaignParticipationIdAndTrainingIdAndUserId = async function ({
   return result ? _toDomain(result) : null;
 };
 
-const findModulesByCampaignParticipationIds = async function ({ campaignParticipationIds }) {
+const findModulesByCampaignParticipationIds = async function ({
+  campaignParticipationIds,
+  isForMultipleLearners = false,
+}) {
   const knexConn = DomainTransaction.getConnection();
   const moduleLinks = await knexConn('user-recommended-trainings')
-    .select('trainings.*')
+    .select('trainings.*', 'user-recommended-trainings.campaignParticipationId as campaignParticipationId')
     .innerJoin('trainings', 'trainings.id', 'user-recommended-trainings.trainingId')
     .where({ isDisabled: false, type: 'modulix' })
     .whereIn('campaignParticipationId', campaignParticipationIds)
     .orderBy('trainings.id', 'asc');
 
   // We removed the distinct because it was extremely costly in CPU
-  const seen = new Set();
-  const uniqueModuleLinks = moduleLinks.filter((moduleLink) => {
-    if (seen.has(moduleLink.id)) return false;
-    seen.add(moduleLink.id);
-    return true;
-  });
+  if (isForMultipleLearners) {
+    return moduleLinks.map(_toDomain);
+  } else {
+    const seen = new Set();
+    const uniqueModuleLinks = moduleLinks.filter((moduleLink) => {
+      if (seen.has(moduleLink.id)) return false;
+      seen.add(moduleLink.id);
+      return true;
+    });
 
-  return uniqueModuleLinks.map(_toDomain);
+    return uniqueModuleLinks.map(_toDomain);
+  }
 };
 
 const hasRecommendedTrainings = async function ({ userId }) {

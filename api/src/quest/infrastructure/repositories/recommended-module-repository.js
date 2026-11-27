@@ -5,9 +5,14 @@ export const findIdsByTargetProfileIds = async ({ targetProfileIds, recommendedM
   return recommendedModules.map(toDomain);
 };
 
-export const findIdsByCampaignParticipationIds = async ({ campaignParticipationIds, recommendedModulesApi }) => {
+export const findIdsByCampaignParticipationIds = async ({
+  campaignParticipationIds,
+  isForMultipleLearners = false,
+  recommendedModulesApi,
+}) => {
   const userRecommendedModules = await recommendedModulesApi.findByCampaignParticipationIds({
     campaignParticipationIds,
+    isForMultipleLearners,
   });
   return userRecommendedModules.map(toDomain);
 };

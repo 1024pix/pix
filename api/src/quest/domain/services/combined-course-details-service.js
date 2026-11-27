@@ -117,52 +117,62 @@ async function getCombinedCourseDetailsForMultipleLearners({
     participationByLearnerId.has(organizationLearnerId),
   );
 
-  let eligibilitiesByLearnerId = new Map();
-  let profileRewardByUserId = new Map();
+  const resultsByLearnerId = new Map();
 
-  if (learnerIdsWithParticipation.length > 0) {
-    eligibilitiesByLearnerId = await eligibilityRepository.findByOrganizationAndOrganizationLearnerIds({
-      organizationLearnerIds: learnerIdsWithParticipation,
-      organizationId: combinedCourseDetails.organizationId,
-      moduleIds: combinedCourseDetails.moduleIds,
-    });
+  const eligibilities = await eligibilityRepository.findByOrganizationAndOrganizationLearnerIds({
+    organizationLearnerIds: learnerIdsWithParticipation,
+    organizationId: combinedCourseDetails.organizationId,
+    moduleIds: combinedCourseDetails.moduleIds,
+  });
 
-    const profileRewards = await profileRewardRepository.findByUserIdsAndRewardId({
-      rewardId: combinedCourseDetails.quest.rewardId,
-      userIds,
-    });
-    profileRewardByUserId = new Map(profileRewards.map((profileReward) => [profileReward.userId, profileReward]));
+  const profileRewards = await profileRewardRepository.findByUserIdsAndRewardId({
+    rewardId: combinedCourseDetails.quest.rewardId,
+    userIds,
+  });
+  const profileRewardByUserId = new Map(profileRewards.map((profileReward) => [profileReward.userId, profileReward]));
+
+  const dataForQuestByLearnerIds = new Map();
+
+  const campaignParticipationIdsByLearnerId = new Map();
+  const campaignParticipationIds = [];
+
+  for (const [organizationLearnerId, eligibility] of eligibilities) {
+    const dataForQuest = new DataForQuest({ eligibility });
+    dataForQuestByLearnerIds.set(organizationLearnerId, dataForQuest);
+    const ids = combinedCourseDetails.quest.findCampaignParticipationIdsContributingToQuest(dataForQuest);
+    campaignParticipationIdsByLearnerId.set(organizationLearnerId, ids);
+    campaignParticipationIds.push(...ids);
   }
 
-  const resultsByLearnerId = new Map();
+  let recommendedModulesByParticipation;
+
+  if (campaignParticipationIds.length) {
+    recommendedModulesByParticipation = await recommendedModuleRepository.findIdsByCampaignParticipationIds({
+      campaignParticipationIds,
+      isForMultipleLearners: true,
+    });
+  }
+
+  const modulesByCampaignParticipationId = Map.groupBy(
+    recommendedModulesByParticipation ?? [],
+    (module) => module.campaignParticipationId,
+  );
 
   for (const organizationLearner of organizationLearners) {
     const participation = participationByLearnerId.get(organizationLearner.id);
     const organizationLearnerData = organizationLearnerByLearnerId.get(organizationLearner.id);
-    const eligibility = eligibilitiesByLearnerId.get(organizationLearner.id);
-
-    let dataForQuest;
-    let recommendedModuleIdsForUser = [];
-
-    if (eligibility) {
-      dataForQuest = new DataForQuest({ eligibility });
-      const campaignParticipationIds =
-        combinedCourseDetails.quest.findCampaignParticipationIdsContributingToQuest(dataForQuest);
-
-      if (campaignParticipationIds.length > 0) {
-        recommendedModuleIdsForUser = await recommendedModuleRepository.findIdsByCampaignParticipationIds({
-          campaignParticipationIds,
-        });
-      }
-    }
-
+    const dataForQuestByLearnerId = dataForQuestByLearnerIds.get(organizationLearner.id);
     const profileReward = profileRewardByUserId.get(organizationLearner.userId);
+
+    const recommendedModuleIdsForUser = (campaignParticipationIdsByLearnerId.get(organizationLearner.id) ?? []).flatMap(
+      (campaignParticipationId) => modulesByCampaignParticipationId.get(campaignParticipationId) ?? [],
+    );
 
     combinedCourseDetails.setDataAndGenerateItems({
       participation,
       organizationLearner: organizationLearnerData,
       recommendedModuleIdsForUser,
-      dataForQuest,
+      dataForQuest: dataForQuestByLearnerId,
       reward: { obtainedAt: profileReward?.createdAt },
     });
 

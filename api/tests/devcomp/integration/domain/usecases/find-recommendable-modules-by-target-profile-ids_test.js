@@ -37,6 +37,7 @@ describe('DevComp | Integration | Domain | Usecases | findRecommendableModulesBy
       moduleId,
       shortId: 'ecc13f55',
       targetProfileIds: [targetProfileId1, targetProfileId2],
+      campaignParticipationId: undefined,
     });
   });
   it('it returns recommended modules for given target-profile ids when link is absolute', async function () {
@@ -69,6 +70,7 @@ describe('DevComp | Integration | Domain | Usecases | findRecommendableModulesBy
       moduleId,
       shortId: 'ecc13f55',
       targetProfileIds: [targetProfileId1],
+      campaignParticipationId: undefined,
     });
   });
   it('ignores module when its slug does not pass regex', async function () {
@@ -112,6 +114,7 @@ describe('DevComp | Integration | Domain | Usecases | findRecommendableModulesBy
       moduleId: module2Id,
       shortId: 'ecc13f55',
       targetProfileIds: [targetProfileId1],
+      campaignParticipationId: undefined,
     });
   });
 });
