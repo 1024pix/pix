@@ -106,7 +106,7 @@ export class SessionManagementPage {
     await this.page.getByLabel('Commune de naissance').fill(birthCity);
     await this.page.getByRole('button', { name: 'Tarification part Pix *' }).click();
     await this.page.getByRole('option', { name: 'Gratuite' }).click();
-    let choice;
+    let choice: string | null;
     switch (enrollFor) {
       case CERTIFICATIONS_DATA.CLEA:
         choice = 'Double Certification Pix-CléA Numérique';
@@ -121,14 +121,13 @@ export class SessionManagementPage {
         choice = 'Pix+ Professionnels de Santé';
         break;
       default:
-        choice = 'Certification Pix';
+        // "Certification Pix" (CORE) is selected by default: no need to open the select
+        choice = null;
         break;
     }
-    await this.page.getByRole('button', { name: 'Certification sélectionnée *' }).click();
-    const option = this.page.getByRole('option', { name: choice, exact: true });
-
-    if (await option?.isVisible()) {
-      await option.click();
+    if (choice) {
+      await this.page.getByRole('button', { name: 'Certification sélectionnée *' }).click();
+      await this.page.getByRole('option', { name: choice, exact: true }).click();
     }
     await this.page.getByRole('button', { name: 'Inscrire le candidat' }).click();
     if (checkForSuccess) {
