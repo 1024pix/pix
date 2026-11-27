@@ -1,7 +1,6 @@
 import t from 'ember-intl/helpers/t';
-
-import FocusIcon from './mode/focus-icon';
-import FreeIcon from './mode/free-icon';
+import FocusIcon from 'mon-pix/components/challenge/mode/focus-icon';
+import FreeIcon from 'mon-pix/components/challenge/mode/free-icon';
 
 <template>
   <div class="mode-banner {{if @isFocusedChallenge 'mode-banner--focus' 'mode-banner--free'}}">
