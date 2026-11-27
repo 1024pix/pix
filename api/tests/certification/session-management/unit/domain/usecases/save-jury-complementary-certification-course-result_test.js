@@ -9,7 +9,9 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Session-management | Unit | Domain | UseCases | save-jury-complementary-certification-course-results', function () {
   describe('#saveJuryComplementaryCertificationCourseResult', function () {
-    let complementaryCertificationCourseResultRepository;
+    let complementaryCertificationCourseResultRepository,
+      complementaryCertificationCourseRepository,
+      certificationResultAdapter;
 
     beforeEach(function () {
       complementaryCertificationCourseResultRepository = {
@@ -17,6 +19,15 @@ describe('Certification | Session-management | Unit | Domain | UseCases | save-j
         getPixSourceResultByComplementaryCertificationCourseId: sinon.stub(),
         getAllowedJuryLevelIdsByComplementaryCertificationBadgeId: sinon.stub(),
         removeExternalJuryResult: sinon.stub(),
+      };
+      complementaryCertificationCourseRepository = {
+        getCertificationCourseId: sinon.stub(),
+      };
+      complementaryCertificationCourseRepository.getCertificationCourseId
+        .withArgs({ complementaryCertificationCourseId: 1234 })
+        .resolves(5678);
+      certificationResultAdapter = {
+        updateEduV2ExternalJuryResult: sinon.stub().resolves(),
       };
     });
 
@@ -73,7 +84,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | save-j
 
       context('when the jury level is valid', function () {
         context('when the jury level is unset', function () {
-          it('should remove the external ComplementaryCertificationCourseResult', async function () {
+          it('should remove the external ComplementaryCertificationCourseResult and reset the certification result', async function () {
             // given
             complementaryCertificationCourseResultRepository.getPixSourceResultByComplementaryCertificationCourseId
               .withArgs({ complementaryCertificationCourseId: 1234 })
@@ -90,16 +101,23 @@ describe('Certification | Session-management | Unit | Domain | UseCases | save-j
               complementaryCertificationCourseId: 1234,
               juryLevel: ComplementaryCertificationCourseResult.juryOptions.UNSET,
               complementaryCertificationCourseResultRepository,
+              complementaryCertificationCourseRepository,
+              certificationResultAdapter,
             });
 
             // then
             expect(
               complementaryCertificationCourseResultRepository.removeExternalJuryResult,
             ).to.have.been.calledWithExactly({ complementaryCertificationCourseId: 1234 });
+            expect(certificationResultAdapter.updateEduV2ExternalJuryResult).to.have.been.calledOnceWithExactly({
+              certificationCourseId: 5678,
+              v2EduVoletExterneBadgeId: null,
+              v2EduVoletExterneAcquired: null,
+            });
           });
         });
 
-        it('should save the result', async function () {
+        it('should save the result and update the certification result', async function () {
           // given
           complementaryCertificationCourseResultRepository.getPixSourceResultByComplementaryCertificationCourseId
             .withArgs({ complementaryCertificationCourseId: 1234 })
@@ -120,6 +138,8 @@ describe('Certification | Session-management | Unit | Domain | UseCases | save-j
             complementaryCertificationCourseId: 1234,
             juryLevel: 99,
             complementaryCertificationCourseResultRepository,
+            complementaryCertificationCourseRepository,
+            certificationResultAdapter,
           });
 
           // then
@@ -131,6 +151,11 @@ describe('Certification | Session-management | Unit | Domain | UseCases | save-j
               complementaryCertificationCourseId: 1234,
             }),
           );
+          expect(certificationResultAdapter.updateEduV2ExternalJuryResult).to.have.been.calledOnceWithExactly({
+            certificationCourseId: 5678,
+            v2EduVoletExterneBadgeId: 99,
+            v2EduVoletExterneAcquired: true,
+          });
         });
       });
     });

@@ -7,6 +7,8 @@ import {
   CertificationResult,
   UserCertificationResult,
 } from '../../../../../../src/certification/results/domain/models/NewCertificationResult.ts';
+import { usecases } from '../../../../../../src/certification/results/domain/usecases/index.js';
+import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
@@ -136,6 +138,46 @@ describe('Certification | Results | Unit | application | api | certif results', 
             }),
           ]);
         });
+      });
+    });
+  });
+
+  describe('#updateEduV3ExternalJuryResult', function () {
+    it('calls the usecase with the given parameters', async function () {
+      // given
+      sinon.stub(usecases, 'updateEduV3ExternalJuryResult').resolves();
+
+      // when
+      await certificationResultApi.updateEduV3ExternalJuryResult({
+        certificationCourseId: 123,
+        v3EduExternalJuryResult: PIX_PLUS_EDU_EXTERNAL_LEVELS.EXPERT,
+      });
+
+      // then
+      expect(usecases.updateEduV3ExternalJuryResult).to.have.been.calledOnceWithExactly({
+        certificationCourseId: 123,
+        v3EduExternalJuryResult: PIX_PLUS_EDU_EXTERNAL_LEVELS.EXPERT,
+      });
+    });
+  });
+
+  describe('#updateEduV2ExternalJuryResult', function () {
+    it('calls the usecase with the given parameters', async function () {
+      // given
+      sinon.stub(usecases, 'updateEduV2ExternalJuryResult').resolves();
+
+      // when
+      await certificationResultApi.updateEduV2ExternalJuryResult({
+        certificationCourseId: 123,
+        v2EduVoletExterneBadgeId: 456,
+        v2EduVoletExterneAcquired: true,
+      });
+
+      // then
+      expect(usecases.updateEduV2ExternalJuryResult).to.have.been.calledOnceWithExactly({
+        certificationCourseId: 123,
+        v2EduVoletExterneBadgeId: 456,
+        v2EduVoletExterneAcquired: true,
       });
     });
   });

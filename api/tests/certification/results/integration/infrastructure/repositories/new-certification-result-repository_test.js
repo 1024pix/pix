@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { UserCertificationResult } from '../../../../../../src/certification/results/domain/models/NewCertificationResult.ts';
 import * as newCertificationResultRepository from '../../../../../../src/certification/results/infrastructure/repositories/new-certification-result-repository.js';
+import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
@@ -328,6 +329,174 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       expect(actualCertificationResults).to.have.lengthOf(0);
       const actualCertificationCompetenceResults = await knex('certification_competence_results').select('*');
       expect(actualCertificationCompetenceResults).to.have.lengthOf(0);
+    });
+  });
+
+  describe('#getByCertificationCourseId', function () {
+    it('returns the certification result of the given certification course', async function () {
+      // given
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const certificationResult = databaseBuilder.factory.buildCertificationResult({
+        competenceMarks: [
+          { competenceId: 'competenceDEF456', level: 5 },
+          { competenceId: 'competenceABC123', level: 2 },
+        ],
+      });
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: certificationResult.id,
+        certificationCourseId: certificationCourse.id,
+        userId: certificationCourse.userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundCertificationResult = await newCertificationResultRepository.getByCertificationCourseId(
+        certificationCourse.id,
+      );
+
+      // then
+      expect(foundCertificationResult).to.deep.equal(
+        domainBuilder.certification.results.buildNewCertificationResult({
+          ...certificationResult,
+          competenceMarks: [
+            { competenceId: 'competenceABC123', level: 2 },
+            { competenceId: 'competenceDEF456', level: 5 },
+          ],
+        }),
+      );
+    });
+
+    it('returns null when the certification course has no certification result', async function () {
+      // given
+      const certificationCourseWithoutResult = databaseBuilder.factory.buildCertificationCourse();
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const certificationResult = databaseBuilder.factory.buildCertificationResult();
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: certificationResult.id,
+        certificationCourseId: certificationCourse.id,
+        userId: certificationCourse.userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundCertificationResult = await newCertificationResultRepository.getByCertificationCourseId(
+        certificationCourseWithoutResult.id,
+      );
+
+      // then
+      expect(foundCertificationResult).to.be.null;
+    });
+  });
+
+  describe('#updateEduV3ExternalJuryResult', function () {
+    it('updates the external jury result and the update date', async function () {
+      // given
+      const certificationResult = databaseBuilder.factory.buildCertificationResult({
+        v3EduExternalJuryResult: null,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await newCertificationResultRepository.updateEduV3ExternalJuryResult({
+        certificationResultId: certificationResult.id,
+        newExternalJuryResult: PIX_PLUS_EDU_EXTERNAL_LEVELS.EXPERT,
+      });
+
+      // then
+      const updatedCertificationResult = await knex('certification_results')
+        .where({ id: certificationResult.id })
+        .first();
+      expect(updatedCertificationResult).to.deep.equal({
+        ...certificationResult,
+        v3EduExternalJuryResult: PIX_PLUS_EDU_EXTERNAL_LEVELS.EXPERT,
+        updatedAt: updatedCertificationResult.updatedAt,
+      });
+      expect(updatedCertificationResult.updatedAt).to.be.above(certificationResult.updatedAt);
+    });
+
+    it('resets the external jury result when given null', async function () {
+      // given
+      const certificationResult = databaseBuilder.factory.buildCertificationResult({
+        v3EduExternalJuryResult: PIX_PLUS_EDU_EXTERNAL_LEVELS.EXPERT,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await newCertificationResultRepository.updateEduV3ExternalJuryResult({
+        certificationResultId: certificationResult.id,
+        newExternalJuryResult: null,
+      });
+
+      // then
+      const updatedCertificationResult = await knex('certification_results')
+        .where({ id: certificationResult.id })
+        .first();
+      expect(updatedCertificationResult).to.deep.equal({
+        ...certificationResult,
+        v3EduExternalJuryResult: null,
+        updatedAt: updatedCertificationResult.updatedAt,
+      });
+      expect(updatedCertificationResult.updatedAt).to.be.above(certificationResult.updatedAt);
+    });
+  });
+
+  describe('#updateEduV2ExternalJuryResult', function () {
+    it('updates the external jury result and the update date', async function () {
+      // given
+      const certificationResult = databaseBuilder.factory.buildCertificationResult({
+        algorithmEngineVersion: AlgorithmEngineVersion.V2,
+        v2EduVoletExterneBadgeId: null,
+        v2EduVoletExterneAcquired: null,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await newCertificationResultRepository.updateEduV2ExternalJuryResult({
+        certificationResultId: certificationResult.id,
+        v2EduVoletExterneBadgeId: 123,
+        v2EduVoletExterneAcquired: true,
+      });
+
+      // then
+      const updatedCertificationResult = await knex('certification_results')
+        .where({ id: certificationResult.id })
+        .first();
+      expect(updatedCertificationResult).to.deep.equal({
+        ...certificationResult,
+        v2EduVoletExterneBadgeId: 123,
+        v2EduVoletExterneAcquired: true,
+        updatedAt: updatedCertificationResult.updatedAt,
+      });
+      expect(updatedCertificationResult.updatedAt).to.be.above(certificationResult.updatedAt);
+    });
+
+    it('resets the external jury result when given null values', async function () {
+      // given
+      const certificationResult = databaseBuilder.factory.buildCertificationResult({
+        algorithmEngineVersion: AlgorithmEngineVersion.V2,
+        v2EduVoletExterneBadgeId: 123,
+        v2EduVoletExterneAcquired: true,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await newCertificationResultRepository.updateEduV2ExternalJuryResult({
+        certificationResultId: certificationResult.id,
+        v2EduVoletExterneBadgeId: null,
+        v2EduVoletExterneAcquired: null,
+      });
+
+      // then
+      const updatedCertificationResult = await knex('certification_results')
+        .where({ id: certificationResult.id })
+        .first();
+      expect(updatedCertificationResult).to.deep.equal({
+        ...certificationResult,
+        v2EduVoletExterneBadgeId: null,
+        v2EduVoletExterneAcquired: null,
+        updatedAt: updatedCertificationResult.updatedAt,
+      });
+      expect(updatedCertificationResult.updatedAt).to.be.above(certificationResult.updatedAt);
     });
   });
 });

@@ -115,6 +115,7 @@ export class PixPlusDroitV3Seed {
       sessionId: V3_PUBLISHED_PIX_DROIT_SESSION,
       framework: Frameworks.DROIT,
       candidateId,
+      versionId,
     }).id;
 
     const assessmentId = this.databaseBuilder.factory.buildAssessment({

@@ -1,4 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { CertificationResult } from '../../domain/models/NewCertificationResult.ts';
 
 export async function save({ certificationResults, userCertificationResults }) {
   const knexConn = DomainTransaction.getConnection();
@@ -21,6 +22,45 @@ export async function save({ certificationResults, userCertificationResults }) {
       .batchInsert('user_certification_results', userCertificationResultsData)
       .transacting(knexConn.isTransaction ? knexConn : null);
   }
+}
+
+export async function getByCertificationCourseId(certificationCourseId) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const certificationResultDTO = await knexConn('certification_results')
+    .select('certification_results.*')
+    .join('user_certification_results', 'user_certification_results.certificationResultId', 'certification_results.id')
+    .where('user_certification_results.certificationCourseId', certificationCourseId)
+    .first();
+
+  if (!certificationResultDTO) return null;
+
+  const competenceMarks = await knexConn('certification_competence_results')
+    .select('competenceId', 'level')
+    .where({ certificationResultId: certificationResultDTO.id })
+    .orderBy('competenceId');
+
+  return toDomain({ certificationResultDTO, competenceMarks });
+}
+
+export async function updateEduV3ExternalJuryResult({ certificationResultId, newExternalJuryResult }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  await knexConn('certification_results')
+    .where('certification_results.id', certificationResultId)
+    .update({ v3EduExternalJuryResult: newExternalJuryResult, updatedAt: knexConn.fn.now() });
+}
+
+export async function updateEduV2ExternalJuryResult({
+  certificationResultId,
+  v2EduVoletExterneBadgeId,
+  v2EduVoletExterneAcquired,
+}) {
+  const knexConn = DomainTransaction.getConnection();
+
+  await knexConn('certification_results')
+    .where('certification_results.id', certificationResultId)
+    .update({ v2EduVoletExterneBadgeId, v2EduVoletExterneAcquired, updatedAt: knexConn.fn.now() });
 }
 
 function toDB({ certificationResults, userCertificationResults }) {
@@ -82,4 +122,46 @@ function toDB({ certificationResults, userCertificationResults }) {
     userCertificationResultsData,
     certificationCompetenceResultsData,
   };
+}
+
+function toDomain({ certificationResultDTO, competenceMarks }) {
+  return new CertificationResult({
+    id: certificationResultDTO.id,
+    algorithmEngineVersion: certificationResultDTO.algorithmEngineVersion,
+    firstName: certificationResultDTO.firstName,
+    middleName: certificationResultDTO.middleName,
+    thirdName: certificationResultDTO.thirdName,
+    lastName: certificationResultDTO.lastName,
+    externalId: certificationResultDTO.externalId,
+    nationalStudentId: certificationResultDTO.nationalStudentId,
+    birthdate: certificationResultDTO.birthdate,
+    birthplace: certificationResultDTO.birthplace,
+    birthPostalCode: certificationResultDTO.birthPostalCode,
+    birthINSEECode: certificationResultDTO.birthINSEECode,
+    birthCountry: certificationResultDTO.birthCountry,
+    verificationCode: certificationResultDTO.verificationCode,
+    certificationCenter: certificationResultDTO.certificationCenter,
+    startedAt: certificationResultDTO.startedAt,
+    deliveredAt: certificationResultDTO.deliveredAt,
+    status: certificationResultDTO.status,
+    framework: certificationResultDTO.framework,
+    franceCompetencesMinScore: certificationResultDTO.franceCompetencesMinScore,
+    commentByAutoJury: certificationResultDTO.commentByAutoJury,
+    commentByJury: certificationResultDTO.commentByJury,
+    commentForOrganization: certificationResultDTO.commentForOrganization,
+    commentForCandidate: certificationResultDTO.commentForCandidate,
+    results: {
+      maxReachableLevel: certificationResultDTO.maxReachableLevel,
+      reachedMeshIndex: certificationResultDTO.reachedMeshIndex,
+      pixScore: certificationResultDTO.pixScore,
+      competenceMarks,
+      v3EduExternalJuryResult: certificationResultDTO.v3EduExternalJuryResult,
+      hasAcquiredClea: certificationResultDTO.hasAcquiredClea,
+      cleaBadgeId: certificationResultDTO.cleaBadgeId,
+      v2ComplementaryVoletPixBadgeId: certificationResultDTO.v2ComplementaryVoletPixBadgeId,
+      v2ComplementaryVoletPixAcquired: certificationResultDTO.v2ComplementaryVoletPixAcquired,
+      v2EduVoletExterneBadgeId: certificationResultDTO.v2EduVoletExterneBadgeId,
+      v2EduVoletExterneAcquired: certificationResultDTO.v2EduVoletExterneAcquired,
+    },
+  });
 }

@@ -115,6 +115,7 @@ export class PixPlusEdu2ndDegreV3Seed {
       sessionId: V3_PUBLISHED_PIX_EDU_2ND_DEGRE_SESSION,
       framework: Frameworks.EDU_2ND_DEGRE,
       candidateId,
+      versionId,
     }).id;
 
     const assessmentId = this.databaseBuilder.factory.buildAssessment({

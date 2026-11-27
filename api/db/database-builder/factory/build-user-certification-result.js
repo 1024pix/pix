@@ -6,6 +6,8 @@ import { databaseBuffer } from '../database-buffer.ts';
  * @property {number} userId
  * @property {number | null} sessionId
  * @property {number | null} certificationCourseId
+ * @property {Date} createdAt
+ * @property {Date} updatedAt
  */
 
 /**
@@ -16,6 +18,8 @@ import { databaseBuffer } from '../database-buffer.ts';
  * @param {number} params.userId
  * @param {undefined | number | null} params.sessionId
  * @param {undefined | number | null} params.certificationCourseId
+ * @param {undefined | Date} params.createdAt
+ * @param {undefined | Date} params.updatedAt
  * @returns {UserCertificationResultRow}
  */
 export function buildUserCertificationResult({
@@ -24,6 +28,8 @@ export function buildUserCertificationResult({
   sessionId = null,
   certificationCourseId = null,
   organizationLearnerId = null,
+  createdAt = new Date('2022-01-01'),
+  updatedAt = new Date('2022-02-01'),
 } = {}) {
   const values = {
     certificationResultId,
@@ -31,6 +37,8 @@ export function buildUserCertificationResult({
     sessionId,
     certificationCourseId,
     organizationLearnerId,
+    createdAt,
+    updatedAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'user_certification_results',
