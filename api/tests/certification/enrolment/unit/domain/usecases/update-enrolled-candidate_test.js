@@ -10,7 +10,7 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | update-enrolled-candidate', function () {
   let candidateRepository;
-  let editedCandidate;
+  let candidate;
   let createdAt;
 
   beforeEach(function () {
@@ -19,7 +19,7 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
       update: sinon.stub(),
     };
     createdAt = new Date();
-    editedCandidate = domainBuilder.certification.enrolment.buildEditedCandidate({
+    candidate = domainBuilder.certification.enrolment.buildCandidate({
       id: 123,
       accessibilityAdjustmentNeeded: true,
     });
@@ -39,12 +39,12 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
           createdAt,
         })
         .build();
-      candidateRepository.get.withArgs({ certificationCandidateId: editedCandidate.id }).resolves(foundCandidate);
+      candidateRepository.get.withArgs({ certificationCandidateId: candidate.id }).resolves(foundCandidate);
       candidateRepository.update.resolves();
 
       // when
       await updateEnrolledCandidate({
-        editedCandidate,
+        candidate,
         candidateRepository,
       });
 
@@ -53,7 +53,7 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
         .candidateBuilder()
         .withParameters({
           ...foundCandidate,
-          accessibilityAdjustmentNeeded: editedCandidate.accessibilityAdjustmentNeeded,
+          accessibilityAdjustmentNeeded: candidate.accessibilityAdjustmentNeeded,
         })
         .build();
 
@@ -68,7 +68,7 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
 
       // when
       const error = await catchErr(updateEnrolledCandidate)({
-        editedCandidate,
+        candidate,
         candidateRepository,
       });
 
@@ -87,15 +87,15 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
           reconciledAt: new Date('2024-09-25'),
         })
         .withParameters({
-          id: editedCandidate.id,
+          id: candidate.id,
           accessibilityAdjustmentNeeded: false,
         })
         .build();
-      candidateRepository.get.withArgs({ certificationCandidateId: editedCandidate.id }).resolves(foundCandidate);
+      candidateRepository.get.withArgs({ certificationCandidateId: candidate.id }).resolves(foundCandidate);
 
       // when
       const error = await catchErr(updateEnrolledCandidate)({
-        editedCandidate,
+        candidate,
         candidateRepository,
       });
 

@@ -8,11 +8,11 @@ import { CertificationCandidateNotFoundError } from '../../../shared/domain/erro
 
 /**
  * @param {object} params
- * @param {EditedCandidate} params.editedCandidate
+ * @param {Candidate} params.candidate
  * @param {CandidateRepository} params.candidateRepository
  */
-export const updateEnrolledCandidate = withTransaction(async function ({ editedCandidate, candidateRepository }) {
-  const foundCandidate = await candidateRepository.get({ certificationCandidateId: editedCandidate.id });
+export const updateEnrolledCandidate = withTransaction(async function ({ candidate, candidateRepository }) {
+  const foundCandidate = await candidateRepository.get({ certificationCandidateId: candidate.id });
 
   if (!foundCandidate) {
     throw new CertificationCandidateNotFoundError();
@@ -22,7 +22,7 @@ export const updateEnrolledCandidate = withTransaction(async function ({ editedC
     throw new CandidateAlreadyLinkedToUserError();
   }
 
-  foundCandidate.updateAccessibilityAdjustmentNeededStatus(editedCandidate.accessibilityAdjustmentNeeded);
+  foundCandidate.updateAccessibilityAdjustmentNeededStatus(candidate.accessibilityAdjustmentNeeded);
 
   return candidateRepository.update(foundCandidate);
 });
