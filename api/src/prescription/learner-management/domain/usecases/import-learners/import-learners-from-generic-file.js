@@ -1,5 +1,4 @@
 import { DomainTransaction } from '../../../../../shared/domain/DomainTransaction.js';
-import { getDataBuffer } from '../../../../../shared/infrastructure/utils/buffer.js';
 import { GenericParser } from '../../../infrastructure/serializers/csv/parsers/generic-parser.js';
 import { AggregateImportError } from '../../errors.js';
 import { ImportOrganizationLearnerSet } from '../../models/ImportOrganizationLearnerSet.js';
@@ -11,7 +10,6 @@ const importLearnersFromGenericFile = async function ({
   organizationLearnerFilterRepository,
   organizationImportRepository,
   importStorage,
-  dependencies = { getDataBuffer },
 }) {
   const errors = [];
   const organizationImport = await organizationImportRepository.get(organizationImportId);
@@ -21,18 +19,19 @@ const importLearnersFromGenericFile = async function ({
     const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
 
     const readableStream = await importStorage.readFile({ filename: organizationImport.filename });
-    const buffer = await dependencies.getDataBuffer(readableStream);
 
-    const parser = GenericParser.buildParser({ buffer, importFormat });
-
-    const learnersData = parser.parse(organizationImport.encoding);
+    const parser = GenericParser.buildParser({ importFormat });
 
     const learnerSet = ImportOrganizationLearnerSet.buildSet({
       organizationId,
       importFormat,
     });
 
-    learnerSet.addLearners(learnersData);
+    for await (const learner of parser.parseStream({ readableStream, encoding: organizationImport.encoding })) {
+      learnerSet.addLearner(learner);
+    }
+
+    learnerSet.throwIfErrors();
 
     const existingLearners = await organizationLearnerRepository.findAllCommonLearnersFromOrganizationId({
       organizationId,

@@ -13,10 +13,8 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
     commonCsvLearnerParserStub,
     importOrganizationLearnerSetStub,
     organizationLearnerRepositoryStub,
-    dependencieStub,
     importStorageStub,
     organizationImportStub,
-    dataBuffer,
     fileEncoding,
     organizationImportId,
     organizationId,
@@ -25,7 +23,6 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
     learnerToSave,
     learnerIds,
     importFormat,
-    parsedLearners,
     existingLearners;
 
   beforeEach(function () {
@@ -33,7 +30,6 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
     organizationId = 1234;
     s3Filepath = Symbol('s3-path.csv');
     fileEncoding = Symbol('file encoding');
-    dataBuffer = Symbol('DataBuffer');
     dataStream = Symbol('DataStream');
     existingLearners = Symbol('Existing learners');
     learnerToSave = Symbol('learner to save');
@@ -41,16 +37,9 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
 
     importFormat = Symbol('OrganizationLearnerImportFormat');
 
-    parsedLearners = Symbol('parsed learners');
-
     importStorageStub = {
       readFile: sinon.stub(),
       deleteFile: sinon.stub(),
-    };
-
-    dependencieStub = {
-      createReadStream: sinon.stub(),
-      getDataBuffer: sinon.stub(),
     };
 
     organizationImportRepositoryStub = {
@@ -67,12 +56,13 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
     sinon.stub(GenericParser, 'buildParser');
 
     commonCsvLearnerParserStub = {
-      parse: sinon.stub(),
+      parseStream: sinon.stub(),
     };
 
     sinon.stub(ImportOrganizationLearnerSet, 'buildSet');
     importOrganizationLearnerSetStub = {
-      addLearners: sinon.stub(),
+      addLearner: sinon.stub(),
+      throwIfErrors: sinon.stub(),
       setExistingLearners: sinon.stub(),
       learners: {
         list: learnerToSave,
@@ -89,19 +79,23 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
       organizationId,
       process: sinon.stub(),
       filename: s3Filepath,
+      encoding: fileEncoding,
     };
     organizationImportRepositoryStub.get.withArgs(organizationImportId).resolves(organizationImportStub);
 
     // get config from feature import
     organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves(importFormat);
 
-    // read s3 && bufferize
+    // read s3
     importStorageStub.readFile.withArgs({ filename: s3Filepath }).resolves(dataStream);
-    dependencieStub.getDataBuffer.withArgs(dataStream).resolves(dataBuffer);
 
-    // parse the buffer
-    GenericParser.buildParser.withArgs({ buffer: dataBuffer, importFormat }).returns(commonCsvLearnerParserStub);
-    commonCsvLearnerParserStub.parse.withArgs(fileEncoding).returns(parsedLearners);
+    // parse the stream line by line
+    GenericParser.buildParser.withArgs({ importFormat }).returns(commonCsvLearnerParserStub);
+    commonCsvLearnerParserStub.parseStream.withArgs({ readableStream: dataStream, encoding: fileEncoding }).returns(
+      (async function* () {
+        yield* [];
+      })(),
+    );
 
     organizationLearnerRepositoryStub.findAllCommonLearnersFromOrganizationId
       .withArgs({ organizationId })
@@ -111,7 +105,6 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
     ImportOrganizationLearnerSet.buildSet
       .withArgs({ organizationId, importFormat })
       .returns(importOrganizationLearnerSetStub);
-    importOrganizationLearnerSetStub.addLearners.withArgs(parsedLearners);
   });
 
   context(' error cases', function () {
@@ -127,7 +120,6 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
         organizationImportRepository: organizationImportRepositoryStub,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
         organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
-        dependencies: dependencieStub,
       });
 
       // then
@@ -162,7 +154,6 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
           organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
-          dependencies: dependencieStub,
         });
 
         expect(organizationImportStub.process.calledOnceWithExactly({ errors: [error] }), 'organizationImport.process')
@@ -183,7 +174,6 @@ describe('Unit | UseCase | importLearnersFromGenericFile', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
           organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
-          dependencies: dependencieStub,
         });
 
         expect(

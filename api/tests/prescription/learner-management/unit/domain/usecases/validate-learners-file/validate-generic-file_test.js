@@ -8,16 +8,18 @@ import { validateGenericFile } from '../../../../../../../src/prescription/learn
 import { GenericParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/parsers/generic-parser.js';
 import { catchErr } from '../../../../../../tooling/test-utils/error.js';
 
+async function* asyncLines(...lines) {
+  yield* lines;
+}
+
 describe('Unit | UseCase | validateGenericFile', function () {
   let organizationImportRepositoryStub,
     organizationLearnerImportFormatRepositoryStub,
     importFromGenericFileJobRepositoryStub,
     commonCsvLearnerParserStub,
     importOrganizationLearnerSetStub,
-    dependenciesStub,
     importStorageStub,
     organizationImportStub,
-    dataBuffer,
     fileEncoding,
     organizationId,
     organizationImportId,
@@ -32,7 +34,6 @@ describe('Unit | UseCase | validateGenericFile', function () {
 
     fileEncoding = Symbol('file encoding');
 
-    dataBuffer = Symbol('DataBuffer');
     dataStream = Symbol('DataStream');
 
     importFormat = Symbol('importFormat');
@@ -49,11 +50,6 @@ describe('Unit | UseCase | validateGenericFile', function () {
       .withArgs(new ImportFromGenericFileJob({ organizationImportId }))
       .resolves();
 
-    dependenciesStub = {
-      createReadStream: sinon.stub(),
-      getDataBuffer: sinon.stub(),
-    };
-
     organizationImportRepositoryStub = {
       get: sinon.stub(),
       save: sinon.stub(),
@@ -62,11 +58,12 @@ describe('Unit | UseCase | validateGenericFile', function () {
     sinon.stub(GenericParser, 'buildParser');
 
     commonCsvLearnerParserStub = {
-      parse: sinon.stub(),
+      parseStream: sinon.stub(),
     };
     sinon.stub(ImportOrganizationLearnerSet, 'buildSet');
     importOrganizationLearnerSetStub = {
-      addLearners: sinon.stub(),
+      addLearner: sinon.stub(),
+      throwIfErrors: sinon.stub(),
     };
 
     organizationLearnerImportFormatRepositoryStub = {
@@ -77,31 +74,26 @@ describe('Unit | UseCase | validateGenericFile', function () {
       organizationId,
       validate: sinon.stub(),
       filename: s3Filepath,
+      encoding: fileEncoding,
     };
   });
 
   context('success cases', function () {
-    it('should validate the file', async function () {
+    it('should add each parsed line to the learner set, one by one', async function () {
       // given
-      const parsedLearners = Symbol('parsed learners');
+      const firstLine = Symbol('first line');
+      const secondLine = Symbol('second line');
 
       organizationImportRepositoryStub.get.withArgs(organizationImportId).resolves(organizationImportStub);
-
       organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves(importFormat);
-
       importStorageStub.readFile.withArgs({ filename: s3Filepath }).resolves(dataStream);
-
-      dependenciesStub.getDataBuffer.withArgs(dataStream).resolves(dataBuffer);
-
-      GenericParser.buildParser.withArgs({ buffer: dataBuffer, importFormat }).returns(commonCsvLearnerParserStub);
-
-      commonCsvLearnerParserStub.parse.withArgs(fileEncoding).returns(parsedLearners);
-
+      GenericParser.buildParser.withArgs({ importFormat }).returns(commonCsvLearnerParserStub);
       ImportOrganizationLearnerSet.buildSet
         .withArgs({ organizationId, importFormat })
         .returns(importOrganizationLearnerSetStub);
-
-      importOrganizationLearnerSetStub.addLearners.withArgs(parsedLearners);
+      commonCsvLearnerParserStub.parseStream
+        .withArgs({ readableStream: dataStream, encoding: fileEncoding })
+        .returns(asyncLines(firstLine, secondLine));
 
       // when
       await validateGenericFile({
@@ -110,7 +102,34 @@ describe('Unit | UseCase | validateGenericFile', function () {
         organizationImportRepository: organizationImportRepositoryStub,
         organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
         importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
-        dependencies: dependenciesStub,
+      });
+
+      // then
+      expect(importOrganizationLearnerSetStub.addLearner.firstCall.calledWithExactly(firstLine)).to.be.true;
+      expect(importOrganizationLearnerSetStub.addLearner.secondCall.calledWithExactly(secondLine)).to.be.true;
+      expect(importOrganizationLearnerSetStub.throwIfErrors).to.have.been.calledAfter(
+        importOrganizationLearnerSetStub.addLearner,
+      );
+    });
+
+    it('should validate the file', async function () {
+      // given
+      organizationImportRepositoryStub.get.withArgs(organizationImportId).resolves(organizationImportStub);
+      organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves(importFormat);
+      importStorageStub.readFile.withArgs({ filename: s3Filepath }).resolves(dataStream);
+      GenericParser.buildParser.withArgs({ importFormat }).returns(commonCsvLearnerParserStub);
+      ImportOrganizationLearnerSet.buildSet
+        .withArgs({ organizationId, importFormat })
+        .returns(importOrganizationLearnerSetStub);
+      commonCsvLearnerParserStub.parseStream.returns(asyncLines());
+
+      // when
+      await validateGenericFile({
+        organizationImportId,
+        importStorage: importStorageStub,
+        organizationImportRepository: organizationImportRepositoryStub,
+        organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
+        importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
       });
 
       // then
@@ -143,7 +162,6 @@ describe('Unit | UseCase | validateGenericFile', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
           importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
-          dependencies: dependenciesStub,
         });
 
         expect(validateError).to.instanceOf(AggregateImportError);
@@ -153,6 +171,67 @@ describe('Unit | UseCase | validateGenericFile', function () {
         ).to.be.true;
         expect(importStorageStub.deleteFile.calledOnceWithExactly({ filename: s3Filepath }), 'importStorage.deleteFile')
           .to.be.true;
+      });
+
+      it('should save the file errors thrown by the parser and delete file on storage', async function () {
+        // given
+        const fileErrors = [new Error('BAD_CSV_FORMAT')];
+        organizationImportRepositoryStub.get.withArgs(organizationImportId).resolves(organizationImportStub);
+        organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves(importFormat);
+        importStorageStub.readFile.withArgs({ filename: s3Filepath }).resolves(dataStream);
+        GenericParser.buildParser.withArgs({ importFormat }).returns(commonCsvLearnerParserStub);
+        ImportOrganizationLearnerSet.buildSet
+          .withArgs({ organizationId, importFormat })
+          .returns(importOrganizationLearnerSetStub);
+        commonCsvLearnerParserStub.parseStream.returns(
+          (async function* () {
+            yield Symbol('line');
+            throw fileErrors;
+          })(),
+        );
+
+        // when
+        const validateError = await catchErr(validateGenericFile)({
+          organizationImportId,
+          importStorage: importStorageStub,
+          organizationImportRepository: organizationImportRepositoryStub,
+          organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
+          importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
+        });
+
+        // then
+        expect(validateError).to.instanceOf(AggregateImportError);
+        expect(organizationImportStub.validate.calledOnceWithExactly({ errors: fileErrors })).to.be.true;
+        expect(importStorageStub.deleteFile.calledOnceWithExactly({ filename: s3Filepath })).to.be.true;
+        expect(importOrganizationLearnerSetStub.throwIfErrors).to.not.have.been.called;
+      });
+
+      it('should save the lines validation errors and delete file on storage', async function () {
+        // given
+        const lineErrors = [new Error('line 2'), new Error('line 3')];
+        organizationImportRepositoryStub.get.withArgs(organizationImportId).resolves(organizationImportStub);
+        organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves(importFormat);
+        importStorageStub.readFile.withArgs({ filename: s3Filepath }).resolves(dataStream);
+        GenericParser.buildParser.withArgs({ importFormat }).returns(commonCsvLearnerParserStub);
+        ImportOrganizationLearnerSet.buildSet
+          .withArgs({ organizationId, importFormat })
+          .returns(importOrganizationLearnerSetStub);
+        commonCsvLearnerParserStub.parseStream.returns(asyncLines());
+        importOrganizationLearnerSetStub.throwIfErrors.throws(lineErrors);
+
+        // when
+        const validateError = await catchErr(validateGenericFile)({
+          organizationImportId,
+          importStorage: importStorageStub,
+          organizationImportRepository: organizationImportRepositoryStub,
+          organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
+          importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
+        });
+
+        // then
+        expect(validateError).to.instanceOf(AggregateImportError);
+        expect(organizationImportStub.validate.calledOnceWithExactly({ errors: lineErrors })).to.be.true;
+        expect(importStorageStub.deleteFile.calledOnceWithExactly({ filename: s3Filepath })).to.be.true;
       });
 
       context('error list', function () {
@@ -170,7 +249,6 @@ describe('Unit | UseCase | validateGenericFile', function () {
             organizationImportRepository: organizationImportRepositoryStub,
             organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
             importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
-            dependencies: dependenciesStub,
           });
 
           expect(
@@ -193,7 +271,6 @@ describe('Unit | UseCase | validateGenericFile', function () {
             organizationImportRepository: organizationImportRepositoryStub,
             organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
             importFromGenericFileJobRepository: importFromGenericFileJobRepositoryStub,
-            dependencies: dependenciesStub,
           });
 
           expect(

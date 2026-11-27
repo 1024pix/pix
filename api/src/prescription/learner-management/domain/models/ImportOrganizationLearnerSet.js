@@ -19,6 +19,7 @@ class ImportOrganizationLearnerSet {
   #columnMapping;
 
   #unicityKeys;
+  #addedLinesCount = 0;
 
   #unicityColumns;
   #unicityColumnMapping;
@@ -39,7 +40,7 @@ class ImportOrganizationLearnerSet {
     this.#learners = [];
     this.#existingLearners = [];
 
-    this.#unicityKeys = new Map();
+    this.#unicityKeys = new Set();
     this.#errors = [];
     this.#constructorValidation();
 
@@ -141,18 +142,29 @@ class ImportOrganizationLearnerSet {
   }
 
   addLearners(learners) {
-    learners.forEach((learner, index) => {
-      try {
-        this.#validateRules(learner);
-        const commonOrganizationLearner = new CommonOrganizationLearner(
-          this.#lineToOrganizationLearnerAttributes(learner),
-        );
-        this.#learners.push(commonOrganizationLearner);
-      } catch (errors) {
-        this.#handleValidationError(errors, index);
-      }
-    });
+    learners.forEach((learner) => this.addLearner(learner));
 
+    this.throwIfErrors();
+  }
+
+  /**
+   * Adds a single learner line, meant to be fed one by one while a file is streamed.
+   * Validation errors are accumulated and not thrown, call `throwIfErrors` once all lines were added.
+   */
+  addLearner(learner) {
+    try {
+      this.#validateRules(learner);
+      const commonOrganizationLearner = new CommonOrganizationLearner(
+        this.#lineToOrganizationLearnerAttributes(learner),
+      );
+      this.#learners.push(commonOrganizationLearner);
+    } catch (errors) {
+      this.#handleValidationError(errors, this.#addedLinesCount);
+    }
+    this.#addedLinesCount++;
+  }
+
+  throwIfErrors() {
     if (this.#errors.length > 0) {
       throw this.#errors;
     }
@@ -210,16 +222,12 @@ class ImportOrganizationLearnerSet {
   #checkUnicityRule(learner) {
     const unicityLearnerValue = this.#getUnicityValue(learner);
     if (!this.#unicityKeys.has(unicityLearnerValue)) {
-      this.#unicityKeys.set(unicityLearnerValue, learner);
+      this.#unicityKeys.add(unicityLearnerValue);
       return null;
     } else {
-      const duplicateLearner = this.#unicityKeys.get(unicityLearnerValue);
-      if (!this.#areLearnersEqual(duplicateLearner, learner)) {
-        return ModelValidationError.unicityError({
-          key: this.#unicityColumns.join('-'),
-        });
-      }
-      return null;
+      return ModelValidationError.unicityError({
+        key: this.#unicityColumns.join('-'),
+      });
     }
   }
 
@@ -256,15 +264,6 @@ class ImportOrganizationLearnerSet {
   #getUnicityValue(learner) {
     const learnerUnicityObject = this.#getLearnerUnicityObject(learner);
     return Object.values(learnerUnicityObject).join('-');
-  }
-
-  #areLearnersEqual(learner1, learner2) {
-    for (const column of this.#columnMapping) {
-      if (learner1[column.name] !== learner2[column.name]) {
-        return false;
-      }
-    }
-    return true;
   }
 
   get filtersAvailableValues() {
