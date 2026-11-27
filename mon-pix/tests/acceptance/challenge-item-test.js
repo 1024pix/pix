@@ -9,6 +9,8 @@ import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 
+const FOCUS_INFO_ALERT = 'Attention, vous devez rester sur cette page pour répondre !';
+
 module('Acceptance | Displaying a challenge of any type', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -84,28 +86,29 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               .exists();
           });
 
-          test('should display an info alert with dashed border and overlay', async function (assert) {
+          test('should display an info alert when user leaves the focus zone', async function (assert) {
             // when
-            const focusZone = find('.focus-zone-warning');
-            await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+            const focusZone = find('[data-test="focus-zone"]');
+            const quitButton = screen.getByRole('button', { name: 'Quitter' });
+            await triggerEvent(focusZone, 'mouseleave', { relatedTarget: quitButton });
 
             // then
-            assert.dom(find('.challenge__info-alert--show')).exists();
-            assert.dom(find('.challenge__info-alert--could-show')).exists();
+            assert.dom(screen.getByText(FOCUS_INFO_ALERT)).exists();
           });
 
-          test('should display only the warning alert when it has been triggered', async function (assert) {
+          test('should hide the info alert when the warning alert is triggered', async function (assert) {
             // given
-            const focusZone = find('.focus-zone-warning');
-            await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+            const focusZone = find('[data-test="focus-zone"]');
+            const quitButton = screen.getByRole('button', { name: 'Quitter' });
+            await triggerEvent(focusZone, 'mouseleave', { relatedTarget: quitButton });
 
-            assert.dom(find('.challenge__info-alert--could-show')).exists();
+            assert.dom(screen.getByText(FOCUS_INFO_ALERT)).exists();
 
             // when
             await triggerEvent(document, 'focusedout');
 
             // then
-            assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
+            assert.dom(screen.queryByText(FOCUS_INFO_ALERT)).doesNotExist();
             assert
               .dom(
                 screen.getByText(
@@ -133,9 +136,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             await triggerEvent(challengeItem, 'mouseleave');
 
             // then
-            assert.dom('.challenge__info-alert--could-show').doesNotExist();
-            assert.dom('.challenge__focused-out-overlay').doesNotExist();
-            assert.dom('.challenge-actions__focused-out-of-window').doesNotExist();
+            assert.dom(screen.queryByText(FOCUS_INFO_ALERT)).doesNotExist();
             assert.dom(screen.getByText('Vous avez déjà répondu à cette question')).exists();
           });
         });
@@ -388,11 +389,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               .exists();
           });
 
-          test('should not display the overlay', async function (assert) {
-            // then
-            assert.dom('.challenge__overlay').doesNotExist();
-          });
-
           test('should enable input and buttons', async function (assert) {
             // then
             assert
@@ -424,9 +420,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             await triggerEvent(challengeItem, 'mouseleave');
 
             // then
-            assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
-            assert.dom(find('.challenge__focused-out-overlay')).doesNotExist();
-            assert.dom(find('.challenge-actions__focused-out-of-window')).doesNotExist();
+            assert.dom(screen.queryByText(FOCUS_INFO_ALERT)).doesNotExist();
             assert.dom(screen.getByText('Vous avez déjà répondu à cette question')).exists();
           });
         });
@@ -440,32 +434,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           await visit(`/assessments/${assessment.id}/challenges/0`);
 
           // then
-          assert.dom('.challenge__info-alert').doesNotExist();
-        });
-
-        module('when user has focused out of document', function (hooks) {
-          hooks.beforeEach(async function () {
-            // given
-            const user = server.create('user', 'withEmail');
-            await authenticate(user);
-            const challenge = server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
-            assessment = server.create('assessment', 'ofCompetenceEvaluationType', { nextChallenge: challenge });
-
-            // when
-            await visit(`/assessments/${assessment.id}/challenges/0`);
-          });
-
-          test('should not display instructions', async function (assert) {
-            // then
-            assert.dom('.focused-challenge-instructions-action__confirmation-button').doesNotExist();
-          });
-
-          test('should not display a warning alert', async function (assert) {
-            // when
-            await triggerEvent(document, 'focusedout');
-            // then
-            assert.dom('.challenge-actions__focused-out-of-window').doesNotExist();
-          });
+          assert.dom('.focus-out-alert-banner').doesNotExist();
         });
       });
     },
@@ -700,28 +669,27 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 .exists();
             });
 
-            test('should display an info alert with dashed border and overlay', async function (assert) {
+            test('should display an info alert when user leaves the focus zone', async function (assert) {
               // when
-              const focusZone = find('.focus-zone-warning');
-              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+              const focusZone = find('[data-test="focus-zone"]');
+              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: document.body });
 
               // then
-              assert.dom(find('.challenge__info-alert--show')).exists();
-              assert.dom(find('.challenge__info-alert--could-show')).exists();
+              assert.dom(screen.getByText(FOCUS_INFO_ALERT)).exists();
             });
 
-            test('should display only the warning alert when it has been triggered', async function (assert) {
+            test('should hide the info alert when the warning alert is triggered', async function (assert) {
               // given
-              const focusZone = find('.focus-zone-warning');
-              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+              const focusZone = find('[data-test="focus-zone"]');
+              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: document.body });
 
-              assert.dom(find('.challenge__info-alert--could-show')).exists();
+              assert.dom(screen.getByText(FOCUS_INFO_ALERT)).exists();
 
               // when
               await triggerEvent(document, 'focusedout');
 
               // then
-              assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
+              assert.dom(screen.queryByText(FOCUS_INFO_ALERT)).doesNotExist();
               assert
                 .dom(
                   screen.getByText(
@@ -822,36 +790,25 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 .exists();
             });
 
-            test('should display an info alert with dashed border and overlay', async function (assert) {
+            test('should display an info alert when user leaves the focus zone', async function (assert) {
               // when
-              const focusZone = find('.focus-zone-warning');
-              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+              const focusZone = find('[data-test="focus-zone"]');
+              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: document.body });
 
               // then
-              assert.dom(find('.challenge__info-alert--show')).exists();
-              assert.strictEqual(
-                screen.getAllByText(
-                  'Essayez de répondre à cette question sans vous aider d’internet ou d’applications.',
-                ).length,
-                2,
-              );
+              assert.dom(screen.getByText(FOCUS_INFO_ALERT)).exists();
             });
 
-            test('should display only the warning alert when it has been triggered', async function (assert) {
+            test('should hide the info alert when the warning alert is triggered', async function (assert) {
               // given
-              const focusZone = find('.focus-zone-warning');
-              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+              const focusZone = find('[data-test="focus-zone"]');
+              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: document.body });
 
               // when
               await triggerEvent(document, 'focusedout');
 
               // then
-              assert.strictEqual(
-                screen.getAllByText(
-                  'Essayez de répondre à cette question sans vous aider d’internet ou d’applications.',
-                ).length,
-                1,
-              );
+              assert.dom(screen.queryByText(FOCUS_INFO_ALERT)).doesNotExist();
               assert
                 .dom(
                   screen.getByText(
@@ -914,37 +871,34 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               await triggerEvent(document, 'focusedout');
 
               // then
-              assert.strictEqual(
-                screen.getAllByText('Répondez à cette question sans vous aider d’internet ou d’applications.').length,
-                1,
-              );
+              assert
+                .dom(
+                  screen.getByText(
+                    "Nous avons détecté un changement de page. Si vous avez été contraint de changer de page pour utiliser un outil d’accessibilité numérique (tel qu'un lecteur d'écran ou un clavier virtuel), répondez tout de même à la question.",
+                  ),
+                )
+                .exists();
             });
 
-            test('should display an info alert with dashed border and overlay', async function (assert) {
+            test('should display an info alert when user leaves the focus zone', async function (assert) {
               // when
-              const focusZone = find('.focus-zone-warning');
-              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+              const focusZone = find('[data-test="focus-zone"]');
+              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: document.body });
 
               // then
-              assert.strictEqual(
-                screen.getAllByText('Répondez à cette question sans vous aider d’internet ou d’applications.').length,
-                2,
-              );
+              assert.dom(screen.getByText(FOCUS_INFO_ALERT)).exists();
             });
 
-            test('should display only the warning alert when it has been triggered', async function (assert) {
+            test('should hide the info alert when the warning alert is triggered', async function (assert) {
               // given
-              const focusZone = find('.focus-zone-warning');
-              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+              const focusZone = find('[data-test="focus-zone"]');
+              await triggerEvent(focusZone, 'mouseleave', { relatedTarget: document.body });
 
               // when
               await triggerEvent(document, 'focusedout');
 
               // then
-              assert.strictEqual(
-                screen.getAllByText('Répondez à cette question sans vous aider d’internet ou d’applications.').length,
-                1,
-              );
+              assert.dom(screen.queryByText(FOCUS_INFO_ALERT)).doesNotExist();
               assert
                 .dom(
                   screen.getByText(
