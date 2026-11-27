@@ -13,21 +13,27 @@ import { sharedJobControllers } from './src/shared/jobs.js';
 import { teamJobControllers } from './src/team/jobs.js';
 
 /**
- * Every job controller and event handler the worker can run, across all bounded contexts.
+ * The job controllers and event handlers of each bounded context, keyed by the context folder under `src/`.
  * Each context lists its own in `src/<context>/jobs.js`; a controller missing from its list is never registered.
+ * The documentation of the jobs (`JOBS.md`) is generated from this map by `npm run doc:jobs`.
  */
-export const jobControllers = [
-  ...certificationEvaluationJobControllers,
-  ...certificationSessionManagementJobControllers,
-  ...dbHistoryJobControllers,
-  ...identityAccessManagementJobControllers,
-  ...learningContentJobControllers,
-  ...legalDocumentsJobControllers,
-  ...llmJobControllers,
-  ...maddoJobControllers,
-  ...campaignParticipationJobControllers,
-  ...learnerManagementJobControllers,
-  ...questJobControllers,
-  ...sharedJobControllers,
-  ...teamJobControllers,
-];
+export const jobControllersByContext = {
+  'certification/evaluation': certificationEvaluationJobControllers,
+  'certification/session-management': certificationSessionManagementJobControllers,
+  'db-history': dbHistoryJobControllers,
+  'identity-access-management': identityAccessManagementJobControllers,
+  'learning-content': learningContentJobControllers,
+  'legal-documents': legalDocumentsJobControllers,
+  llm: llmJobControllers,
+  maddo: maddoJobControllers,
+  'prescription/campaign-participation': campaignParticipationJobControllers,
+  'prescription/learner-management': learnerManagementJobControllers,
+  quest: questJobControllers,
+  shared: sharedJobControllers,
+  team: teamJobControllers,
+};
+
+/**
+ * Every job controller and event handler the worker can run, across all bounded contexts.
+ */
+export const jobControllers = Object.values(jobControllersByContext).flat();
