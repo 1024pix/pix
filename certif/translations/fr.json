@@ -101,6 +101,7 @@
     "forms": {
       "certification-labels": {
         "accessibility": "Accessibilité",
+        "accessibility-adjustment-needed": "Le candidat a besoin d’un aménagement",
         "additional-certification": "Choix de la certification",
         "candidate-status": {
           "certification-overtime": "Délai dépassé",
