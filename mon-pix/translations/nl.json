@@ -446,6 +446,9 @@
           "title": "Een probleem met de vraag melden"
         }
       },
+      "focus-out-alert-banner": {
+        "message": "Let op: je moet op deze pagina blijven om te antwoorden!"
+      },
       "mode-banner": {
         "focused": {
           "content": "Je moet op deze pagina blijven om te antwoorden.",
@@ -1291,9 +1294,6 @@
       },
       "illustration": {
         "placeholder": "Bezig met laden van de afbeelding"
-      },
-      "is-focused-challenge": {
-        "info-alert": "Let op: je moet op deze pagina blijven om te antwoorden!"
       },
       "live-alerts": {
         "companion": {

@@ -446,6 +446,9 @@
           "title": "Informar de un problema con la pregunta"
         }
       },
+      "focus-out-alert-banner": {
+        "message": "¡Atención, debes permanecer en esta página para responder!"
+      },
       "mode-banner": {
         "focused": {
           "content": "Debes permanecer en esta página para responder.",
@@ -1291,9 +1294,6 @@
       },
       "illustration": {
         "placeholder": "Cargando la imagen"
-      },
-      "is-focused-challenge": {
-        "info-alert": "¡Atención, debes permanecer en esta página para responder!"
       },
       "live-alerts": {
         "companion": {

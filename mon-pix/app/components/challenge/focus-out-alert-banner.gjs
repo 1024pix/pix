@@ -6,7 +6,7 @@ import FocusIcon from 'mon-pix/components/challenge/mode/focus-icon';
   <PixNotificationAlert @type="warning" class="focus-out-alert-banner">
     <FocusIcon />
     <span>
-      {{t "pages.challenge.is-focused-challenge.info-alert"}}
+      {{t "components.challenge.focus-out-alert-banner.message"}}
     </span>
   </PixNotificationAlert>
 </template>

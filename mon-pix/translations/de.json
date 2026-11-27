@@ -446,6 +446,9 @@
           "title": "Ein Problem mit der Frage melden"
         }
       },
+      "focus-out-alert-banner": {
+        "message": "Achtung, du musst auf dieser Seite bleiben, um zu antworten!"
+      },
       "mode-banner": {
         "focused": {
           "content": "Du musst auf dieser Seite bleiben, um zu antworten.",
@@ -1291,9 +1294,6 @@
       },
       "illustration": {
         "placeholder": "Aktuelles Bild laden"
-      },
-      "is-focused-challenge": {
-        "info-alert": "Achtung, du musst auf dieser Seite bleiben, um zu antworten!"
       },
       "live-alerts": {
         "companion": {

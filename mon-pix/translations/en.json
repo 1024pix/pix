@@ -446,6 +446,9 @@
           "title": "Report a problem with the question"
         }
       },
+      "focus-out-alert-banner": {
+        "message": "Please note: you must stay on this page to answer!"
+      },
       "mode-banner": {
         "focused": {
           "content": "You must stay on this page to answer.",
@@ -1291,9 +1294,6 @@
       },
       "illustration": {
         "placeholder": "Image loading"
-      },
-      "is-focused-challenge": {
-        "info-alert": "Please note: you must stay on this page to answer!"
       },
       "live-alerts": {
         "companion": {
