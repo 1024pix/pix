@@ -8,7 +8,7 @@ export function buildTrainings(databaseBuilder) {
     title: 'Apprendre à broder comme BenjiX',
     internalTitle: 'Apprendre à broder comme BenjiX',
     duration: '00:00:00',
-    locales: ['fr', 'fr-fr'],
+    locales: ['fr', 'fr-fr', 'fr-BE'],
     objectives: ['Repérer si l‘aiguille est de bonne qualité', 'Rechercher un canevas pour le broder'],
     description:
       "Qui ne rêve pas d'un magnifique Picsou brodé main comme décoration ? Aujourd'hui, vous pouvez devenir maître de votre fil !",
@@ -35,7 +35,7 @@ export function buildTrainings(databaseBuilder) {
     title: 'Apprendre à faire des puzzles',
     internalTitle: 'Apprendre à faire des puzzles',
     duration: '10:00:00',
-    locales: ['fr', 'fr-fr'],
+    locales: ['fr', 'fr-BE'],
     type: 'in-person-training',
     objectives: ['Repérer les pièces de puzzle pertinentes', 'Choisir le bon podcast à mettre en fond'],
     deliveryMode: Training.modes.ONSITE,
