@@ -1,64 +1,52 @@
 @use 'pix-design-tokens/typography';
 
 .new-candidate-form {
-  &__required-fields-mention {
-    @extend %pix-body-m;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-6x);
 
-    margin-bottom: var(--pix-spacing-4x);
-  }
-
-  &__field {
+  &__fields-group {
     display: flex;
+    flex-direction: column;
     gap: var(--pix-spacing-4x);
-    width: 100%;
-    margin: var(--pix-spacing-6x) 0;
+    padding: var(--pix-spacing-3x) var(--pix-spacing-6x) var(--pix-spacing-6x) var(--pix-spacing-3x);
+    background-color: var(--pix-neutral-0);
+    border-radius: var(--pix-spacing-4x);
 
-    label {
-      text-wrap: pretty;
+    .pix-input__input, .input, .pix-select-button, .pix-select_list, .pix-select__dropdown  {
+      width: fit-content;
+      min-width: 205px;
     }
 
-    .pix-input__container, button {
-      width: 248px;
-    }
-  }
+    &__title {
+      @extend %pix-title-xxs;
 
-  &__tooltip {
-    display: flex;
-    flex-wrap: wrap;
-
-    .pix-tooltip {
-      padding-left: 5px;
-      cursor: help;
+      width: 100%;
+      padding: var(--pix-spacing-1x) var(--pix-spacing-5x);
+      color: var(--pix-certif-700) ;
+      background-color:var(--pix-certif-50) ;
+      border-radius:var(--pix-spacing-2x);
     }
 
-    .pix-tooltip__content--wide {
-      width: 600px;
+    &--inline {
+      display: flex;
+      gap: var(--pix-spacing-8x);
+
+      .pix-radio-button {
+        margin-top: unset;
+      }
     }
 
-    > input {
-      width: 248px;
+    &__tooltip-label {
+      display: flex;
+      gap: var(--pix-spacing-1x)
     }
+
   }
 
   &__actions {
-    display: flex;
-    gap: var(--pix-spacing-6x);
-    align-items: flex-end;
-  }
-
-  .radio-button-container {
-    display: flex;
-    gap: var(--pix-spacing-4x);
-    align-items: center;
-
-    > div {
-      margin-top: 0;
-    }
-  }
-}
-
-.new-candidate-tooltip__icon {
-  width: 1rem;
-  height: 1rem;
-  fill: var(--pix-neutral-800);
+     display: flex;
+     gap: var(--pix-spacing-6x);
+     justify-content: flex-end;
+   }
 }

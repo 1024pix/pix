@@ -37,8 +37,18 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     await fillIn(screen.getByLabelText('Commune de naissance *'), 'Paris');
     await click(screen.getByLabelText('Tarification part Pix *'));
     await click(screen.getByText('Gratuite'));
-    await click(screen.getByLabelText('Pix+ Droit'));
-    await click(screen.getByLabelText('Certification Pix'));
+
+    await click(screen.getByLabelText('Certification sélectionnée *'));
+    await click(
+      await screen.findByRole('option', {
+        name: 'Pix+ Droit',
+      }),
+    );
+    await click(
+      await screen.findByRole('option', {
+        name: 'Certification Pix',
+      }),
+    );
     await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
     // then
@@ -96,7 +106,13 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     await fillIn(screen.getByLabelText('Commune de naissance *'), 'Paris');
     await click(screen.getByLabelText('Tarification part Pix *'));
     await click(screen.getByText('Gratuite'));
-    await click(screen.getByLabelText('Pix+ Droit'));
+
+    await click(screen.getByLabelText('Certification sélectionnée *'));
+    await click(
+      await screen.findByRole('option', {
+        name: 'Pix+ Droit',
+      }),
+    );
     await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
     // then
