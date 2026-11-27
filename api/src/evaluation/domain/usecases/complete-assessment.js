@@ -1,4 +1,6 @@
+import { scoreDiagJobRepository } from '../../infrastructure/repositories/jobs/score-diag-job-repository.js';
 import { AlreadyRatedAssessmentError } from '../errors.js';
+import { DiagCompletedJob } from '../events/ScoreDiag.js';
 
 const completeAssessment = async function ({
   assessmentId,
@@ -12,6 +14,17 @@ const completeAssessment = async function ({
       certificationCourseId: assessment.certificationCourseId,
       locale,
     });
+    return await assessmentRepository.get(assessmentId);
+  }
+
+  if (assessment.isIRT()) {
+    // todo plus tard
+    await scoreDiagJobRepository.performAsync(
+      new DiagCompletedJob({
+        assessmentId: assessment.id,
+        locale,
+      }),
+    );
     return await assessmentRepository.get(assessmentId);
   }
 
