@@ -50,6 +50,7 @@ export class JobController {
     this.jobName = jobName;
     this.description = options.description;
     this.team = options.team;
+    this.#requireDocumentation();
     this.jobGroup = options.jobGroup ?? JobGroup.DEFAULT;
     this.expireIn = options.expireIn ?? JobExpireIn.INFINITE;
     this.isDeadLetterQueueEnabled = options.isDeadLetterQueueEnabled ?? false;
@@ -67,6 +68,24 @@ export class JobController {
 
   get localConcurrency() {
     return config.pgBoss.localConcurrency;
+  }
+
+  // Developer errors, not entity validation ones: the message says which job to fix and how
+  #requireDocumentation() {
+    const job = `Job "${this.jobName}" (${this.constructor.name})`;
+    if (typeof this.description !== 'string' || this.description.trim() === '') {
+      throw new Error(
+        `${job} has no description. ` +
+          'Pass a "description" option to the JobController constructor saying what the job does and when it runs: ' +
+          'the documentation of the jobs is generated from it (npm run doc:jobs).',
+      );
+    }
+    if (!Object.values(JobTeam).includes(this.team)) {
+      throw new Error(
+        `${job} has no owner team. ` +
+          `Pass a "team" option to the JobController constructor, one of JobTeam [${Object.values(JobTeam)}].`,
+      );
+    }
   }
 
   #schema = Joi.object({

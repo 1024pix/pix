@@ -25,6 +25,54 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
     expect(error).to.be.instanceOf(EntityValidationError);
   });
 
+  it('should require a description, naming the job to fix', async function () {
+    // given
+    class UndocumentedJobController extends JobController {
+      constructor() {
+        super('UndocumentedJob');
+      }
+    }
+
+    // when
+    const error = catchErrSync(() => new UndocumentedJobController())();
+
+    // then
+    expect(error).to.be.instanceOf(Error).and.not.instanceOf(EntityValidationError);
+    expect(error.message).to.equal(
+      'Job "UndocumentedJob" (UndocumentedJobController) has no description. ' +
+        'Pass a "description" option to the JobController constructor saying what the job does and when it runs: ' +
+        'the documentation of the jobs is generated from it (npm run doc:jobs).',
+    );
+  });
+
+  it('should reject a blank description', async function () {
+    // when
+    const error = catchErrSync(() => new JobController('jobName', { description: '   ', team }))();
+
+    // then
+    expect(error.message).to.match(/^Job "jobName" \(JobController\) has no description\./);
+  });
+
+  it('should require an owner team, naming the job to fix', async function () {
+    // when
+    const error = catchErrSync(() => new JobController('jobName', { description }))();
+
+    // then
+    expect(error).to.be.instanceOf(Error).and.not.instanceOf(EntityValidationError);
+    expect(error.message).to.equal(
+      'Job "jobName" (JobController) has no owner team. ' +
+        `Pass a "team" option to the JobController constructor, one of JobTeam [${Object.values(JobTeam)}].`,
+    );
+  });
+
+  it('should reject a team outside JobTeam', async function () {
+    // when
+    const error = catchErrSync(() => new JobController('jobName', { description, team: 'team-nope' }))();
+
+    // then
+    expect(error.message).to.match(/^Job "jobName" \(JobController\) has no owner team\./);
+  });
+
   it('should require a valid job group', async function () {
     // given
     const jobGroup = 'is-invalid-group';
