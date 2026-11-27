@@ -12,6 +12,7 @@ export const startCampaignParticipation = async ({
   campaignParticipationRepository,
   competenceEvaluationRepository,
   participationStartedJobRepository,
+  creditsApi,
 }) => {
   const campaignParticipant = await campaignParticipantRepository.get({
     userId,
@@ -42,6 +43,12 @@ export const startCampaignParticipation = async ({
         knowledgeElementRepository,
       });
     }
+
+    await creditsApi.consumeCredit({
+      organizationLearnerId: createdCampaignParticipation.organizationLearnerId,
+      organizationId: campaignParticipant.campaignToStartParticipation.organizationId,
+    });
+
     return createdCampaignParticipation;
   });
 
