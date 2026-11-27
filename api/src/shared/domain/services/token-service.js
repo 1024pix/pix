@@ -6,6 +6,7 @@ import { config } from '../../../../config/config.js';
 export const tokenType = Object.freeze({
   ACCESS_TOKEN: 'at+jwt',
   REFRESH_TOKEN: 'rt+jwt',
+  JWT: 'JWT',
 });
 
 /**
@@ -50,19 +51,7 @@ function getDecodedToken(
   try {
     const decodedToken = jsonwebtoken.verify(token, secret, { complete: true, audience: expectedAudience });
 
-    const allowedTypes = [expectedType];
-    // TODO: Remove 30d after https://github.com/1024pix/pix/pull/17491 has been put to production
-    // ensure backward compatibility for older access tokens
-    if (expectedType === tokenType.ACCESS_TOKEN) {
-      allowedTypes.push('JWT');
-    }
-
-    Joi.assert(
-      decodedToken.header.typ,
-      Joi.string()
-        .valid(...allowedTypes)
-        .required(),
-    );
+    Joi.assert(decodedToken.header.typ, Joi.string().valid(expectedType).required());
 
     return decodedToken.payload;
   } catch {

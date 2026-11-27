@@ -455,7 +455,16 @@ describe('Acceptance | LTI | Route | LTI', function () {
 
       // then
       expect(response.statusCode).to.equal(302);
+
       expect(response.headers.location).to.equal(urlService.getPixAppUrl('fr-FR', { pathname: '/campagnes/ABC123' }));
+      expect(response.headers).to.have.property('set-cookie');
+      const parsedCookie = parseSetCookie(response.headers['set-cookie']);
+      expect(parsedCookie).to.contain({
+        name: 'ltiUser',
+        path: '/api/campaign-participations',
+        maxAge: ms(config.lti.ltiUserTokenLifespan) / 1000,
+      });
+      expect(parsedCookie).to.have.property('value').that.is.not.empty;
 
       const [row] = await knex('lti_campaign_participations');
       expect(row).to.deep.include({
