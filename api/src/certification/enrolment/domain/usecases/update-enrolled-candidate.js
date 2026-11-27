@@ -18,11 +18,9 @@ export const updateEnrolledCandidate = withTransaction(async function ({ candida
     throw new CertificationCandidateNotFoundError();
   }
 
-  if (foundCandidate.isReconciled()) {
+  if (foundCandidate.isReconciled() || candidate.isReconciled()) {
     throw new CandidateAlreadyLinkedToUserError();
   }
-
-  foundCandidate.updateAccessibilityAdjustmentNeededStatus(candidate.accessibilityAdjustmentNeeded);
-
-  return candidateRepository.update(foundCandidate);
+  
+  return candidateRepository.update(candidate);
 });

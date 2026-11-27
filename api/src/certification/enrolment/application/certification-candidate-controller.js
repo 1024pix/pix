@@ -37,11 +37,13 @@ async function deleteCandidate(request, h) {
 }
 
 async function updateEnrolledCandidate(request, h, dependencies = { candidateSerializer }) {
+  console.log("iiiiii")
   const candidateId = request.params.certificationCandidateId;
-
+console.log(candidateId)
   const candidate = await dependencies.candidateSerializer.deserialize(request.payload);
   candidate.id = candidateId;
 
+  console.log(candidate)
   await usecases.updateEnrolledCandidate(candidate);
 
   return h.response().code(204);
