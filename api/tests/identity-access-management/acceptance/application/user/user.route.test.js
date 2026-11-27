@@ -826,7 +826,8 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       ).to.be.true;
     });
 
-    it('returns 401 HTTP status code when user is not authenticated', async function () {
+    context('when user is not authenticated', function () {
+      it('returns 401 HTTP status code', async function () {
       // given
       databaseBuilder.factory.buildUser.withRawPassword({
         email: 'judy.howl@example.net',
