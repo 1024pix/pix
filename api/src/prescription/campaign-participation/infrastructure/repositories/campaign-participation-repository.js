@@ -129,6 +129,15 @@ const getAllCampaignParticipationsForOrganizationLearnerIds = async function ({
   return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
 };
 
+const findAllByUserId = async function ({ userId }) {
+  const knexConn = DomainTransaction.getConnection();
+  const campaignParticipations = await knexConn('campaign-participations')
+    .where({ userId })
+    .orderBy('createdAt', 'desc');
+
+  return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
+};
+
 const updateInBatchByIds = async function (campaignParticipations) {
   return await batchUpdate({
     tableName: 'campaign-participations',
@@ -361,6 +370,7 @@ async function getSharedParticipationIds(campaignId) {
 }
 
 export {
+  findAllByUserId,
   findByOrganizationLearnerIds,
   findInfoByCampaignId,
   findOneByCampaignIdAndUserId,

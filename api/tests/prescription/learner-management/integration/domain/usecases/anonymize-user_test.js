@@ -4,6 +4,30 @@ import { usecases } from '../../../../../../src/prescription/learner-management/
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 
 describe('Integration | UseCase | anonymize-user', function () {
+  it('should detach user from deleted campaign-participations', async function () {
+    const userId = databaseBuilder.factory.buildUser().id;
+    const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId }).id;
+    databaseBuilder.factory.buildCampaignParticipation({ userId, organizationLearnerId, deletedAt: new Date() });
+    await databaseBuilder.commit();
+
+    await usecases.anonymizeUser({ userId });
+
+    const participationsAfter = await knex('campaign-participations').where({ userId });
+    expect(participationsAfter).to.have.lengthOf(0);
+  });
+
+  it('should detach user from campaign-participations linked to a learner not attached to the user', async function () {
+    const userId = databaseBuilder.factory.buildUser().id;
+    const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId: null }).id;
+    databaseBuilder.factory.buildCampaignParticipation({ userId, organizationLearnerId });
+    await databaseBuilder.commit();
+
+    await usecases.anonymizeUser({ userId });
+
+    const participationsAfter = await knex('campaign-participations').where({ userId });
+    expect(participationsAfter).to.have.lengthOf(0);
+  });
+
   it('should anonymize organization-learners', async function () {
     const userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildOrganizationLearner({ userId });

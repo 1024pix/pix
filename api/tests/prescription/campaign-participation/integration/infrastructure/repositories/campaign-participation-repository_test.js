@@ -1086,6 +1086,41 @@ describe('Integration | Repository | Campaign Participation', function () {
     });
   });
 
+  describe('#findAllByUserId', function () {
+    it('returns all campaign participations of the user, including deleted ones', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const participation = databaseBuilder.factory.buildCampaignParticipation({ userId });
+      const deletedParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        deletedAt: new Date('2022-05-01'),
+      });
+      databaseBuilder.factory.buildCampaignParticipation();
+      await databaseBuilder.commit();
+
+      // when
+      const participations = await campaignParticipationRepository.findAllByUserId({ userId });
+
+      // then
+      expect(participations).to.have.lengthOf(2);
+      expect(participations[0]).to.be.instanceOf(CampaignParticipation);
+      expect(participations.map(({ id }) => id)).to.have.members([participation.id, deletedParticipation.id]);
+    });
+
+    it('returns an empty array when the user has no participation', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCampaignParticipation();
+      await databaseBuilder.commit();
+
+      // when
+      const participations = await campaignParticipationRepository.findAllByUserId({ userId });
+
+      // then
+      expect(participations).to.deep.equal([]);
+    });
+  });
+
   describe('#findInfoByCampaignId', function () {
     let campaign1;
     let campaign2;
