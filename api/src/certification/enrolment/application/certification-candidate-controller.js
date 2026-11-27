@@ -40,7 +40,7 @@ async function updateEnrolledCandidate(request, h, dependencies = { candidateSer
   const candidateId = request.params.certificationCandidateId;
 
   const candidate = await dependencies.candidateSerializer.deserialize(request.payload);
-  console.log(candidate)
+  candidate.id = candidateId;
 
   await usecases.updateEnrolledCandidate(candidate);
 
