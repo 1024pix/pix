@@ -7,6 +7,8 @@ import { CandidateTimeline } from '../../../../../src/certification/enrolment/do
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
+import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { Candidate } from '../../../../../src/certification/enrolment/domain/models/Candidate.js';
 
 describe('Unit | Controller | certification-candidate-controller', function () {
   describe('#addCandidate', function () {
@@ -147,9 +149,27 @@ describe('Unit | Controller | certification-candidate-controller', function () {
         },
         payload: {
           data: {
-            attributes: {
-              'accessibility-adjustment-needed': true,
-            },
+            type: 'certification-candidates',
+            attributes:{
+                'first-name': 'prenom',
+                'last-name': 'nom',
+                birthdate: '2000-01-01',
+                'birth-city': null,
+                'birth-province-code': null,
+                'birth-country': 'FRANCE',
+                'birth-postal-code': null,
+                'birth-insee-code': '75115',
+                'accessibility-adjustment-needed': false,
+                email: 'guybrush.threepwood@example.net',
+                'result-recipient-email': 'theotherone@example.net',
+                'external-id': '44AA3355',
+                'extra-time-percentage': 0.15,
+                'organization-learner-id': null,
+                sex: 'F',
+                'billing-mode': 'FREE',
+                'prepayment-code': null,
+                subscription: Frameworks.DROIT,
+              },
           },
         },
       };
@@ -159,12 +179,27 @@ describe('Unit | Controller | certification-candidate-controller', function () {
 
       // then
       expect(response.statusCode).to.equal(204);
-      expect(usecases.updateEnrolledCandidate).to.have.been.calledWithExactly({
-        editedCandidate: new EditedCandidate({
+      expect(usecases.updateEnrolledCandidate).to.have.been.calledWithExactly(new Candidate({
           id: 123,
-          accessibilityAdjustmentNeeded: request.payload.data.attributes['accessibility-adjustment-needed'],
-        }),
-      });
+          'firstName': 'prenom',
+          'lastName': 'nom',
+          birthdate: '2000-01-01',
+          'birthCity': null,
+          'birthProvinceCode': null,
+          'birthCountry': 'FRANCE',
+          'birthPostalCode': null,
+          'birthINSEECode': '75115',
+          'accessibilityAdjustmentNeeded': false,
+          email: 'guybrush.threepwood@example.net',
+          'resultRecipientEmail': 'theotherone@example.net',
+          'externalId': '44AA3355',
+          'extraTimePercentage': 0.15,
+          'organizationLearnerId': null,
+          sex: 'F',
+          'billingMode': 'FREE',
+          'prepaymentCode': null,
+          subscription: Frameworks.DROIT
+      }));
     });
   });
 

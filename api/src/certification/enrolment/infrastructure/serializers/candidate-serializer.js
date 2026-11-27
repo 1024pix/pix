@@ -6,6 +6,7 @@ import { EditedCandidate } from '../../domain/models/EditedCandidate.js';
 const { Deserializer, Serializer } = jsonapiSerializer;
 
 async function deserialize(json) {
+  console.log({json})
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
   const deserializedCandidate = await deserializer.deserialize(json);
   deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
