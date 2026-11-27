@@ -4,7 +4,7 @@ import iconv from 'iconv-lite';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';

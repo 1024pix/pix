@@ -6,7 +6,7 @@ import { CampaignParticipationStatuses } from '../../../../../src/prescription/s
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
-import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import {
   CampaignCombinedCourseItem,
   ModuleCombinedCourseItem,

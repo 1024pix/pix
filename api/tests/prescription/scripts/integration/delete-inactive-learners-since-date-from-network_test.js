@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { config } from '../../../../config/config.js';
 import { DeleteInactiveLearnersSinceDateFromNetworkScript } from '../../../../src/prescription/scripts/delete-inactive-learners-since-date-from-network.js';
-import { OrganizationLearnerParticipationStatuses } from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 

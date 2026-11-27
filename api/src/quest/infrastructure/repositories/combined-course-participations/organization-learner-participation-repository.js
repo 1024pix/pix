@@ -5,7 +5,7 @@ import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 
 export const findByOrganizationLearnerIdAndModuleIds = async ({ organizationLearnerId, moduleIds }) => {
   const participationById = await findByOrganizationLearnerIdsAndModuleIds({

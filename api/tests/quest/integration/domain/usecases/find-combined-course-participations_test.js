@@ -4,7 +4,7 @@ import { CombinedCourseParticipationStatuses } from '../../../../../src/prescrip
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseParticipationDetails } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseParticipationDetails.ts';
 import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
-import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 

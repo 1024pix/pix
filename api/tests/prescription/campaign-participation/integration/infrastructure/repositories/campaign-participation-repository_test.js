@@ -17,7 +17,7 @@ import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/mode
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { DomainTransaction, withTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';

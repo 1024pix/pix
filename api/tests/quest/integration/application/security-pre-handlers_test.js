@@ -9,7 +9,7 @@ import {
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/constants.js';
 import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../tooling/databases.js';

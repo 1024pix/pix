@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
 import * as eligibilityRepository from '../../../../../src/quest/infrastructure/repositories/eligibility-repository.js';
 

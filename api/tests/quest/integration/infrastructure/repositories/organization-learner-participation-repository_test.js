@@ -8,7 +8,7 @@ import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import * as organizationLearnerParticipationRepository from '../../../../../src/quest/infrastructure/repositories/combined-course-participations/organization-learner-participation-repository.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 

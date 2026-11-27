@@ -2,7 +2,7 @@ import { config } from '../../../../../config/config.js';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../../quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.ts';
 import { CampaignParticipationOverview } from '../../domain/read-models/CampaignParticipationOverview.js';

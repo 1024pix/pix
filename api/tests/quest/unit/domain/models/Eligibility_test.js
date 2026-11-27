@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
 
 describe('Quest | Unit | Domain | Models | Eligibility ', function () {

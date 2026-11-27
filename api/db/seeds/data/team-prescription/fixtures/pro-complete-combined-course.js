@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
-import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { PRO_ORGANIZATION_ID } from '../../common/constants.js';
 import { CAMPAIGN_MAXI_COMBINED_COURSE_ID } from '../constants.js';
 

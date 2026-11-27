@@ -6,7 +6,7 @@ import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 
 describe('Quest | Unit | Domain | Models | OrganizationLearnerParticipation', function () {
   describe('#buildFromPassage', function () {
@@ -28,10 +28,10 @@ describe('Quest | Unit | Domain | Models | OrganizationLearnerParticipation', fu
       expect(organizationLearnerParticipation).instanceOf(OrganizationLearnerParticipation);
       expect(organizationLearnerParticipation.id).to.equal(12);
       expect(organizationLearnerParticipation.organizationLearnerId).to.equal(15);
-      expect(organizationLearnerParticipation.createdAt).deep.to.equal(new Date('2024-01-01'));
-      expect(organizationLearnerParticipation.updatedAt).deep.to.equal(new Date('2025-01-01'));
-      expect(organizationLearnerParticipation.completedAt).deep.to.equal(new Date('2025-02-01'));
-      expect(organizationLearnerParticipation.deletedAt).deep.to.equal(new Date('2025-03-01'));
+      expect(organizationLearnerParticipation.createdAt).to.deep.equal(new Date('2024-01-01'));
+      expect(organizationLearnerParticipation.updatedAt).to.deep.equal(new Date('2025-01-01'));
+      expect(organizationLearnerParticipation.completedAt).to.deep.equal(new Date('2025-02-01'));
+      expect(organizationLearnerParticipation.deletedAt).to.deep.equal(new Date('2025-03-01'));
       expect(organizationLearnerParticipation.deletedBy).to.equal(13);
       expect(organizationLearnerParticipation.type).to.equal(OrganizationLearnerParticipationTypes.PASSAGE);
       expect(organizationLearnerParticipation.referenceId).deep.equal('abcdef-42');
@@ -88,10 +88,10 @@ describe('Quest | Unit | Domain | Models | OrganizationLearnerParticipation', fu
       expect(organizationLearnerParticipation).instanceOf(OrganizationLearnerParticipation);
       expect(organizationLearnerParticipation.id).to.equal(12);
       expect(organizationLearnerParticipation.organizationLearnerId).to.equal(15);
-      expect(organizationLearnerParticipation.createdAt).deep.to.equal(new Date('2024-01-01'));
-      expect(organizationLearnerParticipation.updatedAt).deep.to.equal(new Date('2025-01-01'));
-      expect(organizationLearnerParticipation.completedAt).deep.to.equal(new Date('2025-01-01'));
-      expect(organizationLearnerParticipation.deletedAt).deep.to.equal(new Date('2025-03-01'));
+      expect(organizationLearnerParticipation.createdAt).to.deep.equal(new Date('2024-01-01'));
+      expect(organizationLearnerParticipation.updatedAt).to.deep.equal(new Date('2025-01-01'));
+      expect(organizationLearnerParticipation.completedAt).to.deep.equal(new Date('2025-01-01'));
+      expect(organizationLearnerParticipation.deletedAt).to.deep.equal(new Date('2025-03-01'));
       expect(organizationLearnerParticipation.deletedBy).to.equal(13);
       expect(organizationLearnerParticipation.status).to.equal(OrganizationLearnerParticipationStatuses.COMPLETED);
       expect(organizationLearnerParticipation.type).to.equal(OrganizationLearnerParticipationTypes.COMBINED_COURSE);
@@ -112,7 +112,7 @@ describe('Quest | Unit | Domain | Models | OrganizationLearnerParticipation', fu
       });
 
       // then
-      expect(organizationLearnerParticipation.completedAt).null;
+      expect(organizationLearnerParticipation.completedAt).to.equal(null);
     });
   });
 

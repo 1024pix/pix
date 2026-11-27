@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { CombinedCourseParticipationStatuses } from '../../../../../prescription/shared/domain/constants.ts';
 import { EntityValidationError } from '../../../../../shared/domain/errors.js';
-import { OrganizationLearnerParticipation } from '../../combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipation } from '../../combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 
 const schema = Joi.object({
   id: Joi.number().allow(null),

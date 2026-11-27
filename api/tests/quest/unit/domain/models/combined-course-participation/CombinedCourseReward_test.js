@@ -7,7 +7,7 @@ import {
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseReward', function () {

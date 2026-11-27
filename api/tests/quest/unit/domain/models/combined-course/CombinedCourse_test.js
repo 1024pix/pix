@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { CombinedCourseParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.ts';
-import { OrganizationLearnerParticipation } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerParticipation } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { CombinedCourse } from '../../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourse', function () {

@@ -4,7 +4,7 @@ import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';

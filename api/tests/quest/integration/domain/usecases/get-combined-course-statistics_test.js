@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { CombinedCourseStatistics } from '../../../../../src/quest/domain/models/combined-courses/value-objects/CombinedCourseStatistics.ts';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';

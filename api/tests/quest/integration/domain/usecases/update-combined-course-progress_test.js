@@ -8,7 +8,7 @@ import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/
 import {
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
-} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.ts';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { repositories } from '../../../../../src/quest/infrastructure/repositories/index.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
