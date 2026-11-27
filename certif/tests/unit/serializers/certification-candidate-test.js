@@ -38,7 +38,7 @@ module('Unit | Serializer | certification-candidate', function (hooks) {
     assert.strictEqual(json.data.attributes['birth-insee-code'], '76255');
     assert.strictEqual(json.data.attributes['birth-postal-code'], '76260');
     assert.strictEqual(json.data.attributes.sex, 'F');
-    assert.false('accessibility-adjustment-needed' in json.data.attributes);
+    assert.false(json.data.attributes['accessibility-adjustment-needed']);
     assert.false('has-started-test' in json.data.attributes);
   });
 });

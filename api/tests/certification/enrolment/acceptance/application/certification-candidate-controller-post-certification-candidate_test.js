@@ -77,6 +77,7 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
               'result-recipient-email': candidate.resultRecipientEmail,
               'external-id': candidate.externalId,
               birthdate: candidate.birthdate,
+              'accessibility-adjustment-needed': candidate.accessibilityAdjustmentNeeded,
               'extra-time-percentage': candidate.extraTimePercentage,
               'birth-insee-code': candidate.birthINSEECode,
               'birth-postal-code': null,

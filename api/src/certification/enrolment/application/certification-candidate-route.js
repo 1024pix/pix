@@ -25,6 +25,7 @@ async function register(server) {
             data: {
               type: Joi.string().valid('certification-candidates').required(),
               attributes: {
+                'accessibility-adjustment-needed': Joi.boolean().required(),
                 'first-name': Joi.string().empty(['', null]).required(),
                 'last-name': Joi.string().empty(['', null]).required(),
                 'birth-city': Joi.string().empty(['', null]),

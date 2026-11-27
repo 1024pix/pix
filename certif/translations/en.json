@@ -101,6 +101,7 @@
     "forms": {
       "certification-labels": {
         "accessibility": "Accessibility",
+        "accessibility-adjustment-needed": "The candidate needs an accommodation",
         "additional-certification": "Certification selection",
         "candidate-status": {
           "certification-overtime": "Time limit reached",
@@ -142,6 +143,12 @@
       },
       "mandatory-fields": "The fields marked by '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required.",
       "required": "Required",
+      "section-labels": {
+        "accessibility": "Accessibility and accommodations",
+        "billings": "Pricing and certification",
+        "coordination": "Contact details and follow-up",
+        "personal-data": "Personal data"
+      },
       "session-labels": {
         "center-name": "Location name",
         "date": "Date",

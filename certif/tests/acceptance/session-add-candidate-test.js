@@ -122,6 +122,47 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     assert.dom(screen.getByRole('cell', { name: 'Pix+ Droit' })).exists();
   });
 
+  test('it should add a candidate with a accessibilityAdjustmentNeeded option', async function (assert) {
+    // given
+    _setupCertificationCenter({
+      server,
+      sessionId,
+      habilitations: [
+        { id: 1, label: 'Pix+ Droit', key: 'DROIT' },
+        { id: 2, label: 'CléA Numérique', key: 'CLEA' },
+      ],
+    });
+    const screen = await visit(`/sessions/${sessionId}/candidats`);
+
+    // when
+    await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
+    await fillIn(screen.getByLabelText('Nom de naissance *'), 'Quatorze');
+    await fillIn(screen.getByLabelText('Prénom *'), 'Louis');
+    await click(screen.getByLabelText('Homme'));
+    await fillIn(screen.getByLabelText('Date de naissance *'), '2000-01-01');
+    await click(screen.getByLabelText('Pays de naissance *'));
+    await click(screen.getByText('Portugal'));
+    await fillIn(screen.getByLabelText('Commune de naissance *'), 'Paris');
+    await click(screen.getByRole('checkbox', { name: 'Le candidat a besoin d’un aménagement' }));
+    await click(screen.getByLabelText('Tarification part Pix *'));
+    await click(screen.getByText('Gratuite'));
+
+    await click(screen.getByLabelText('Certification sélectionnée *'));
+    await click(
+      await screen.findByRole('option', {
+        name: 'Pix+ Droit',
+      }),
+    );
+    await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+
+    // then
+    assert.dom(screen.getByRole('cell', { name: 'Quatorze' })).exists();
+    assert.dom(screen.getByRole('cell', { name: 'Louis' })).exists();
+    assert.dom(screen.getByRole('cell', { name: '01/01/2000' })).exists();
+    assert.dom(screen.getByRole('cell', { name: 'Pix+ Droit' })).exists();
+    assert.dom(screen.getByRole('cell', { name: 'Oui' })).exists();
+  });
+
   test('it should redirect to the sessions list when the session has expired', async function (assert) {
     // given
     await _setupCertificationCenter({ server, sessionId, habilitations: [], hasExpired: true });

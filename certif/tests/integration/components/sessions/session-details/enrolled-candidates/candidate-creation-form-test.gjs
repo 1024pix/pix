@@ -90,6 +90,7 @@ module(
           subscription: 'CORE',
           billingMode: 'FREE',
           prepaymentCode: '',
+          accessibilityAdjustmentNeeded: true,
         };
 
         const saveCandidateStub = sinon.stub();
@@ -120,6 +121,12 @@ module(
         await fillIn(screen.getByLabelText('Temps majoré (%)'), candidateData.extraTimePercentage);
         await fillIn(screen.getByLabelText(/E-mail du prescripteur/), candidateData.resultRecipientEmail);
         await fillIn(screen.getByLabelText(/E-mail de convocation/), candidateData.email);
+        await click(
+          screen.getByRole('checkbox', {
+            name: `${t('common.forms.certification-labels.accessibility-adjustment-needed')}`,
+          }),
+        );
+
         await click(screen.getByRole('button', { name: `${t('common.forms.certification-labels.pricing')} *` }));
         await click(await screen.findByRole('option', { name: t('common.labels.billing-mode.free') }));
 
@@ -311,6 +318,7 @@ module(
           extraTimePercentage: '',
           sex: 'F',
           subscription: 'CORE',
+          accessibilityAdjustmentNeeded: false,
         };
 
         const saveCandidateStub = sinon.stub();

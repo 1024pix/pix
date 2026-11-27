@@ -70,6 +70,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
               'result-recipient-email': null,
               'external-id': null,
               'extra-time-percentage': null,
+              'accessibility-adjustment-needed': false,
               'billing-mode': BILLING_MODES.FREE,
               'prepayment-code': null,
               sex: 'M',

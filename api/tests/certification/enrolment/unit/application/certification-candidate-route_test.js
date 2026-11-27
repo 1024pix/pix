@@ -24,6 +24,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         'birth-country': 'FRANCE',
         'birth-postal-code': null,
         'birth-insee-code': '75115',
+        'accessibility-adjustment-needed': false,
         email: 'guybrush.threepwood@example.net',
         'result-recipient-email': 'theotherone@example.net',
         'external-id': '44AA3355',

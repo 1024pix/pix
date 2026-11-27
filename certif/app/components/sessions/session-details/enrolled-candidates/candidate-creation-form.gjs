@@ -1,6 +1,7 @@
 import {
   PixButton,
   PixButtonLink,
+  PixCheckbox,
   PixIcon,
   PixInput,
   PixLabel,
@@ -30,6 +31,7 @@ export default class CandidateCreationForm extends Component {
   @tracked isLoading = false;
   @tracked selectedBillingMode;
   @tracked selectedSubscriptionType = 'CORE';
+  @tracked isAccessibilityCheked = false;
   @tracked hasAttemptedSubmit = false;
   @tracked candidateData;
 
@@ -52,6 +54,7 @@ export default class CandidateCreationForm extends Component {
       resultRecipientEmail: '',
       extraTimePercentage: '',
       subscription: '',
+      accessibilityAdjustmentNeeded: false,
       ...billingFields,
     };
   }
@@ -167,6 +170,12 @@ export default class CandidateCreationForm extends Component {
   subscritionTypeChange(value) {
     this.selectedSubscriptionType = value;
     this.updateField('subscription', value);
+  }
+
+  @action
+  toggleAccessibilityOption() {
+    this.isAccessibilityCheked = !this.isAccessibilityCheked;
+    this.updateField('accessibilityAdjustmentNeeded', this.isAccessibilityCheked);
   }
 
   @action
@@ -422,6 +431,15 @@ export default class CandidateCreationForm extends Component {
         >
           <:label>{{t 'common.forms.certification-labels.extratime-percentage'}}</:label>
         </PixInput>
+
+        <PixCheckbox
+          @label='Aménagement d’accéssibilité numérique'
+          @subLabel="L'aménagement consiste à retirer les questions non accessibles ainsi qu'à permettre l'oralisation de l'énoncé des épreuves."
+          @checked={{this.isAccessibilityCheked}}
+          {{on 'click' this.toggleAccessibilityOption}}
+        >
+          <:label>{{t 'common.forms.certification-labels.accessibility-adjustment-needed'}}</:label>
+        </PixCheckbox>
       </fieldset>
 
       <fieldset class='new-candidate-form__fields-group'>

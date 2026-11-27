@@ -8,7 +8,6 @@ export default class CertificationCandidateSerializer extends JSONAPISerializer 
   serialize(...args) {
     const json = super.serialize(...args);
 
-    delete json.data.attributes['accessibility-adjustment-needed'];
     delete json.data.attributes['has-started-test'];
 
     return json;
