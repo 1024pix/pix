@@ -8,6 +8,7 @@ import Attestation from 'mon-pix/components/combined-course/attestation';
 import CombinedCourseItemsList from 'mon-pix/components/combined-course/combined-course-items-list';
 import Duration from 'mon-pix/components/combined-course/duration';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
+import { EVENT_NAMES } from 'mon-pix/constants/metrics-events';
 import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 
 const CompletedText = <template>
@@ -61,6 +62,7 @@ const Header = <template>
               rel="noopener noreferrer"
               @size="large"
               class="survey-button"
+              onclick={{@onSurveyClick}}
             >{{t "pages.combined-courses.completed.survey-button"}}</PixButtonLink>
           </:triggerElement>
           <:tooltip>
@@ -83,6 +85,34 @@ export default class CombinedCoursePresentation extends Component {
   @service intl;
   @service store;
   @service router;
+  @service pixMetrics;
+
+  constructor() {
+    super(...arguments);
+    if (this.isCompleted) {
+      this.pixMetrics.trackEvent(EVENT_NAMES.COMBINED_COURSE.END_DISPLAY, this.metricsProperties);
+    }
+  }
+
+  get isCompleted() {
+    return this.args.combinedCourse.status === CombinedCourseStatuses.COMPLETED;
+  }
+
+  get metricsProperties() {
+    return { combinedCourseCode: this.args.combinedCourse.code };
+  }
+
+  @action
+  trackSurveyClick() {
+    this.pixMetrics.trackEvent(EVENT_NAMES.COMBINED_COURSE.END_SURVEY_CLICK, this.metricsProperties);
+  }
+
+  @action
+  trackQuitClick() {
+    if (this.isCompleted) {
+      this.pixMetrics.trackEvent(EVENT_NAMES.COMBINED_COURSE.END_QUIT_CLICK, this.metricsProperties);
+    }
+  }
 
   @action
   async startQuestParticipation() {
@@ -121,7 +151,7 @@ export default class CombinedCoursePresentation extends Component {
   <template>
     <main class="combined-course">
       <nav class="combined-course__exit">
-        <PixButtonLink @variant="tertiary" @route="authenticated" @iconAfter="doorOpen">
+        <PixButtonLink @variant="tertiary" @route="authenticated" @iconAfter="doorOpen" onclick={{this.trackQuitClick}}>
           {{t "common.actions.quit"}}
         </PixButtonLink>
       </nav>
@@ -132,9 +162,10 @@ export default class CombinedCoursePresentation extends Component {
           @goToNextItem={{this.goToNextItem}}
           @isSurveyEnabled={{this.isSurveyEnabled}}
           @completedTextTitle={{this.completedTextTitle}}
+          @onSurveyClick={{this.trackSurveyClick}}
         />
         {{#if (eq @combinedCourse.reward.type "attestations")}}
-          <Attestation @attestation={{@combinedCourse.reward}} />
+          <Attestation @attestation={{@combinedCourse.reward}} @combinedCourseCode={{@combinedCourse.code}} />
         {{/if}}
         <hr class="combined-course__divider" />
         <article class="combined-course__content">

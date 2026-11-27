@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import CombinedCoursesPresentation from 'mon-pix/components/routes/combined-courses/presentation';
+import { EVENT_NAMES } from 'mon-pix/constants/metrics-events';
 import { CombinedCourseDurationTypes, CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import { t } from 'mon-pix/tests/helpers/setup-intl';
@@ -576,6 +577,110 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
 
       // then
       assert.notOk(document.getElementsByClassName('combined-course-header__duration')[0]);
+    });
+  });
+
+  module('metrics', function (hooks) {
+    let trackEventStub;
+
+    hooks.beforeEach(function () {
+      const pixMetrics = this.owner.lookup('service:pixMetrics');
+      trackEventStub = sinon.stub(pixMetrics, 'trackEvent');
+      const routing = this.owner.lookup('service:-routing');
+      sinon.stub(routing, 'transitionTo');
+    });
+
+    module('when participation is completed', function (hooks) {
+      hooks.beforeEach(function () {
+        const featureToggles = this.owner.lookup('service:featureToggles');
+        sinon.stub(featureToggles, 'featureToggles').value({ isSurveyEnabledForCombinedCourses: true });
+      });
+
+      function createCompletedCombinedCourse() {
+        return store.createRecord('combined-course', {
+          id: 1,
+          status: CombinedCourseStatuses.COMPLETED,
+          code: 'COMBINIX9',
+          surveyUrl: 'combinix.survey.link',
+          items: [combinedCourseItems],
+        });
+      }
+
+      test('should track end screen display with combined course code', async function (assert) {
+        // given
+        const combinedCourse = createCompletedCombinedCourse();
+
+        // when
+        await render(<template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>);
+
+        // then
+        assert.ok(
+          trackEventStub.calledOnceWithExactly(EVENT_NAMES.COMBINED_COURSE.END_DISPLAY, {
+            combinedCourseCode: 'COMBINIX9',
+          }),
+        );
+      });
+
+      test('should track survey click with combined course code', async function (assert) {
+        // given
+        const combinedCourse = createCompletedCombinedCourse();
+        const screen = await render(
+          <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
+        );
+        const link = screen.getByRole('link', { name: t('pages.combined-courses.completed.survey-button') });
+        link.addEventListener('click', (event) => event.preventDefault());
+
+        // when
+        await click(link);
+
+        // then
+        assert.ok(
+          trackEventStub.calledWithExactly(EVENT_NAMES.COMBINED_COURSE.END_SURVEY_CLICK, {
+            combinedCourseCode: 'COMBINIX9',
+          }),
+        );
+      });
+
+      test('should track quit click with combined course code', async function (assert) {
+        // given
+        const combinedCourse = createCompletedCombinedCourse();
+        const screen = await render(
+          <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
+        );
+        const link = screen.getByRole('link', { name: t('common.actions.quit') });
+
+        // when
+        await click(link);
+
+        // then
+        assert.ok(
+          trackEventStub.calledWithExactly(EVENT_NAMES.COMBINED_COURSE.END_QUIT_CLICK, {
+            combinedCourseCode: 'COMBINIX9',
+          }),
+        );
+      });
+    });
+
+    module('when participation is not completed', function () {
+      test('should not track anything on display nor on quit click', async function (assert) {
+        // given
+        const combinedCourse = store.createRecord('combined-course', {
+          id: 1,
+          status: CombinedCourseStatuses.STARTED,
+          code: 'COMBINIX9',
+          items: [combinedCourseItems],
+        });
+        const screen = await render(
+          <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
+        );
+        const link = screen.getByRole('link', { name: t('common.actions.quit') });
+
+        // when
+        await click(link);
+
+        // then
+        assert.ok(trackEventStub.notCalled);
+      });
     });
   });
 });
