@@ -828,29 +828,30 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     context('when user is not authenticated', function () {
       it('returns 401 HTTP status code', async function () {
-      // given
-      databaseBuilder.factory.buildUser.withRawPassword({
-        email: 'judy.howl@example.net',
-        rawPassword: currentPassword,
+        // given
+        databaseBuilder.factory.buildUser.withRawPassword({
+          email: 'judy.howl@example.net',
+          rawPassword: currentPassword,
+        });
+        await databaseBuilder.commit();
+
+        const payload = {
+          'current-password': currentPassword,
+          'new-password': newPassword,
+        };
+
+        const options = {
+          method: 'POST',
+          url: '/api/users/me/password',
+          payload,
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
       });
-      await databaseBuilder.commit();
-
-      const payload = {
-        'current-password': currentPassword,
-        'new-password': newPassword,
-      };
-
-      const options = {
-        method: 'POST',
-        url: '/api/users/me/password',
-        payload,
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(401);
     });
   });
 });
