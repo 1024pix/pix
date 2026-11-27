@@ -131,6 +131,56 @@ export const ltiService = {
     );
   },
 
+  /**
+   * Requests an access token to the platform of the registration (OAuth 2 client credentials grant),
+   * for the given scope (AGS line items, scores...).
+   *
+   * @param {object} args
+   * @param {string} args.scope
+   * @param {import('../models/LtiPlatformRegistration.js').LtiPlatformRegistration} args.registration with its platform OpenID configuration fetched
+   * @returns {Promise<{ token_type: string, access_token: string }|null>} null when the platform does not deliver an access token
+   */
+  async getAccessToken({ scope, registration }, dependencies = { cryptoService }) {
+    const privateKey = {
+      format: 'jwk',
+      key: JSON.parse(await dependencies.cryptoService.decrypt(registration.encryptedPrivateKey)),
+    };
+
+    const client_assertion = jsonwebtoken.sign(
+      {
+        iss: registration.platformIssuer,
+        sub: registration.clientId,
+        aud: registration.platformOpenIdConfig.token_endpoint,
+      },
+      privateKey,
+      {
+        expiresIn: 3600,
+        algorithm: 'RS256',
+        keyid: registration.publicKey.kid,
+      },
+    );
+
+    const res = await fetch(registration.platformOpenIdConfig.token_endpoint, {
+      method: 'POST',
+      body: new URLSearchParams({
+        grant_type: 'client_credentials',
+        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+        client_assertion,
+        scope,
+      }),
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    if (!res.ok) {
+      logger.error({ status: res.status, err: await res.text() }, 'could not get access token');
+      return null;
+    }
+
+    return res.json();
+  },
+
   deserializeDeepLinkingCustomClaims(customClaims) {
     return {
       organizationExternalIds:

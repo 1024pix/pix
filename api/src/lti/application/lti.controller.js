@@ -3,15 +3,13 @@ import { createPublicKey } from 'node:crypto';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { BadRequestError } from '../../shared/application/errors/http-errors.js';
-import { cryptoService } from '../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { getI18nFromRequest } from '../../shared/infrastructure/i18n/i18n.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin, RequestedApplication } from '../../shared/infrastructure/utils/network.js';
-import { LtiLineItemsInitializationError } from '../domain/errors.js';
+import { LtiCampaignNotFoundError, LtiLineItemsInitializationError } from '../domain/errors.js';
 import { LtiDeepLinkingAccessToken } from '../domain/models/LtiDeepLinkingAccessToken.js';
-import { ltiScoringService } from '../domain/services/lti.scoring.service.js';
 import { ltiService } from '../domain/services/lti.service.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
@@ -22,8 +20,6 @@ import { ltiRegistrationSerializer } from '../infrastructure/serializers/html/lt
 import { ltiCampaignSerializer } from '../infrastructure/serializers/jsonapi/lti-campaign-serializer.js';
 
 const logger = child('lti:controller', { event: SCOPES.LTI });
-
-const LINE_ITEM_SCOPE = 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem';
 
 async function listPublicKeys(request, h, dependencies = { listLtiPublicKeys: usecases.listLtiPublicKeys }) {
   const publicKeys = await dependencies.listLtiPublicKeys();
@@ -204,11 +200,7 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
   }
 }
 
-async function resourceLink(
-  request,
-  h,
-  dependencies = { urlService, ltiScoringService, startLtiCampaign: usecases.startLtiCampaign },
-) {
+async function resourceLink(request, h, dependencies = { urlService, startLtiCampaign: usecases.startLtiCampaign }) {
   const { verifiedToken, registration } = await preLaunch(request);
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
@@ -217,41 +209,26 @@ async function resourceLink(
   }
 
   const campaignId = Number(verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom']?.campaign_id);
-  const campaign = Number.isInteger(campaignId) ? await usecases.getLtiCampaign({ campaignId }) : null;
 
-  if (!campaign) {
-    logger.warn({ campaignId }, 'unknown campaign');
-    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
-  }
-
-  const accessToken = await getAccessToken(LINE_ITEM_SCOPE, registration);
-  if (!accessToken) {
-    logger.error({ campaignId }, 'could not get access token to initialize line items');
-    return launchErrorResponse(h);
-  }
-
-  const lineItemsUrl = verifiedToken['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint']?.lineitems;
-
+  let campaign;
   try {
-    await dependencies.ltiScoringService.initializeLineItems({
-      lineItemsUrl,
+    campaign = await dependencies.startLtiCampaign({
+      campaignId,
+      lineItemsUrl: verifiedToken['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint']?.lineitems,
       resourceLinkId: verifiedToken['https://purl.imsglobal.org/spec/lti/claim/resource_link']?.id,
-      campaign,
-      accessToken,
+      registration,
+      platformUserSub: verifiedToken.sub,
     });
   } catch (err) {
+    if (err instanceof LtiCampaignNotFoundError) {
+      logger.warn({ campaignId }, 'unknown campaign');
+      throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
+    }
     if (!(err instanceof LtiLineItemsInitializationError)) throw err;
 
     logger.error({ campaignId, err }, 'could not initialize line items');
     return launchErrorResponse(h);
   }
-
-  await dependencies.startLtiCampaign({
-    clientId: registration.clientId,
-    platformUserSub: verifiedToken.sub,
-    lineItemContainerUrl: lineItemsUrl,
-    campaignId: campaign.id,
-  });
 
   const locale = 'fr-FR'; // TODO: Generate this dynamically
 
@@ -312,45 +289,4 @@ function launchErrorResponse(h) {
     .response(ltiErrorSerializer.serialize({ title: 'Launch error', message: 'Please contact your administrator' }))
     .header('Content-Type', 'text/html; charset=utf-8')
     .code(502);
-}
-
-async function getAccessToken(scope, registration, dependencies = { cryptoService }) {
-  const privateKey = {
-    format: 'jwk',
-    key: JSON.parse(await dependencies.cryptoService.decrypt(registration.encryptedPrivateKey)),
-  };
-
-  const client_assertion = jsonwebtoken.sign(
-    {
-      iss: registration.platformIssuer,
-      sub: registration.clientId,
-      aud: registration.platformOpenIdConfig.token_endpoint,
-    },
-    privateKey,
-    {
-      expiresIn: 3600,
-      algorithm: 'RS256',
-      keyid: registration.publicKey.kid,
-    },
-  );
-
-  const res = await fetch(registration.platformOpenIdConfig.token_endpoint, {
-    method: 'POST',
-    body: new URLSearchParams({
-      grant_type: 'client_credentials',
-      client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-      client_assertion,
-      scope,
-    }),
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
-    },
-  });
-
-  if (!res.ok) {
-    logger.error({ status: res.status, err: await res.text() }, 'could not get access token');
-    return null;
-  }
-
-  return res.json();
 }

@@ -1,4 +1,7 @@
+import { createPublicKey } from 'node:crypto';
+
 import { expect } from 'chai';
+import jsonwebtoken from 'jsonwebtoken';
 import nock from 'nock';
 
 import { InvalidLtiPlatformRegistrationError } from '../../../../../src/lti/domain/errors.js';
@@ -212,6 +215,66 @@ describe('Integration | LTI | Domain | Services | LTI', function () {
 
         // then
         expect(pixToolConfiguration).to.deep.equal(expectedPixToolConfiguration);
+      });
+    });
+  });
+
+  describe('getAccessToken', function () {
+    const scope = 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem';
+    let registration;
+
+    beforeEach(function () {
+      registration = domainBuilder.lti.buildLtiPlatformRegistration({
+        platform: domainBuilder.lti.buildLtiPlatform({ issuer: 'https://moodle.example.net' }),
+      });
+      registration.platformOpenIdConfig = { token_endpoint: 'https://moodle.example.net/mod/lti/token.php' };
+    });
+
+    it('requests an access token to the platform with a client assertion signed with the tool key', async function () {
+      // given
+      let requestBody;
+      nock('https://moodle.example.net')
+        .post('/mod/lti/token.php', (body) => {
+          requestBody = body;
+          return true;
+        })
+        .reply(200, { token_type: 'Bearer', access_token: 'platform-access-token', expires_in: 3600 });
+
+      // when
+      const accessToken = await ltiService.getAccessToken({ scope, registration });
+
+      // then
+      expect(accessToken).to.deep.equal({
+        token_type: 'Bearer',
+        access_token: 'platform-access-token',
+        expires_in: 3600,
+      });
+      expect(requestBody).to.include({
+        grant_type: 'client_credentials',
+        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+        scope,
+      });
+      const clientAssertion = jsonwebtoken.verify(
+        requestBody.client_assertion,
+        createPublicKey({ key: registration.publicKey, format: 'jwk' }),
+      );
+      expect(clientAssertion).to.include({
+        iss: 'https://moodle.example.net',
+        sub: registration.clientId,
+        aud: 'https://moodle.example.net/mod/lti/token.php',
+      });
+    });
+
+    describe('when the platform does not deliver an access token', function () {
+      it('returns null', async function () {
+        // given
+        nock('https://moodle.example.net').post('/mod/lti/token.php').reply(401, 'invalid client');
+
+        // when
+        const accessToken = await ltiService.getAccessToken({ scope, registration });
+
+        // then
+        expect(accessToken).to.be.null;
       });
     });
   });
