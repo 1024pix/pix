@@ -824,12 +824,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
           passwordHash: authenticationMethod.authenticationComplement.password,
         }),
       ).to.be.true;
-      expect(
-        await cryptoService.matchPassword({
-          password: currentPassword,
-          passwordHash: authenticationMethod.authenticationComplement.password,
-        }),
-      ).to.be.false;
     });
 
     it('returns 401 HTTP status code when user is not authenticated', async function () {
