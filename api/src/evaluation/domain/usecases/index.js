@@ -1,3 +1,7 @@
+import * as versionRepository from '../../../certification/configuration/infrastructure/repositories/version-repository.js';
+import * as flashAlgorithmService from '../../../certification/evaluation/domain/services/algorithm-methods/flash.js';
+import * as calibratedChallengeRepository from '../../../certification/evaluation/infrastructure/repositories/calibrated-challenge-repository.js';
+import * as scoringConfigurationRepository from '../../../certification/evaluation/infrastructure/repositories/scoring-configuration-repository.js';
 import * as complementaryCertificationBadgeRepository from '../../../evaluation/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as llmApi from '../../../llm/application/api/llm-api.js';
 import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
@@ -58,6 +62,7 @@ import { saveAndCorrectAnswerForCompetenceEvaluation } from './save-and-correct-
 import { saveAndCorrectAnswerForDemoAndPreview } from './save-and-correct-answer-for-demo-and-preview.js';
 import { saveAutonomousCourse } from './save-autonomous-course.js';
 import { saveFeedback } from './save-feedback.js';
+import { scoreDiagAssessment } from './score-diag-assessment.js';
 import { startEmbedLlmChat } from './start-embed-llm-chat.js';
 import { startOrResumeCompetenceEvaluation } from './start-or-resume-competence-evaluation.js';
 import { updateAssessmentWithNextChallenge } from './update-assessment-with-next-challenge.js';
@@ -99,11 +104,15 @@ const dependencies = {
   scorecardService,
   skillRepository,
   smartRandomService,
+  flashAlgorithmService,
   targetProfileAdministrationRepository,
   targetProfileRepository,
   userRepository: repositories.userRepository,
   knowledgeElementForParticipationService,
   challengeToPlayRepository,
+  versionRepository,
+  scoringConfigurationRepository,
+  calibratedChallengeRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -142,6 +151,7 @@ const usecasesWithoutInjectedDependencies = {
   updateBadgeCriterion,
   updateBadge,
   updateLastQuestionState,
+  scoreDiagAssessment,
 };
 
 const evaluationUsecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
