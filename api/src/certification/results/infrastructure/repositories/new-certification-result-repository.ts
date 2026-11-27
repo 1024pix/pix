@@ -143,6 +143,18 @@ export async function updateEduV2ExternalJuryResult({
     .update({ v2EduVoletExterneBadgeId, v2EduVoletExterneAcquired, updatedAt: knexConn.fn.now() });
 }
 
+export async function detachUser(userId: number): Promise<void> {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('user_certification_results').where({ userId }).update({ userId: null, updatedAt: knexConn.fn.now() });
+}
+
+export async function detachOrganizationLearners(organizationLearnerIds: number[]): Promise<void> {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('user_certification_results')
+    .whereIn('organizationLearnerId', organizationLearnerIds)
+    .update({ organizationLearnerId: null, updatedAt: knexConn.fn.now() });
+}
+
 function toDB({ certificationResults, userCertificationResults }: SaveParams) {
   const certificationResultsData = certificationResults.map((certificationResult) => {
     const results: ResultsColumns = certificationResult.results;

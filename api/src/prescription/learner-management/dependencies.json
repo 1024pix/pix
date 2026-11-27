@@ -12,5 +12,6 @@
     "shared",
     "team"
   ],
+  "dependsOnViaApi": ["certification/results"],
   "circular": "temporary-allowed"
 }

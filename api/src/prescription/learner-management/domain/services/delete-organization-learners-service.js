@@ -25,6 +25,7 @@ export const deleteOrganizationLearnersService = async function ({
   auditLoggingJobRepository,
   userRecommendedTrainingRepository,
   organizationsProfileRewardRepository,
+  certificationResultRepository,
 }) {
   if (organizationLearners.length === 0) {
     return;
@@ -102,6 +103,9 @@ export const deleteOrganizationLearnersService = async function ({
     await organizationsProfileRewardRepository.removeInBatch(organizationProfileRewardsToUpdate);
     await userRecommendedTrainingRepository.deleteCampaignParticipationIds({
       campaignParticipationIds: allCampaignParticipationIds,
+    });
+    await certificationResultRepository.detachOrganizationLearners({
+      organizationLearnerIds: computedOrganizationLearnerIds,
     });
   });
 

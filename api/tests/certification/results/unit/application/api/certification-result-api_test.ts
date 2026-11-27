@@ -216,6 +216,28 @@ describe('Certification | Results | Unit | application | api | certif results', 
       });
     });
   });
+
+  describe('#detachOrganizationLearners', function () {
+    it('removes the link between the organization learners and their certification results', async function () {
+      // given
+      const organizationLearnerIds = [12, 34];
+      const newCertificationResultRepository = {
+        detachOrganizationLearners: sinon.stub<[number[]], Promise<void>>().resolves(),
+      };
+
+      // when
+      await certificationResultApi.detachOrganizationLearners({
+        organizationLearnerIds,
+        dependencies: { newCertificationResultRepository },
+      });
+
+      // then
+      sinon.assert.calledOnceWithExactly(
+        newCertificationResultRepository.detachOrganizationLearners,
+        organizationLearnerIds,
+      );
+    });
+  });
 });
 
 function buildSourceData(certificationData: CertificationDataProps[]): CertificationResultSourceData {

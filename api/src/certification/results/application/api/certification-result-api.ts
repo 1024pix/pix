@@ -85,3 +85,15 @@ export async function updateEduV2ExternalJuryResult({
     v2EduVoletExterneAcquired,
   });
 }
+
+export async function detachOrganizationLearners({
+  organizationLearnerIds,
+  dependencies = { newCertificationResultRepository },
+}: {
+  organizationLearnerIds: number[];
+  dependencies?: {
+    newCertificationResultRepository: Pick<NewCertificationResultRepository, 'detachOrganizationLearners'>;
+  };
+}): Promise<void> {
+  await dependencies.newCertificationResultRepository.detachOrganizationLearners(organizationLearnerIds);
+}

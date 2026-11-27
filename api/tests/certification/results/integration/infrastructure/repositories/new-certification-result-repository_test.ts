@@ -561,6 +561,107 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       expect(updatedCertificationResult.updatedAt).to.be.above(certificationResult.updatedAt);
     });
   });
+
+  describe('#detachUser', function () {
+    type UserCertificationResultRow = { certificationResultId: string; userId: number | null; updatedAt: Date };
+
+    it('removes the link to the given user from all of their certification results', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+      const userResultId1 = databaseBuilder.factory.buildCertificationResult().id;
+      const userResultId2 = databaseBuilder.factory.buildCertificationResult().id;
+      const otherUserResultId = databaseBuilder.factory.buildCertificationResult().id;
+      databaseBuilder.factory.buildUserCertificationResult({ certificationResultId: userResultId1, userId });
+      databaseBuilder.factory.buildUserCertificationResult({ certificationResultId: userResultId2, userId });
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: otherUserResultId,
+        userId: otherUserId,
+      });
+      await databaseBuilder.commit();
+      const previousUpdatedAt = new Date('2020-01-01T00:00:00Z');
+      await knexConn('user_certification_results').update({ updatedAt: previousUpdatedAt });
+
+      // when
+      await newCertificationResultRepository.detachUser(userId);
+
+      // then
+      const userCertificationResults = await knexConn<UserCertificationResultRow>('user_certification_results')
+        .select('certificationResultId', 'userId', 'updatedAt')
+        .whereIn('certificationResultId', [userResultId1, userResultId2]);
+      expect(
+        userCertificationResults.map(({ certificationResultId, userId }) => ({ certificationResultId, userId })),
+      ).to.have.deep.members([
+        { certificationResultId: userResultId1, userId: null },
+        { certificationResultId: userResultId2, userId: null },
+      ]);
+      userCertificationResults.forEach(({ updatedAt }) => expect(updatedAt).to.be.greaterThan(previousUpdatedAt));
+      const otherUserCertificationResult = await knexConn<UserCertificationResultRow>('user_certification_results')
+        .select('userId', 'updatedAt')
+        .where({ certificationResultId: otherUserResultId })
+        .first();
+      expect(otherUserCertificationResult).to.deep.equal({ userId: otherUserId, updatedAt: previousUpdatedAt });
+    });
+  });
+
+  describe('#detachOrganizationLearners', function () {
+    type UserCertificationResultRow = {
+      certificationResultId: string;
+      organizationLearnerId: number | null;
+      updatedAt: Date;
+    };
+
+    it('removes the link to the given organization learners from their certification results', async function () {
+      // given
+      const learnerId1 = databaseBuilder.factory.buildOrganizationLearner().id;
+      const learnerId2 = databaseBuilder.factory.buildOrganizationLearner().id;
+      const otherLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+      const learner1ResultId = databaseBuilder.factory.buildCertificationResult().id;
+      const learner2ResultId = databaseBuilder.factory.buildCertificationResult().id;
+      const otherLearnerResultId = databaseBuilder.factory.buildCertificationResult().id;
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: learner1ResultId,
+        organizationLearnerId: learnerId1,
+      });
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: learner2ResultId,
+        organizationLearnerId: learnerId2,
+      });
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: otherLearnerResultId,
+        organizationLearnerId: otherLearnerId,
+      });
+      await databaseBuilder.commit();
+      const previousUpdatedAt = new Date('2020-01-01T00:00:00Z');
+      await knexConn('user_certification_results').update({ updatedAt: previousUpdatedAt });
+
+      // when
+      await newCertificationResultRepository.detachOrganizationLearners([learnerId1, learnerId2]);
+
+      // then
+      const detachedResults = await knexConn<UserCertificationResultRow>('user_certification_results')
+        .select('certificationResultId', 'organizationLearnerId', 'updatedAt')
+        .whereIn('certificationResultId', [learner1ResultId, learner2ResultId]);
+      expect(
+        detachedResults.map(({ certificationResultId, organizationLearnerId }) => ({
+          certificationResultId,
+          organizationLearnerId,
+        })),
+      ).to.have.deep.members([
+        { certificationResultId: learner1ResultId, organizationLearnerId: null },
+        { certificationResultId: learner2ResultId, organizationLearnerId: null },
+      ]);
+      detachedResults.forEach(({ updatedAt }) => expect(updatedAt).to.be.greaterThan(previousUpdatedAt));
+      const otherLearnerResult = await knexConn<UserCertificationResultRow>('user_certification_results')
+        .select('organizationLearnerId', 'updatedAt')
+        .where({ certificationResultId: otherLearnerResultId })
+        .first();
+      expect(otherLearnerResult).to.deep.equal({
+        organizationLearnerId: otherLearnerId,
+        updatedAt: previousUpdatedAt,
+      });
+    });
+  });
 });
 
 function buildResultInSession(sessionId: number): string {

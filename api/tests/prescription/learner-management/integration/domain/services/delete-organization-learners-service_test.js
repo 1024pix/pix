@@ -568,4 +568,40 @@ describe('Integration | Services | Organization Learners Management | Delete Org
       expect(userRecommendedTrainingAnonymized.campaignParticipationId).to.be.null;
     });
   });
+
+  context('when there are certification results linked to learners', function () {
+    it('should detach the deleted learners from their certification results', async function () {
+      // given
+      const learnerCertificationResultId = databaseBuilder.factory.buildCertificationResult().id;
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: learnerCertificationResultId,
+        organizationLearnerId: organizationLearner1.id,
+      });
+      const otherLearnerCertificationResultId = databaseBuilder.factory.buildCertificationResult().id;
+      databaseBuilder.factory.buildUserCertificationResult({
+        certificationResultId: otherLearnerCertificationResultId,
+        organizationLearnerId: organizationLearner2.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await services.deleteOrganizationLearnersService({
+        organizationLearners: [organizationLearner1],
+        userId: adminUserId,
+        organizationId,
+        userRole: 'ORGA_ADMIN',
+        client: 'PIX_ORGA',
+      });
+
+      // then
+      const userCertificationResults = await knex('user_certification_results').select(
+        'certificationResultId',
+        'organizationLearnerId',
+      );
+      expect(userCertificationResults).to.have.deep.members([
+        { certificationResultId: learnerCertificationResultId, organizationLearnerId: null },
+        { certificationResultId: otherLearnerCertificationResultId, organizationLearnerId: organizationLearner2.id },
+      ]);
+    });
+  });
 });

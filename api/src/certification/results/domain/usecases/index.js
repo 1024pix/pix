@@ -19,6 +19,7 @@ import * as resultRecipientRepository from '../../infrastructure/repositories/re
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as sessionForResultsSharingRepository from '../../infrastructure/repositories/session-for-results-sharing-repository.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
+import { detachUserFromCertificationResults } from './detach-user-from-certification-results.ts';
 import { filterPublishedSessionIds } from './filter-published-session-ids.js';
 import { findCertificatesForDivision } from './find-certificates-for-division.js';
 import { findUserCertificateSummaries } from './find-user-certificate-summaries.js';
@@ -87,6 +88,7 @@ const dependencies = {
 };
 
 const usecasesWithoutInjectedDependencies = {
+  detachUserFromCertificationResults,
   filterPublishedSessionIds,
   findCertificatesForDivision,
   findUserCertificateSummaries,
