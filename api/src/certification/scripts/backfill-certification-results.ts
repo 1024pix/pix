@@ -8,7 +8,7 @@ import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import type { logger as defaultLogger } from '../../shared/infrastructure/utils/logger.js';
 import { CertificationResultFactory } from '../results/domain/models/factories/CertificationResultFactory.ts';
 import * as certificationResultSourceDataRepository from '../results/infrastructure/repositories/certification-result-source-data-repository.ts';
-import * as newCertificationResultRepository from '../results/infrastructure/repositories/new-certification-result-repository.js';
+import * as newCertificationResultRepository from '../results/infrastructure/repositories/new-certification-result-repository.ts';
 import { AlgorithmEngineVersion } from '../shared/domain/models/AlgorithmEngineVersion.js';
 import { executeInTransaction } from './tooling/transaction.ts';
 

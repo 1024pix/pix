@@ -197,10 +197,18 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
             sessionId = databaseBuilder.factory.buildSession({ publishedAt: date }).id;
             databaseBuilder.factory.buildFinalizedSession({ sessionId, publishedAt: date });
             options.url = `/api/admin/sessions/${sessionId}/unpublish`;
-            certificationId = databaseBuilder.factory.buildCertificationCourse({
+            const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
               sessionId,
               isPublished: true,
-            }).id;
+            });
+            certificationId = certificationCourse.id;
+            const certificationResultId = databaseBuilder.factory.buildCertificationResult().id;
+            databaseBuilder.factory.buildUserCertificationResult({
+              certificationResultId,
+              userId: certificationCourse.userId,
+              sessionId,
+              certificationCourseId: certificationId,
+            });
 
             return databaseBuilder.commit();
           });
@@ -222,6 +230,9 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
             const [certificationCourse] = await knex('certification-courses').where({ id: certificationId });
             expect(session.publishedAt).to.be.null;
             expect(certificationCourse.isPublished).to.be.false;
+            expect(await knex('user_certification_results').where({ sessionId })).to.be.empty;
+            expect(await knex('certification_competence_results')).to.be.empty;
+            expect(await knex('certification_results')).to.be.empty;
           });
         });
       });

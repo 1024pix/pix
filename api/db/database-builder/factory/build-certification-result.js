@@ -11,7 +11,7 @@ import { databaseBuffer } from '../database-buffer.ts';
 
 /**
  * @typedef {object} CertificationResultRow
- * @property {string} id
+ * @property {import('node:crypto').UUID} id
  * @property {AlgorithmEngineVersion} algorithmEngineVersion
  * @property {string} firstName
  * @property {string | null} middleName

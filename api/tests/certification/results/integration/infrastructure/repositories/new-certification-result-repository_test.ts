@@ -1,21 +1,38 @@
 import { expect } from 'chai';
+import type { Knex } from 'knex';
 
-import { UserCertificationResult } from '../../../../../../src/certification/results/domain/models/NewCertificationResult.ts';
-import * as newCertificationResultRepository from '../../../../../../src/certification/results/infrastructure/repositories/new-certification-result-repository.js';
+import {
+  CertificationResult,
+  UserCertificationResult,
+} from '../../../../../../src/certification/results/domain/models/NewCertificationResult.ts';
+import * as newCertificationResultRepository from '../../../../../../src/certification/results/infrastructure/repositories/new-certification-result-repository.ts';
 import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
+type Row = Record<string, unknown>;
+type CertificationResultData = Row & { competenceMarks?: unknown };
+type UserCertificationResultData = ConstructorParameters<typeof UserCertificationResult>[0];
+
+const knexConn = knex as Knex;
+// domainBuilder.certification is inferred as `any` (builders import the domainBuilder index: circular inference).
+const certificationDomainBuilder = domainBuilder.certification as {
+  results: { buildNewCertificationResult: (data: CertificationResultData) => CertificationResult };
+};
+
 describe('Certification | Results | Integration | Infrastructure | Repository | New Certification Result', function () {
   describe('#save', function () {
-    let certificationResultData1, certificationResultData2, certificationResultData3, certificationResultData4;
-    const expectedCompetenceResults = [];
-    let userCertificationResultData1,
-      userCertificationResultData2,
-      userCertificationResultData3,
-      userCertificationResultData4;
+    let certificationResultData1: CertificationResultData,
+      certificationResultData2: CertificationResultData,
+      certificationResultData3: CertificationResultData,
+      certificationResultData4: CertificationResultData;
+    const expectedCompetenceResults: Row[] = [];
+    let userCertificationResultData1: UserCertificationResultData,
+      userCertificationResultData2: UserCertificationResultData,
+      userCertificationResultData3: UserCertificationResultData,
+      userCertificationResultData4: UserCertificationResultData;
     beforeEach(function () {
       certificationResultData1 = {
         id: '10000001-1001-1001-1001-100000000001',
@@ -267,13 +284,13 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
 
     it('saves CertificationResults, CertificationCompetenceResults, UserCertificationResults', async function () {
       const certificationResult1 =
-        domainBuilder.certification.results.buildNewCertificationResult(certificationResultData1);
+        certificationDomainBuilder.results.buildNewCertificationResult(certificationResultData1);
       const certificationResult2 =
-        domainBuilder.certification.results.buildNewCertificationResult(certificationResultData2);
+        certificationDomainBuilder.results.buildNewCertificationResult(certificationResultData2);
       const certificationResult3 =
-        domainBuilder.certification.results.buildNewCertificationResult(certificationResultData3);
+        certificationDomainBuilder.results.buildNewCertificationResult(certificationResultData3);
       const certificationResult4 =
-        domainBuilder.certification.results.buildNewCertificationResult(certificationResultData4);
+        certificationDomainBuilder.results.buildNewCertificationResult(certificationResultData4);
       const userCertificationResult1 = new UserCertificationResult(userCertificationResultData1);
       const userCertificationResult2 = new UserCertificationResult(userCertificationResultData2);
       const userCertificationResult3 = new UserCertificationResult(userCertificationResultData3);
@@ -289,7 +306,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         ],
       });
 
-      const actualUserCertificationResults = await knex('user_certification_results')
+      const actualUserCertificationResults = await knexConn('user_certification_results')
         .select('*')
         .orderBy('certificationResultId');
       expect(withoutTimestamps(actualUserCertificationResults)).to.deep.equal([
@@ -302,14 +319,14 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       delete certificationResultData2.competenceMarks;
       delete certificationResultData3.competenceMarks;
       delete certificationResultData4.competenceMarks;
-      const actualCertificationResults = await knex('certification_results').select('*').orderBy('id');
+      const actualCertificationResults = await knexConn('certification_results').select('*').orderBy('id');
       expect(withoutTimestamps(actualCertificationResults)).to.deep.equal([
         certificationResultData1,
         certificationResultData2,
         certificationResultData3,
         certificationResultData4,
       ]);
-      const actualCompetenceResults = await knex('certification_competence_results')
+      const actualCompetenceResults = await knexConn('certification_competence_results')
         .select('*')
         .orderBy(['certificationResultId', 'competenceId']);
       expect(withoutTimestamps(actualCompetenceResults)).to.deep.equal(expectedCompetenceResults);
@@ -321,17 +338,62 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         userCertificationResults: [],
       });
 
-      const actualUserCertificationResults = await knex('user_certification_results')
+      const actualUserCertificationResults = await knexConn('user_certification_results')
         .select('*')
         .orderBy('certificationResultId');
       expect(actualUserCertificationResults).to.have.lengthOf(0);
-      const actualCertificationResults = await knex('certification_results').select('*').orderBy('id');
+      const actualCertificationResults = await knexConn('certification_results').select('*').orderBy('id');
       expect(actualCertificationResults).to.have.lengthOf(0);
-      const actualCertificationCompetenceResults = await knex('certification_competence_results').select('*');
+      const actualCertificationCompetenceResults = await knexConn('certification_competence_results').select('*');
       expect(actualCertificationCompetenceResults).to.have.lengthOf(0);
     });
   });
 
+  describe('#deleteBySession', function () {
+    it('deletes the certification results of the given session only', async function () {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const otherSessionId = databaseBuilder.factory.buildSession().id;
+      buildResultInSession(sessionId);
+      buildResultInSession(sessionId);
+      const otherResultId = buildResultInSession(otherSessionId);
+      await databaseBuilder.commit();
+
+      // when
+      await newCertificationResultRepository.deleteBySession(sessionId);
+
+      // then
+      const remainingUserCertificationResults =
+        await knexConn('user_certification_results').pluck('certificationResultId');
+      expect(remainingUserCertificationResults).to.deep.equal([otherResultId]);
+      const remainingCertificationResults = await knexConn('certification_results').pluck('id');
+      expect(remainingCertificationResults).to.deep.equal([otherResultId]);
+      const remainingCompetenceResults = await knexConn('certification_competence_results').pluck(
+        'certificationResultId',
+      );
+      expect(remainingCompetenceResults).to.deep.equal([otherResultId]);
+    });
+
+    it('does nothing when the session has no certification result', async function () {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const otherSessionId = databaseBuilder.factory.buildSession().id;
+      const otherResultId = buildResultInSession(otherSessionId);
+      await databaseBuilder.commit();
+
+      // when
+      await newCertificationResultRepository.deleteBySession(sessionId);
+
+      // then
+      expect(await knexConn('user_certification_results').pluck('certificationResultId')).to.deep.equal([
+        otherResultId,
+      ]);
+      expect(await knexConn('certification_results').pluck('id')).to.deep.equal([otherResultId]);
+      expect(await knexConn('certification_competence_results').pluck('certificationResultId')).to.deep.equal([
+        otherResultId,
+      ]);
+    });
+  });
   describe('#getByCertificationCourseId', function () {
     it('returns the certification result of the given certification course', async function () {
       // given
@@ -356,7 +418,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
 
       // then
       expect(foundCertificationResult).to.deep.equal(
-        domainBuilder.certification.results.buildNewCertificationResult({
+        certificationDomainBuilder.results.buildNewCertificationResult({
           ...certificationResult,
           competenceMarks: [
             { competenceId: 'competenceABC123', level: 2 },
@@ -384,7 +446,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       );
 
       // then
-      expect(foundCertificationResult).to.be.null;
+      expect(foundCertificationResult).to.equal(null);
     });
   });
 
@@ -403,9 +465,9 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       });
 
       // then
-      const updatedCertificationResult = await knex('certification_results')
+      const updatedCertificationResult = await knexConn('certification_results')
         .where({ id: certificationResult.id })
-        .first();
+        .first<{ updatedAt: Date }>();
       expect(updatedCertificationResult).to.deep.equal({
         ...certificationResult,
         v3EduExternalJuryResult: PIX_PLUS_EDU_EXTERNAL_LEVELS.EXPERT,
@@ -428,9 +490,9 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       });
 
       // then
-      const updatedCertificationResult = await knex('certification_results')
+      const updatedCertificationResult = await knexConn('certification_results')
         .where({ id: certificationResult.id })
-        .first();
+        .first<{ updatedAt: Date }>();
       expect(updatedCertificationResult).to.deep.equal({
         ...certificationResult,
         v3EduExternalJuryResult: null,
@@ -458,9 +520,9 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       });
 
       // then
-      const updatedCertificationResult = await knex('certification_results')
+      const updatedCertificationResult = await knexConn('certification_results')
         .where({ id: certificationResult.id })
-        .first();
+        .first<{ updatedAt: Date }>();
       expect(updatedCertificationResult).to.deep.equal({
         ...certificationResult,
         v2EduVoletExterneBadgeId: 123,
@@ -487,9 +549,9 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       });
 
       // then
-      const updatedCertificationResult = await knex('certification_results')
+      const updatedCertificationResult = await knexConn('certification_results')
         .where({ id: certificationResult.id })
-        .first();
+        .first<{ updatedAt: Date }>();
       expect(updatedCertificationResult).to.deep.equal({
         ...certificationResult,
         v2EduVoletExterneBadgeId: null,
@@ -501,8 +563,22 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
   });
 });
 
-function withoutTimestamps(rows) {
-  return rows.map(({ createdAt, updatedAt, ...row }) => {
+function buildResultInSession(sessionId: number): string {
+  const certificationCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId });
+  const certificationResultId = databaseBuilder.factory.buildCertificationResult({
+    competenceMarks: [{ competenceId: 'competenceABC123', level: 2 }],
+  }).id;
+  databaseBuilder.factory.buildUserCertificationResult({
+    certificationResultId,
+    userId: certificationCourse.userId,
+    sessionId,
+    certificationCourseId: certificationCourse.id,
+  });
+  return certificationResultId;
+}
+
+function withoutTimestamps(rows: unknown[]): Row[] {
+  return (rows as Row[]).map(({ createdAt, updatedAt, ...row }) => {
     expect(createdAt).to.be.instanceOf(Date);
     if (updatedAt !== undefined) {
       expect(updatedAt).to.be.instanceOf(Date);
