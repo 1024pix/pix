@@ -23,7 +23,7 @@ import * as sharedCompetenceMarkRepository from '../../../shared/infrastructure/
 import * as complementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
-import * as certificationResultAdapter from '../../infrastructure/adapters/certification-result-adapter.js';
+import * as certificationResultAdapter from '../../infrastructure/adapters/certification-result-adapter.ts';
 import * as certificationCandidateRepository from '../../infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCenterAccessRepository from '../../infrastructure/repositories/certification-center-access-repository.js';
 import * as certificationCompanionAlertRepository from '../../infrastructure/repositories/certification-companion-alert-repository.js';

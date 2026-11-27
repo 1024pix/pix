@@ -11,6 +11,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
   let certificationRepository;
   let sessionManagementRepository;
   let finalizedSessionRepository;
+  let certificationResultAdapter;
 
   beforeEach(function () {
     certificationRepository = {
@@ -25,6 +26,9 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
       save: sinon.stub(),
     };
     sessionManagementRepository.flagResultsAsSentToPrescriber = sinon.stub();
+    certificationResultAdapter = {
+      deleteCertificationResults: sinon.stub().resolves(),
+    };
   });
 
   it('throws a NotFoundError when no session is found', async function () {
@@ -37,10 +41,12 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
       certificationRepository,
       sessionManagementRepository,
       finalizedSessionRepository,
+      certificationResultAdapter,
     });
 
     // then
     expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
+    expect(certificationResultAdapter.deleteCertificationResults).to.not.have.been.called;
   });
 
   it('should return the session', async function () {
@@ -60,6 +66,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
       certificationRepository,
       sessionManagementRepository,
       finalizedSessionRepository,
+      certificationResultAdapter,
     });
 
     // then
@@ -72,6 +79,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
     });
     expect(finalizedSession.publishedAt).to.be.null;
     expect(finalizedSessionRepository.save).to.be.calledWith({ finalizedSession });
+    expect(certificationResultAdapter.deleteCertificationResults).to.have.been.calledOnceWithExactly({ sessionId });
     expect(actualSession).to.deep.equal({
       ...expectedSession,
       publishedAt: null,

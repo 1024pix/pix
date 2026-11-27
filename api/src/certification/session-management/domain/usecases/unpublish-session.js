@@ -5,6 +5,7 @@ export async function unpublishSession({
   certificationRepository,
   sessionManagementRepository,
   finalizedSessionRepository,
+  certificationResultAdapter,
 }) {
   const session = await sessionManagementRepository.get({ id: sessionId });
 
@@ -19,6 +20,8 @@ export async function unpublishSession({
   await sessionManagementRepository.updatePublishedAt({ id: sessionId, publishedAt: session.publishedAt });
 
   await _updateFinalizedSession(finalizedSessionRepository, sessionId);
+
+  await certificationResultAdapter.deleteCertificationResults({ sessionId });
 
   return sessionManagementRepository.get({ id: sessionId });
 }

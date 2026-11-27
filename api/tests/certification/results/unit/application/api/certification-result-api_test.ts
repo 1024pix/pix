@@ -1,8 +1,14 @@
-import { expect } from 'chai';
-import sinon from 'sinon';
+import type { UUID } from 'node:crypto';
 
-import * as certificationResultApi from '../../../../../../src/certification/results/application/api/certification-result-api.js';
+import { expect } from 'chai';
+import sinon, { type SinonSpy, type SinonStub } from 'sinon';
+
+import * as certificationResultApi from '../../../../../../src/certification/results/application/api/certification-result-api.ts';
 import { CERTIFICATION_RESULT_STATUSES } from '../../../../../../src/certification/results/domain/constants.ts';
+import type {
+  CertificationDataProps,
+  CertificationResultSourceData,
+} from '../../../../../../src/certification/results/domain/models/factories/CertificationResultSourceData.ts';
 import {
   CertificationResult,
   UserCertificationResult,
@@ -17,19 +23,28 @@ import { preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-
 
 describe('Certification | Results | Unit | application | api | certif results', function () {
   describe('#buildForSession', function () {
-    let sessionId,
-      newCertificationResultRepository,
-      certificationResultSourceDataRepository,
-      uuidGenerator,
-      featureToggles,
-      logErrorSpy,
-      dependencies,
-      validCertificationItem,
-      brokenCertificationItem,
-      now;
+    let sessionId: number;
+    let newCertificationResultRepository: {
+      save: SinonStub<
+        [{ certificationResults: CertificationResult[]; userCertificationResults: UserCertificationResult[] }],
+        Promise<void>
+      >;
+    };
+    let certificationResultSourceDataRepository: { findBySessionId: SinonStub };
+    let uuidGenerator: () => UUID;
+    let featureToggles: { get: SinonStub };
+    let logErrorSpy: SinonSpy;
+    let dependencies: {
+      newCertificationResultRepository: typeof newCertificationResultRepository;
+      certificationResultSourceDataRepository: typeof certificationResultSourceDataRepository;
+      featureToggles: typeof featureToggles;
+      uuidGenerator: typeof uuidGenerator;
+    };
+    let validCertificationItem: CertificationDataProps;
+    let brokenCertificationItem: CertificationDataProps;
 
     beforeEach(function () {
-      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda: () => unknown) => lambda());
       sessionId = 7402;
       uuidGenerator = () => '00000000-0000-4000-8000-000000000001';
       newCertificationResultRepository = {
@@ -45,10 +60,8 @@ describe('Certification | Results | Unit | application | api | certif results', 
         featureToggles.get,
       ]);
       newCertificationResultRepository.save.resolves();
-      now = new Date('2024-11-23');
-      sinon.useFakeTimers({ now, toFake: ['Date'] });
+      sinon.useFakeTimers({ now: new Date('2024-11-23'), toFake: ['Date'] });
       dependencies = {
-        sessionId,
         newCertificationResultRepository,
         certificationResultSourceDataRepository,
         featureToggles,
@@ -58,6 +71,7 @@ describe('Certification | Results | Unit | application | api | certif results', 
       validCertificationItem = buildCertificationItem({ certificationCourseId: 1, userId: 11, sessionId });
       brokenCertificationItem = {
         ...buildCertificationItem({ certificationCourseId: 2, userId: 22, sessionId }),
+        // @ts-expect-error: broken on purpose, so that the factory rejects it
         pixScore: undefined,
       };
     });
@@ -142,6 +156,27 @@ describe('Certification | Results | Unit | application | api | certif results', 
     });
   });
 
+  describe('#deleteForSession', function () {
+    it('deletes the certification results of the session within a transaction', async function () {
+      // given
+      const sessionId = 7402;
+      const executeStub = sinon.stub(DomainTransaction, 'execute').callsFake((lambda: () => unknown) => lambda());
+      const newCertificationResultRepository = {
+        deleteBySession: sinon.stub<[number], Promise<void>>().resolves(),
+      };
+
+      // when
+      await certificationResultApi.deleteForSession({
+        sessionId,
+        dependencies: { newCertificationResultRepository },
+      });
+
+      // then
+      sinon.assert.calledOnce(executeStub);
+      sinon.assert.calledOnceWithExactly(newCertificationResultRepository.deleteBySession, sessionId);
+    });
+  });
+
   describe('#updateEduV3ExternalJuryResult', function () {
     it('calls the usecase with the given parameters', async function () {
       // given
@@ -183,7 +218,7 @@ describe('Certification | Results | Unit | application | api | certif results', 
   });
 });
 
-function buildSourceData(certificationData) {
+function buildSourceData(certificationData: CertificationDataProps[]): CertificationResultSourceData {
   return {
     certificationData,
     learnerData: [],
@@ -193,7 +228,15 @@ function buildSourceData(certificationData) {
   };
 }
 
-function buildCertificationItem({ certificationCourseId, userId, sessionId }) {
+function buildCertificationItem({
+  certificationCourseId,
+  userId,
+  sessionId,
+}: {
+  certificationCourseId: number;
+  userId: number;
+  sessionId: number;
+}): CertificationDataProps {
   return {
     certificationCourseId,
     userId,
