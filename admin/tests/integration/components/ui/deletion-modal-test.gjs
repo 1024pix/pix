@@ -10,100 +10,213 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Ui::DeletionModal', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('Nominal case', function () {
-    test('it should display title, content and action buttons', async function (assert) {
-      //given
-      const noop = () => {};
-      const title = 'Coucou';
-      const content = 'Juste du texte';
+  hooks.beforeEach(async function () {
+    this.title = 'Coucou';
+    this.content = 'Juste du texte';
+    this.triggerActionStub = sinon.stub();
+    this.onCloseModalStub = sinon.stub();
+  });
 
-      // when
-      const screen = await render(
-        <template>
-          <UiDeletionModal
-            @title={{title}}
-            @showModal={{true}}
-            @count={{0}}
-            @onTriggerAction={{noop}}
-            @onCloseModal={{noop}}
-          ><:content>
-              {{content}}</:content></UiDeletionModal>
-        </template>,
-      );
+  test('it displays title, content and action buttons', async function (assert) {
+    // when
+    const screen = await render(
+      <template>
+        <UiDeletionModal
+          @title={{this.title}}
+          @showModal={{true}}
+          @onTriggerAction={{this.triggerActionStub}}
+          @onCloseModal={{this.onCloseModalStub}}
+        >
+          <:content>
+            {{this.content}}
+          </:content>
+        </UiDeletionModal>
+      </template>,
+    );
 
-      // then
-      assert.ok(screen.getByText(content));
-      assert.ok(screen.getByText(title));
-      assert.ok(screen.getByRole('checkbox', { name: t('common.actions.are-you-sure') }));
-      assert.ok(screen.getByRole('button', { name: t('common.actions.cancel') }));
-      assert.ok(screen.getByRole('button', { name: t('common.actions.confirm-deletion') }));
+    // then
+    assert.ok(screen.getByText(this.content));
+    assert.ok(screen.getByText(this.title));
+    assert.ok(screen.getByRole('checkbox', { name: t('common.actions.are-you-sure') }));
+    assert.ok(screen.getByRole('button', { name: t('common.actions.cancel') }));
+    assert.ok(screen.getByRole('button', { name: t('common.actions.confirm-deletion') }));
+  });
+
+  test('it prevents button from being clickable if confirmation checkbox is not checked', async function (assert) {
+    // when
+    const screen = await render(
+      <template>
+        <UiDeletionModal
+          @title={{this.title}}
+          @showModal={{true}}
+          @onTriggerAction={{this.triggerActionStub}}
+          @onCloseModal={{this.onCloseModalStub}}
+        >
+          <:content>
+            {{this.content}}
+          </:content>
+        </UiDeletionModal>
+      </template>,
+    );
+
+    const confirmButton = screen.getByRole('button', {
+      name: t('common.actions.confirm-deletion'),
     });
 
-    test('it should call onTriggerAction after confirmation when click on confirm', async function (assert) {
-      //given
-      const triggerActionStub = sinon.stub();
-      const onCloseModalStub = sinon.stub();
-      const title = 'Coucou';
-      const content = 'Juste du texte';
+    // then
+    assert.dom(confirmButton).hasAttribute('aria-disabled');
+  });
 
+  test('it calls onTriggerAction after confirmation when click on confirm', async function (assert) {
+    // when
+    const screen = await render(
+      <template>
+        <UiDeletionModal
+          @title={{this.title}}
+          @showModal={{true}}
+          @onTriggerAction={{this.triggerActionStub}}
+          @onCloseModal={{this.onCloseModalStub}}
+        >
+          <:content>
+            {{this.content}}
+          </:content>
+        </UiDeletionModal>
+      </template>,
+    );
+
+    const confirmationCheckbox = screen.getByRole('checkbox', {
+      name: t('common.actions.are-you-sure'),
+    });
+    const confirmButton = screen.getByRole('button', {
+      name: t('common.actions.confirm-deletion'),
+    });
+
+    await click(confirmationCheckbox);
+    await click(confirmButton);
+
+    // then
+    assert.ok(this.triggerActionStub.called);
+  });
+
+  test('it calls onCloseModal when click on cancel button', async function (assert) {
+    // when
+    const screen = await render(
+      <template>
+        <UiDeletionModal
+          @title={{this.title}}
+          @showModal={{true}}
+          @onTriggerAction={{this.triggerActionStub}}
+          @onCloseModal={{this.onCloseModalStub}}
+        >
+          <:content>
+            {{this.content}}
+          </:content>
+        </UiDeletionModal>
+      </template>,
+    );
+
+    const cancelButton = screen.getByRole('button', {
+      name: t('common.actions.cancel'),
+    });
+
+    await click(cancelButton);
+
+    // then
+    assert.ok(this.onCloseModalStub.called);
+  });
+
+  module('confirmation checkbox', function () {
+    test('it resets confirmation checkbox on confirmation button click', async function (assert) {
       // when
       const screen = await render(
         <template>
           <UiDeletionModal
-            @title={{title}}
+            @title={{this.title}}
             @showModal={{true}}
-            @onTriggerAction={{triggerActionStub}}
-            @onCloseModal={{onCloseModalStub}}
-          ><:content>
-              {{content}}</:content></UiDeletionModal>
+            @onTriggerAction={{this.triggerActionStub}}
+            @onCloseModal={{this.onCloseModalStub}}
+          >
+            <:content>
+              {{this.content}}
+            </:content>
+          </UiDeletionModal>
         </template>,
       );
 
       const confirmationCheckbox = screen.getByRole('checkbox', {
         name: t('common.actions.are-you-sure'),
       });
-
-      await click(confirmationCheckbox);
-
       const confirmButton = screen.getByRole('button', {
         name: t('common.actions.confirm-deletion'),
       });
 
+      await click(confirmationCheckbox);
       await click(confirmButton);
 
       // then
-      assert.ok(triggerActionStub.called);
+      assert.dom(confirmationCheckbox).isNotChecked();
     });
 
-    test('it should call onCloseModal when click on cancel button', async function (assert) {
-      //given
-      const triggerActionStub = sinon.stub();
-      const onCloseModalStub = sinon.stub();
-      const title = 'Coucou';
-      const content = 'Juste du texte';
-
+    test('it resets confirmation checkbox on cancel button click', async function (assert) {
       // when
       const screen = await render(
         <template>
           <UiDeletionModal
-            @title={{title}}
+            @title={{this.title}}
             @showModal={{true}}
-            @count={{1}}
-            @onTriggerAction={{triggerActionStub}}
-            @onCloseModal={{onCloseModalStub}}
-          ><:content>
-              {{content}}</:content></UiDeletionModal>
+            @onTriggerAction={{this.triggerActionStub}}
+            @onCloseModal={{this.onCloseModalStub}}
+          >
+            <:content>
+              {{this.content}}
+            </:content>
+          </UiDeletionModal>
         </template>,
       );
 
+      const confirmationCheckbox = screen.getByRole('checkbox', {
+        name: t('common.actions.are-you-sure'),
+      });
       const cancelButton = screen.getByRole('button', {
         name: t('common.actions.cancel'),
       });
 
+      await click(confirmationCheckbox);
       await click(cancelButton);
 
       // then
-      assert.ok(onCloseModalStub.called);
+      assert.dom(confirmationCheckbox).isNotChecked();
+    });
+
+    test('it resets confirmation checkbox on exit button click', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <UiDeletionModal
+            @title={{this.title}}
+            @showModal={{true}}
+            @onTriggerAction={{this.triggerActionStub}}
+            @onCloseModal={{this.onCloseModalStub}}
+          >
+            <:content>
+              {{this.content}}
+            </:content>
+          </UiDeletionModal>
+        </template>,
+      );
+
+      const confirmationCheckbox = screen.getByRole('checkbox', {
+        name: t('common.actions.are-you-sure'),
+      });
+      const exitButton = screen.getByRole('button', {
+        name: 'Fermer',
+      });
+
+      await click(confirmationCheckbox);
+      await click(exitButton);
+
+      // then
+      assert.dom(confirmationCheckbox).isNotChecked();
     });
   });
 });
