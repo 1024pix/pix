@@ -144,9 +144,9 @@ describe('Certification | Results | Acceptance | Application | Routes | organiza
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep
           .equal(`\uFEFF"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Type de certification";"Statut";"Certification CléA";"Niveau";"Score en Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"
-"1";"firstName 1";"lastName 1";"01/01/1990";"birthplace 1";"externalId 1";"Pix";"Non obtenue";"Non passée";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";;"100000";"02/02/2026"
-"4";"firstName 4";"lastName 4";"01/01/1990";"birthplace 4";"externalId 4";"CléA Numérique by Pix";"Non obtenue";"Non obtenue";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";;"100000";"02/02/2026"
-"5";"firstName 5";"lastName 5";"01/01/1990";"birthplace 5";"externalId 5";"Pix+ Droit";"Non obtenue";"Non passée";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";;"100000";"02/02/2026"`);
+"1";"firstName 1";"lastName 1";"01/01/1990";"birthplace 1";"externalId 1";"Pix";"Non obtenue";"Non passée";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"commentForOrganization 1";"100000";"02/02/2026"
+"4";"firstName 4";"lastName 4";"01/01/1990";"birthplace 4";"externalId 4";"CléA Numérique by Pix";"Non obtenue";"Non obtenue";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"commentForOrganization 4";"100000";"02/02/2026"
+"5";"firstName 5";"lastName 5";"01/01/1990";"birthplace 5";"externalId 5";"Pix+ Droit";"Non obtenue";"Non passée";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"commentForOrganization 5";"100000";"02/02/2026"`);
       });
     });
   });
@@ -197,7 +197,7 @@ function buildCertificationResult(certificationCourseId, framework, organization
     competenceMarks,
     hasAcquiredClea,
     commentForOrganization: `commentForOrganization ${certificationCourseId}`,
-    commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_ZERO_PIX_SCORE,
+    commentByAutoJury: null,
     certificationCenter: `certificationCenter ${certificationCourseId}`,
     startedAt: new Date('2026-02-02T15:00:00Z'),
     sessionId,
