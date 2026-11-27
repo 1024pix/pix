@@ -1,12 +1,16 @@
 import { config } from '../../../../../config/config.js';
-import { JobController } from '../../../../shared/application/jobs/job-controller.js';
+import { JobController, JobTeam } from '../../../../shared/application/jobs/job-controller.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { ComputeCertificabilityJob } from '../../domain/models/jobs/ComputeCertificabilityJob.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 export class ComputeCertificabilityJobController extends JobController {
   constructor() {
-    super(ComputeCertificabilityJob.name);
+    super(ComputeCertificabilityJob.name, {
+      description:
+        'Calcule et enregistre la certificabilité des prescrits dont les identifiants sont fournis. Planifié par lots par ScheduleComputeOrganizationLearnersCertificabilityJob.',
+      team: JobTeam.PRESCRIPTION,
+    });
   }
 
   get isJobEnabled() {

@@ -1,5 +1,5 @@
 import { config } from '../../../../../../config/config.js';
-import { JobController } from '../../../../../shared/application/jobs/job-controller.js';
+import { JobController, JobTeam } from '../../../../../shared/application/jobs/job-controller.js';
 import { DomainError } from '../../../../../shared/domain/errors.js';
 import { logger as l } from '../../../../../shared/infrastructure/utils/logger.js';
 import { ImportFromGenericFileJob } from '../../../domain/models/jobs/ImportFromGenericFileJob.js';
@@ -9,7 +9,11 @@ class ImportFromGenericJobController extends JobController {
   #logger;
 
   constructor({ logger = l } = {}) {
-    super(ImportFromGenericFileJob.name);
+    super(ImportFromGenericFileJob.name, {
+      description:
+        "Importe les prescrits d'un fichier au format générique préalablement validé par ValidateGenericFileJob, pour l'import d'organisation indiqué.",
+      team: JobTeam.PRESCRIPTION,
+    });
     this.#logger = logger;
   }
 

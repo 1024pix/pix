@@ -2,6 +2,7 @@ import { CronExpressionParser } from 'cron-parser';
 import dayjs from 'dayjs';
 
 import { config } from '../../../../../config/config.js';
+import { JobTeam } from '../../../../shared/application/jobs/job-controller.js';
 import { JobScheduleController } from '../../../../shared/application/jobs/job-schedule-controller.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
@@ -13,6 +14,9 @@ import { computeCertificabilityJobRepository } from '../../infrastructure/reposi
 class ScheduleComputeOrganizationLearnersCertificabilityJobController extends JobScheduleController {
   constructor() {
     super('ScheduleComputeOrganizationLearnersCertificabilityJob', {
+      description:
+        "Sélectionne périodiquement les prescrits dont l'activité récente nécessite un recalcul de certificabilité, et planifie des ComputeCertificabilityJob par lots.",
+      team: JobTeam.PRESCRIPTION,
       jobCron: config.features.scheduleComputeOrganizationLearnersCertificability.cron,
     });
   }

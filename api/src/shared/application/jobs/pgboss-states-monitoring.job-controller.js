@@ -1,6 +1,7 @@
 import { config } from '../../../../config/config.js';
 import { JobClient } from '../../infrastructure/jobs/JobClient.js';
 import { logger } from '../../infrastructure/utils/logger.js';
+import { JobTeam } from './job-controller.js';
 import { JobScheduleController } from './job-schedule-controller.js';
 
 const COUNT_FIELDS = ['deferredCount', 'queuedCount', 'readyCount', 'activeCount', 'failedCount', 'totalCount'];
@@ -9,7 +10,12 @@ const QUEUE_FIELDS = [...COUNT_FIELDS, ...DELTA_FIELDS, 'deltaSeconds', 'deltaOn
 
 export class PgBossStatesMonitoringJobController extends JobScheduleController {
   constructor() {
-    super('PgBossStatesMonitoring', { jobCron: config.pgBoss.statesMonitoringJobCron });
+    super('PgBossStatesMonitoring', {
+      description:
+        "Journalise périodiquement les statistiques de chaque file pg-boss (jobs en attente, actifs, échoués, temps d'attente et d'exécution) pour alimenter la supervision.",
+      team: JobTeam.CAPTAINS,
+      jobCron: config.pgBoss.statesMonitoringJobCron,
+    });
   }
 
   async handle({ dependencies = { logger, jobClient: JobClient.instance } }) {

@@ -1,11 +1,16 @@
 import { EventHandler } from '../../../shared/application/jobs/event-handler.js';
+import { JobTeam } from '../../../shared/application/jobs/job-controller.js';
 import { AnonymizeUserEvent } from '../../../shared/domain/events/AnonymizeUserEvent.js';
 import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.ts';
 import * as membershipRepository from '../../infrastructure/repositories/membership.repository.js';
 
 export class AnonymizeMembershipEventHandler extends EventHandler {
   constructor() {
-    super('anonymize-user.membership.event-queue', AnonymizeUserEvent.eventName);
+    super('anonymize-user.membership.event-queue', AnonymizeUserEvent.eventName, {
+      description:
+        "À l'anonymisation d'un utilisateur, généralise la date de dernier accès de ses rattachements à des organisations et les désactive.",
+      team: JobTeam.ACQUISITION,
+    });
   }
 
   async handle({ data, dependencies = { membershipRepository } }) {

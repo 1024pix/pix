@@ -1,5 +1,5 @@
 import { config } from '../../../../../../config/config.js';
-import { JobController } from '../../../../../shared/application/jobs/job-controller.js';
+import { JobController, JobTeam } from '../../../../../shared/application/jobs/job-controller.js';
 import { withTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { DomainError } from '../../../../../shared/domain/errors.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
@@ -11,7 +11,11 @@ class ImportFromSupJobController extends JobController {
   #logger;
 
   constructor({ logger = l } = {}) {
-    super(ImportFromSupJob.name);
+    super(ImportFromSupJob.name, {
+      description:
+        "Importe les étudiants d'un fichier SUP préalablement validé par ValidateSupFileJob, pour l'import d'organisation indiqué. En mode remplacement, supprime d'abord les étudiants absents du fichier.",
+      team: JobTeam.PRESCRIPTION,
+    });
     this.#logger = logger;
   }
 

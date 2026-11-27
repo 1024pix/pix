@@ -1,10 +1,14 @@
 import { AuditLoggingJob } from '../../domain/models/jobs/AuditLoggingJob.js';
 import { auditLoggerRepository } from '../../infrastructure/repositories/audit-logger-repository.js';
-import { JobController } from './job-controller.js';
+import { JobController, JobTeam } from './job-controller.js';
 
 export class AuditLoggingJobController extends JobController {
   constructor() {
-    super(AuditLoggingJob.name);
+    super(AuditLoggingJob.name, {
+      description:
+        "Envoie au service d'audit (audit-logger) les événements d'actions sensibles réalisées sur des utilisateurs (anonymisation, changement d'email, suppression de participations…), un événement par utilisateur ciblé.",
+      team: JobTeam.ACCES,
+    });
   }
 
   async handle({ data: jobData, dependencies = { auditLoggerRepository } }) {
