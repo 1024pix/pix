@@ -996,8 +996,8 @@ class EmptyAnswerError extends DomainError {
 }
 
 class PasswordNotMatching extends DomainError {
-  constructor(meta, message = 'The password you entered is invalid.') {
-    super(message);
+  constructor(meta) {
+    super();
     this.meta = meta;
   }
 }
