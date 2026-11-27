@@ -4,7 +4,7 @@ import t from 'ember-intl/helpers/t';
 import FocusIcon from './mode/focus-icon';
 
 <template>
-  <PixNotificationAlert @type="warning" class="challenge__info-alert">
+  <PixNotificationAlert @type="warning" class="focus-out-alert-banner">
     <FocusIcon />
     <span>
       {{t "pages.challenge.is-focused-challenge.info-alert"}}

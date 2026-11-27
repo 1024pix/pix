@@ -1,0 +1,25 @@
+@use 'pix-design-tokens/typography';
+
+.focus-out-alert-banner {
+    @extend %pix-body-l;
+
+    position: sticky;
+    bottom: 50px;
+    z-index: 1;
+    width: 990px;
+    color: var(--pix-secondary-900);
+    z-index: 2;
+
+    span {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    svg {
+      flex-shrink: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }

@@ -1,6 +1,7 @@
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/fonts';
 @use 'pix-design-tokens/colors';
+@use 'pix-design-tokens/typography';
 
 body:has(.mode-banner--focus)::after {
   position: fixed;
@@ -16,38 +17,4 @@ body:has(.mode-banner--focus)::after {
     max-width: 990px;
     margin: 0 auto;
   }
-
-  &__info-alert {
-    position: fixed;
-    bottom: 50px;
-    z-index: 1;
-    width: 990px;
-    color: var(--pix-secondary-900);
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 26px;
-    z-index: 2;
-
-    span {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    svg {
-      color: currentColor;
-      flex-shrink: 0;
-      width: 2.5rem;
-      height: 2.5rem;
-    }
-  }
-}
-
-.challenge-info-alert__icon {
-  color: var(--pix-secondary-900);
-}
-
-.focus-zone-warning {
-  padding-bottom: var(--pix-spacing-6x);
 }
