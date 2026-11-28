@@ -1289,7 +1289,7 @@
         "category": {
           "confirmation-modal": {
             "attached-certification-center": "Cette organisation est rattachée au centre de certification \"{certificationCenterName}\".",
-            "title": "Modifier la catégorie du centre de certification",
+            "title": "Modifier la catégorie de l’organisation",
             "warning": "Modifier sa catégorie modifiera aussi celle du centre de certification."
           },
           "selector": {
