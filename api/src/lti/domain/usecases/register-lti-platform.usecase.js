@@ -44,7 +44,7 @@ export async function registerLtiPlatform({
   const { publicKey, privateKey } = await cryptoService.generateJSONWebKeyPair();
   const encryptedPrivateKey = await cryptoService.encrypt(JSON.stringify(privateKey));
 
-  const savedRegistration = await ltiPlatformRegistrationRepository.save({
+  const savedRegistration = await ltiPlatformRegistrationRepository.create({
     clientId: pixToolRegistration.client_id,
     platformId: ltiPlatform.id,
     platformOpenIdConfigUrl: platformConfigurationUrl,

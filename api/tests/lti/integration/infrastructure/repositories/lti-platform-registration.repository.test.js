@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { LtiPlatformRegistration } from '../../../../../src/lti/domain/models/LtiPlatformRegistration.js';
 import { ltiPlatformRegistrationRepository } from '../../../../../src/lti/infrastructure/repositories/lti-platform-registration.repository.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -71,7 +72,7 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
     });
   });
 
-  describe('#save', function () {
+  describe('create', function () {
     it('inserts platform registration', async function () {
       // given
       const expectedLtiPlatformRegistration = domainBuilder.lti.buildLtiPlatformRegistration();
@@ -80,12 +81,12 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
       await databaseBuilder.commit();
 
       // when
-      const savedRegistration = await ltiPlatformRegistrationRepository.save(expectedLtiPlatformRegistration);
+      const createdRegistration = await ltiPlatformRegistrationRepository.create(expectedLtiPlatformRegistration);
 
       // then
-      expect(savedRegistration).to.deepEqualInstance(expectedLtiPlatformRegistration);
-      expect(savedRegistration).to.have.property('platformId', platformId);
-      expect(savedRegistration).to.have.property('platformIssuer', platformIssuer);
+      expect(createdRegistration).to.deepEqualInstance(expectedLtiPlatformRegistration);
+      expect(createdRegistration).to.have.property('platformId', platformId);
+      expect(createdRegistration).to.have.property('platformIssuer', platformIssuer);
 
       const registrationFromDb = await knex.select('*').from('lti_platform_registrations').first();
       expect(registrationFromDb).to.deep.contain({
@@ -96,6 +97,73 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
         encryptedPrivateKey: expectedLtiPlatformRegistration.encryptedPrivateKey,
         publicKey: expectedLtiPlatformRegistration.publicKey,
         platformOpenIdConfigUrl: expectedLtiPlatformRegistration.platformOpenIdConfigUrl,
+      });
+    });
+  });
+
+  describe('#update', function () {
+    it('updates platform registration', async function () {
+      // given
+      const platform = domainBuilder.lti.buildLtiPlatform(databaseBuilder.factory.buildLtiPlatform());
+      const platformRegistrationData = databaseBuilder.factory.buildLtiPlatformRegistration({
+        platformId: platform.id,
+        status: LtiPlatformRegistration.status.PENDING,
+      });
+      const expectedLtiPlatformRegistration = domainBuilder.lti.buildLtiPlatformRegistration({
+        ...platformRegistrationData,
+        platform,
+        status: LtiPlatformRegistration.status.ACTIVE,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const updatedRegistration = await ltiPlatformRegistrationRepository.update(expectedLtiPlatformRegistration);
+
+      // then
+      expect(updatedRegistration).to.deepEqualInstance(expectedLtiPlatformRegistration);
+      expect(updatedRegistration).to.have.property('platformId', expectedLtiPlatformRegistration.platformId);
+      expect(updatedRegistration).to.have.property('platformIssuer', expectedLtiPlatformRegistration.platformIssuer);
+
+      const registrationFromDb = await knex.select('*').from('lti_platform_registrations').first();
+      expect(registrationFromDb).to.deep.contain({
+        clientId: expectedLtiPlatformRegistration.clientId,
+        platformId: platform.id,
+        status: expectedLtiPlatformRegistration.status,
+        toolConfig: expectedLtiPlatformRegistration.toolConfig,
+        encryptedPrivateKey: expectedLtiPlatformRegistration.encryptedPrivateKey,
+        publicKey: expectedLtiPlatformRegistration.publicKey,
+        platformOpenIdConfigUrl: expectedLtiPlatformRegistration.platformOpenIdConfigUrl,
+      });
+    });
+  });
+
+  describe('#findAllByPlatformId', function () {
+    it('returns all registrations for platformId', async function () {
+      // given
+      const platform = domainBuilder.lti.buildLtiPlatform(databaseBuilder.factory.buildLtiPlatform());
+      const registrationsData = [
+        databaseBuilder.factory.buildLtiPlatformRegistration({ clientId: 'AbCD1234', platformId: platform.id }),
+        databaseBuilder.factory.buildLtiPlatformRegistration({ clientId: 'AbCD6789', platformId: platform.id }),
+        databaseBuilder.factory.buildLtiPlatformRegistration({ clientId: 'AbCD5555', platformId: platform.id }),
+      ];
+      await databaseBuilder.commit();
+
+      const expectedRegistrations = registrationsData
+        .map((registrationData) =>
+          domainBuilder.lti.buildLtiPlatformRegistration({
+            ...registrationData,
+            platform,
+          }),
+        )
+        .toSorted(({ clientId: clientId1 }, { clientId: clientId2 }) => (clientId1 < clientId2 ? -1 : 1));
+
+      // when
+      const registrations = await ltiPlatformRegistrationRepository.findAllByPlatformId({ platformId: platform.id });
+
+      // then
+      expect(registrations).to.have.lengthOf(expectedRegistrations.length);
+      expectedRegistrations.forEach((expectedRegistration, index) => {
+        expect(registrations[index]).to.deepEqualInstance(expectedRegistration);
       });
     });
   });
