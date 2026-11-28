@@ -8,13 +8,13 @@ export const COMPARISONS = {
   LIKE: 'like',
 } as const;
 
-type CriterionPropertyComparison = (typeof COMPARISONS)[keyof typeof COMPARISONS];
+export type CriterionPropertyComparison = (typeof COMPARISONS)[keyof typeof COMPARISONS];
 
 type CriterionPropertyValue = string | number | boolean;
 
-type CriterionPropertyData = CriterionPropertyValue | CriterionPropertyValue[];
+export type CriterionPropertyData = CriterionPropertyValue | CriterionPropertyValue[];
 
-type CriterionPropertyItem = Record<string, CriterionPropertyData>;
+export type CriterionPropertyItem = Record<string, CriterionPropertyData>;
 
 type CriterionPropertyArgs = {
   key: string;
