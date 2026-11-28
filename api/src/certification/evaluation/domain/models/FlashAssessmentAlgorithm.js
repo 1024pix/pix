@@ -6,6 +6,7 @@
  */
 
 import { AssessmentLackOfChallengesError } from '../../../../shared/domain/errors.js';
+import { shouldStopEarly } from '../services/algorithm-methods/early-stop.js';
 import { FlashAssessmentAlgorithmChallengesBetweenCompetencesRule } from './FlashAssessmentAlgorithmChallengesBetweenCompetencesRule.js';
 import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from './FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
 import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from './FlashAssessmentAlgorithmOneQuestionPerTubeRule.js';
@@ -57,11 +58,15 @@ class FlashAssessmentAlgorithm {
     }
 
     const currentCapacity = initialCapacity ?? this._configuration.defaultCandidateCapacity;
-    const { capacity } = this.getCapacityAndErrorRate({
+    const { capacity, errorRate } = this.getCapacityAndErrorRate({
       allAnswers: assessmentAnswers,
       challenges,
       initialCapacity: currentCapacity,
     });
+
+    if (this.#shouldStopEarly({ assessmentAnswers, capacity, errorRate })) {
+      return [];
+    }
 
     const challengesAfterRulesApplication = this.#applyChallengeSelectionRules(assessmentAnswers, challenges);
 
@@ -89,6 +94,28 @@ class FlashAssessmentAlgorithm {
     }
 
     return false;
+  }
+
+  /**
+   * @param {object} params
+   * @param {Answer[]} params.assessmentAnswers
+   * @param {number} params.capacity
+   * @param {number} params.errorRate
+   */
+  #shouldStopEarly({ assessmentAnswers, capacity, errorRate }) {
+    if (!this._configuration.isEarlyStopEnabled || !assessmentAnswers) {
+      return false;
+    }
+
+    return shouldStopEarly({
+      answers: assessmentAnswers,
+      capacity,
+      errorRate,
+      consecutiveFailures: this._configuration.earlyStopConsecutiveFailures,
+      minimumLength: this._configuration.earlyStopMinimumLength,
+      capacityThreshold: this._configuration.earlyStopCapacityThreshold,
+      confidence: this._configuration.earlyStopConfidence,
+    });
   }
 
   /**
