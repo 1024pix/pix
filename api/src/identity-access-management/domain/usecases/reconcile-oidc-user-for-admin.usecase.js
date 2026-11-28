@@ -2,6 +2,7 @@
  * @typedef {import ('../../../../lib/domain/usecases/index.js').OidcAuthenticationService} OidcAuthenticationService
  */
 
+import { UserNotFoundError } from '../../../shared/domain/errors.js';
 import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 import { UserAccessToken } from '../models/UserAccessToken.js';
@@ -9,7 +10,6 @@ import { UserAccessToken } from '../models/UserAccessToken.js';
 /**
  * @param {Object} params
  * @param {string} params.authenticationKey
- * @param {string} params.email
  * @param {string} params.identityProvider
  * @param {string} params.audience
  * @param {OidcAuthenticationService} params.oidcAuthenticationService
@@ -22,7 +22,6 @@ import { UserAccessToken } from '../models/UserAccessToken.js';
  */
 export const reconcileOidcUserForAdmin = async function ({
   authenticationKey,
-  email,
   identityProvider,
   oidcAuthenticationService,
   authenticationSessionService,
@@ -38,7 +37,12 @@ export const reconcileOidcUserForAdmin = async function ({
     throw new AuthenticationKeyExpired();
   }
 
-  const foundUser = await userRepository.getByEmail(email);
+  const { userInfo } = sessionContentAndUserInfo;
+  if (!userInfo.email) {
+    throw new UserNotFoundError();
+  }
+
+  const foundUser = await userRepository.getByEmail(userInfo.email);
   const userId = foundUser.id;
 
   await _assertExternalIdentifier({
@@ -48,7 +52,6 @@ export const reconcileOidcUserForAdmin = async function ({
     authenticationMethodRepository,
   });
 
-  const { userInfo } = sessionContentAndUserInfo;
   const { externalIdentityId } = userInfo;
 
   const connectionMethodCode = oidcAuthenticationService.connectionMethodCode;

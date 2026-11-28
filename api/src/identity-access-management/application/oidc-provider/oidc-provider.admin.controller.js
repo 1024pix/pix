@@ -52,7 +52,8 @@ async function reconcileUserForAdmin(
     oidcAuthenticationServiceRegistry,
   },
 ) {
-  const { email, identityProvider, authenticationKey } = request.deserializedPayload;
+  // L'email envoyé par le client n'est plus utilisé : seul l'email de la session OIDC fait foi.
+  const { identityProvider, authenticationKey } = request.deserializedPayload;
   const origin = getForwardedOrigin(request.headers);
   const requestedApplication = RequestedApplication.fromOrigin(origin);
 
@@ -62,7 +63,6 @@ async function reconcileUserForAdmin(
   });
 
   const accessToken = await usecases.reconcileOidcUserForAdmin({
-    email,
     identityProvider,
     authenticationKey,
     oidcAuthenticationService,

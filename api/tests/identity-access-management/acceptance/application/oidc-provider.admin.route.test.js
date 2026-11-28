@@ -191,6 +191,62 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
       server = await getServer();
     });
 
+    it('ignores the email sent in the payload and uses the one from the OIDC session', async function () {
+      // given
+      const victim = databaseBuilder.factory.buildUser.withRawPassword({
+        email: 'victim@example.net',
+      });
+      await databaseBuilder.commit();
+
+      const idToken = jsonwebtoken.sign(
+        {
+          given_name: 'Attacker',
+          family_name: 'Evil',
+          sub: 'attacker-unique-id',
+        },
+        'secret',
+      );
+      const userAuthenticationKey = await authenticationSessionService.save({
+        sessionContent: { idToken },
+        userInfo: {
+          firstName: 'Attacker',
+          lastName: 'Evil',
+          email: 'attacker@example.net',
+          externalIdentityId: 'attacker-unique-id',
+        },
+      });
+
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: `/api/admin/oidc/user/reconcile`,
+        headers: {
+          'x-forwarded-proto': 'https',
+          'x-forwarded-host': 'admin.pix.fr',
+        },
+        payload: {
+          data: {
+            attributes: {
+              identity_provider: 'OIDC_EXAMPLE_NET',
+              authentication_key: userAuthenticationKey,
+              email: victim.email,
+            },
+          },
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(404);
+      expect(response.result.errors[0].code).to.equal('USER_ACCOUNT_NOT_FOUND');
+      expect(response.result).to.not.have.property('access_token');
+
+      const oidcAuthenticationMethods = await knex('authentication-methods').where({
+        userId: victim.id,
+        identityProvider: 'OIDC_EXAMPLE_NET',
+      });
+      expect(oidcAuthenticationMethods).to.have.lengthOf(0);
+    });
+
     it('returns an accessToken with a 200 HTTP status code', async function () {
       // given
       const start = new Date();
@@ -214,6 +270,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
         userInfo: {
           firstName: 'Brice',
           lastName: 'Glace',
+          email: user.email,
           externalIdentityId: 'some-user-unique-id',
         },
       });
@@ -304,6 +361,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
           userInfo: {
             firstName: 'Brice',
             lastName: 'Glace',
+            email: user.email,
             externalIdentityId: 'some-user-unique-id',
           },
         });
