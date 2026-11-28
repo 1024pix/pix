@@ -140,4 +140,14 @@ export const ltiService = {
           .filter((organizationExternalId) => organizationExternalId !== '') ?? [],
     };
   },
+
+  async getFrameAncestorsDirective(dependencies = { ltiPlatformRepository }) {
+    const platforms = await dependencies.ltiPlatformRepository.findAll();
+
+    if (platforms.length === 0) return "frame-ancestors 'none';";
+
+    const platformIssuerOrigins = platforms.map(({ issuerOrigin }) => issuerOrigin);
+
+    return `frame-ancestors ${platformIssuerOrigins.join(' ')};`;
+  },
 };
