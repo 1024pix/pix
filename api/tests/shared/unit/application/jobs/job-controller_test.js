@@ -1,20 +1,76 @@
 import { expect } from 'chai';
 
-import { checkJobGroups, JobController, JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
+import {
+  checkJobGroups,
+  JobController,
+  JobGroup,
+  JobTeam,
+} from '../../../../../src/shared/application/jobs/job-controller.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { JobExpireIn } from '../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { catchErr, catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Shared | Application | Jobs | JobController', function () {
+  const description = 'Does something, for some reason.';
+  const team = JobTeam.STAFF;
+
   it('should require a job name', async function () {
     // given
     const jobName = null;
 
     // when
-    const error = catchErrSync((jobName) => new JobController(jobName))(jobName);
+    const error = catchErrSync((jobName) => new JobController(jobName, { description, team }))(jobName);
 
     // then
     expect(error).to.be.instanceOf(EntityValidationError);
+  });
+
+  it('should require a description, naming the job to fix', async function () {
+    // given
+    class UndocumentedJobController extends JobController {
+      constructor() {
+        super('UndocumentedJob');
+      }
+    }
+
+    // when
+    const error = catchErrSync(() => new UndocumentedJobController())();
+
+    // then
+    expect(error).to.be.instanceOf(Error).and.not.instanceOf(EntityValidationError);
+    expect(error.message).to.equal(
+      'Job "UndocumentedJob" (UndocumentedJobController) has no description. ' +
+        'Pass a "description" option to the JobController constructor saying what the job does and when it runs: ' +
+        'the documentation of the jobs is generated from it (npm run doc:jobs).',
+    );
+  });
+
+  it('should reject a blank description', async function () {
+    // when
+    const error = catchErrSync(() => new JobController('jobName', { description: '   ', team }))();
+
+    // then
+    expect(error.message).to.match(/^Job "jobName" \(JobController\) has no description\./);
+  });
+
+  it('should require an owner team, naming the job to fix', async function () {
+    // when
+    const error = catchErrSync(() => new JobController('jobName', { description }))();
+
+    // then
+    expect(error).to.be.instanceOf(Error).and.not.instanceOf(EntityValidationError);
+    expect(error.message).to.equal(
+      'Job "jobName" (JobController) has no owner team. ' +
+        `Pass a "team" option to the JobController constructor, one of JobTeam [${Object.values(JobTeam)}].`,
+    );
+  });
+
+  it('should reject a team outside JobTeam', async function () {
+    // when
+    const error = catchErrSync(() => new JobController('jobName', { description, team: 'team-nope' }))();
+
+    // then
+    expect(error.message).to.match(/^Job "jobName" \(JobController\) has no owner team\./);
   });
 
   it('should require a valid job group', async function () {
@@ -22,7 +78,7 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
     const jobGroup = 'is-invalid-group';
 
     // when
-    const error = catchErrSync((jobGroup) => new JobController('jobName', { jobGroup }))(jobGroup);
+    const error = catchErrSync((jobGroup) => new JobController('jobName', { description, team, jobGroup }))(jobGroup);
 
     // then
     expect(error).to.be.instanceOf(EntityValidationError);
@@ -35,11 +91,13 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
     const expireIn = JobExpireIn.INFINITE;
 
     // when
-    const controller = new JobController(jobName);
+    const controller = new JobController(jobName, { description, team });
 
     // then
     expect(controller).to.be.instanceOf(JobController).and.to.deep.equal({
       jobName,
+      description,
+      team,
       jobGroup,
       expireIn,
       isDeadLetterQueueEnabled: false,
@@ -48,7 +106,7 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
 
   it('should set isDeadLetterQueueEnabled to false by default', function () {
     // when
-    const controller = new JobController('jobName');
+    const controller = new JobController('jobName', { description, team });
 
     // then
     expect(controller.isDeadLetterQueueEnabled).to.be.false;
@@ -56,7 +114,7 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
 
   it('should allow enabling the dead letter queue', function () {
     // when
-    const controller = new JobController('jobName', { isDeadLetterQueueEnabled: true });
+    const controller = new JobController('jobName', { description, team, isDeadLetterQueueEnabled: true });
 
     // then
     expect(controller.isDeadLetterQueueEnabled).to.be.true;
@@ -64,7 +122,7 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
 
   it('should set isJobEnabled to true by default', function () {
     // when
-    const controller = new JobController('jobName');
+    const controller = new JobController('jobName', { description, team });
 
     // then
     expect(controller.isJobEnabled).to.be.true;
@@ -72,7 +130,7 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
 
   it('should set legacyName to null by default', function () {
     // when
-    const controller = new JobController('jobName');
+    const controller = new JobController('jobName', { description, team });
 
     // then
     expect(controller.legacyName).to.be.null;

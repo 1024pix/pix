@@ -9,6 +9,24 @@ export const JobGroup = {
   MADDO: 'maddo',
 };
 
+/**
+ * Teams owning the jobs, the GitHub teams of `.github/CODEOWNERS` without their `team-` prefix
+ * @readonly
+ * @enum {string}
+ */
+export const JobTeam = Object.freeze({
+  ACCES: 'acces',
+  ACQUISITION: 'acquisition',
+  CAPTAINS: 'captains',
+  CERTIFICATION: 'certification',
+  CONTENU: 'contenu',
+  DATA: 'data',
+  DEVCOMP: 'devcomp',
+  PRESCRIPTION: 'prescription',
+  STAFF: 'staff',
+  COMBINIX: 'combinix',
+});
+
 export function checkJobGroups(jobGroups) {
   if (!jobGroups) throw new Error('Job groups are mandatory');
   for (const jobGroup of jobGroups) {
@@ -19,8 +37,20 @@ export function checkJobGroups(jobGroups) {
 }
 
 export class JobController {
+  /**
+   * @param {string} jobName - name of the pg-boss queue
+   * @param {object} options
+   * @param {string} options.description - what the job does and when it runs, for the generated documentation (`npm run doc:jobs`)
+   * @param {string} options.team - the JobTeam owning the job, who can confirm what it does and why
+   * @param {string} [options.jobGroup]
+   * @param {number} [options.expireIn]
+   * @param {boolean} [options.isDeadLetterQueueEnabled]
+   */
   constructor(jobName, options = {}) {
     this.jobName = jobName;
+    this.description = options.description;
+    this.team = options.team;
+    this.#requireDocumentation();
     this.jobGroup = options.jobGroup ?? JobGroup.DEFAULT;
     this.expireIn = options.expireIn ?? JobExpireIn.INFINITE;
     this.isDeadLetterQueueEnabled = options.isDeadLetterQueueEnabled ?? false;
@@ -38,6 +68,24 @@ export class JobController {
 
   get localConcurrency() {
     return config.pgBoss.localConcurrency;
+  }
+
+  // Developer errors, not entity validation ones: the message says which job to fix and how
+  #requireDocumentation() {
+    const job = `Job "${this.jobName}" (${this.constructor.name})`;
+    if (typeof this.description !== 'string' || this.description.trim() === '') {
+      throw new Error(
+        `${job} has no description. ` +
+          'Pass a "description" option to the JobController constructor saying what the job does and when it runs: ' +
+          'the documentation of the jobs is generated from it (npm run doc:jobs).',
+      );
+    }
+    if (!Object.values(JobTeam).includes(this.team)) {
+      throw new Error(
+        `${job} has no owner team. ` +
+          `Pass a "team" option to the JobController constructor, one of JobTeam [${Object.values(JobTeam)}].`,
+      );
+    }
   }
 
   #schema = Joi.object({

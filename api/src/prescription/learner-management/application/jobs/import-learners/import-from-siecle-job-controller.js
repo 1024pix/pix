@@ -1,5 +1,5 @@
 import { config } from '../../../../../../config/config.js';
-import { JobController } from '../../../../../shared/application/jobs/job-controller.js';
+import { JobController, JobTeam } from '../../../../../shared/application/jobs/job-controller.js';
 import { DomainError } from '../../../../../shared/domain/errors.js';
 import { logger as l } from '../../../../../shared/infrastructure/utils/logger.js';
 import { ImportFromSiecleJob } from '../../../domain/models/jobs/ImportFromSiecleJob.js';
@@ -9,7 +9,11 @@ class ImportFromSiecleJobController extends JobController {
   #logger;
 
   constructor({ logger = l } = {}) {
-    super(ImportFromSiecleJob.name);
+    super(ImportFromSiecleJob.name, {
+      description:
+        "Importe les élèves d'un fichier SIECLE (collèges et lycées) préalablement validé par ValidateSiecleFileJob, pour l'import d'organisation indiqué.",
+      team: JobTeam.PRESCRIPTION,
+    });
     this.#logger = logger;
   }
 

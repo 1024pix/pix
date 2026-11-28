@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
-import { jobControllers } from '../../jobs.js';
+import { jobControllers, jobControllersByContext } from '../../jobs.js';
+import { renderJobsDocumentation } from '../../scripts/generate-jobs-documentation.js';
 import { JobController } from '../../src/shared/application/jobs/job-controller.js';
 
 describe('Unit | jobs', function () {
@@ -21,5 +22,14 @@ describe('Unit | jobs', function () {
     const jobNames = jobControllers.map((JobControllerClass) => String(new JobControllerClass().jobName));
 
     expect(new Set(jobNames).size).to.equal(jobNames.length);
+  });
+
+  it('documents every job with its queue name and description', function () {
+    const documentation = renderJobsDocumentation(jobControllersByContext);
+
+    for (const JobControllerClass of jobControllers) {
+      const job = new JobControllerClass();
+      expect(documentation).to.include(`### ${job.jobName}\n\n${job.description}\n`);
+    }
   });
 });

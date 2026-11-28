@@ -3,6 +3,7 @@ import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 
 import { config } from '../../../../../config/config.js';
+import { JobTeam } from '../../../../shared/application/jobs/job-controller.js';
 import { JobScheduleController } from '../../../../shared/application/jobs/job-schedule-controller.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CpfExportBuilderJob } from '../../domain/models/CpfExportBuilderJob.js';
@@ -16,7 +17,12 @@ const { plannerJob } = config.cpf;
 
 export class CpfExportPlannerJobController extends JobScheduleController {
   constructor() {
-    super('CpfExportPlannerJob', { jobCron: config.cpf.plannerJob.cron });
+    super('CpfExportPlannerJob', {
+      description:
+        'Sélectionne périodiquement les certifications publiées éligibles au CPF (Compte personnel de formation) sur la période de référence, les répartit en lots et planifie un CpfExportBuilderJob par lot.',
+      team: JobTeam.CERTIFICATION,
+      jobCron: config.cpf.plannerJob.cron,
+    });
   }
 
   get isJobEnabled() {

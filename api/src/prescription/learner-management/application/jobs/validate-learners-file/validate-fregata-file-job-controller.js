@@ -1,5 +1,5 @@
 import { config } from '../../../../../../config/config.js';
-import { JobController } from '../../../../../shared/application/jobs/job-controller.js';
+import { JobController, JobTeam } from '../../../../../shared/application/jobs/job-controller.js';
 import { DomainError } from '../../../../../shared/domain/errors.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
 import { logger as l } from '../../../../../shared/infrastructure/utils/logger.js';
@@ -11,7 +11,11 @@ class ValidateFregataFileJobController extends JobController {
   #logger;
 
   constructor({ logger = l } = {}) {
-    super(ValidateFregataFileJob.name);
+    super(ValidateFregataFileJob.name, {
+      description:
+        "Valide le fichier Fregata (enseignement agricole) déposé pour un import d'organisation et, s'il est valide, planifie son import par ImportFromFregataJob.",
+      team: JobTeam.PRESCRIPTION,
+    });
     this.#logger = logger;
   }
 

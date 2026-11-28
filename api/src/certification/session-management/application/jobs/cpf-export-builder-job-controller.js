@@ -6,7 +6,7 @@ import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 
 import * as cpfCertificationXmlExportService from '../../../../../src/certification/session-management/domain/services/cpf-certification-xml-export-service.js';
-import { JobController } from '../../../../shared/application/jobs/job-controller.js';
+import { JobController, JobTeam } from '../../../../shared/application/jobs/job-controller.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CpfExportBuilderJob } from '../../domain/models/CpfExportBuilderJob.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -17,7 +17,11 @@ dayjs.extend(timezone);
 
 export class CpfExportBuilderJobController extends JobController {
   constructor() {
-    super(CpfExportBuilderJob.name);
+    super(CpfExportBuilderJob.name, {
+      description:
+        "Génère le fichier XML compressé des résultats de certification d'un lot planifié par CpfExportPlannerJob, le dépose sur le stockage objet et marque les certifications comme exportées vers le CPF (Compte personnel de formation).",
+      team: JobTeam.CERTIFICATION,
+    });
   }
 
   async handle({

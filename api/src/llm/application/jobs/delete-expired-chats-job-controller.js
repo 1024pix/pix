@@ -1,6 +1,7 @@
 import { setTimeout } from 'node:timers/promises';
 
 import { config } from '../../../../config/config.js';
+import { JobTeam } from '../../../shared/application/jobs/job-controller.js';
 import { JobScheduleController } from '../../../shared/application/jobs/job-schedule-controller.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
@@ -12,6 +13,9 @@ const MAX_SAFE_ITER_COUNT = 1_000_000;
 class DeleteExpiredChatsJobController extends JobScheduleController {
   constructor() {
     super('DeleteExpiredChatsJob', {
+      description:
+        "Supprime périodiquement, par lots, les conversations avec l'assistant IA et leurs messages plus anciennes que la durée de conservation configurée. Un mode dry run permet de ne faire que les compter.",
+      team: JobTeam.CONTENU,
       jobCron: config.llm.deleteChatsJob.cron,
     });
   }

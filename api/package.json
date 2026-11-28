@@ -49,6 +49,7 @@
     "doc:api:team": "node scripts/generate-api-documentation.js src/team > src/team/API.md",
     "doc:api:organizational-entities": "node scripts/generate-api-documentation.js src/organizational-entities > src/organizational-entities/API.md",
     "doc:api:quest": "node scripts/generate-api-documentation.js src/quest > src/quest/API.md",
+    "doc:jobs": "node scripts/generate-jobs-documentation.js > JOBS.md",
     "lint": "run-s -clns 'lint:(dependencies|context-deps|filenames|js|format|types)'",
     "lint:fix": "run-s -clns 'lint:(js|format):fix' 'lint:(dependencies|context-deps|filenames|types)'",
     "lint:dependencies": "knip -n",

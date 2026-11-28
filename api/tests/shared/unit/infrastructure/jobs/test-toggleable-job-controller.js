@@ -1,9 +1,9 @@
 import { config } from '../../../../../config/config.js';
-import { JobController } from '../../../../../src/shared/application/jobs/job-controller.js';
+import { JobController, JobTeam } from '../../../../../src/shared/application/jobs/job-controller.js';
 
 export class TestToggleableJobController extends JobController {
   constructor() {
-    super('Test.ToggleableJob');
+    super('Test.ToggleableJob', { description: 'Test job toggled by configuration.', team: JobTeam.STAFF });
   }
 
   get isJobEnabled() {

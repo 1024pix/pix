@@ -1,11 +1,15 @@
 import { config } from '../../../../config/config.js';
-import { JobController } from '../../../shared/application/jobs/job-controller.js';
+import { JobController, JobTeam } from '../../../shared/application/jobs/job-controller.js';
 import { UpdateCombineCourseJob } from '../../domain/models/combined-course-participations/events/UpdateCombinedCourseJob.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 class UpdateCombinedCourseJobController extends JobController {
   constructor() {
-    super(UpdateCombineCourseJob.name);
+    super(UpdateCombineCourseJob.name, {
+      description:
+        "Met à jour la progression des parcours combinés d'un utilisateur lorsqu'il termine un passage de module Modulix.",
+      team: JobTeam.COMBINIX,
+    });
   }
 
   get isJobEnabled() {
