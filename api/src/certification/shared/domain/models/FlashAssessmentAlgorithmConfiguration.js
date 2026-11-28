@@ -11,6 +11,7 @@ export class FlashAssessmentAlgorithmConfiguration {
     variationPercent: Joi.number().min(0).max(1).required(),
     defaultCandidateCapacity: Joi.number().required(),
     defaultProbabilityToPickChallenge: Joi.number().min(0).max(100).required(),
+    questionNumberToPickFromSkillList: Joi.array().items(Joi.number().integer().min(1)),
   });
 
   /**
@@ -21,8 +22,10 @@ export class FlashAssessmentAlgorithmConfiguration {
    * @param {boolean} props.enablePassageByAllCompetences - enable or disable the passage through all competences
    * @param {number} props.variationPercent
    * @param {number} props.defaultCandidateCapacity - starting candidate capacity for first challenge
-   * @param {number} props.defaultProbabilityToPickChallenge - The probability (as a percentage, 0-100) that the ramdomizing function will pick a challenge from a list of possible challenges.
+   * @param {number} props.defaultProbabilityToPickChallenge - The probability (as a percentage, 0-100) that the randomizing function will pick a challenge from a list of possible challenges.
+   * @param {number} props.questionNumberToPickFromSkillList - specify the number of each question that should be picked from a skill list.
    */
+
   constructor({
     maximumAssessmentLength,
     challengesBetweenSameCompetence,
@@ -31,6 +34,7 @@ export class FlashAssessmentAlgorithmConfiguration {
     variationPercent,
     defaultCandidateCapacity,
     defaultProbabilityToPickChallenge,
+    questionNumberToPickFromSkillList,
   } = {}) {
     this.maximumAssessmentLength = maximumAssessmentLength;
     this.challengesBetweenSameCompetence = challengesBetweenSameCompetence;
@@ -39,6 +43,7 @@ export class FlashAssessmentAlgorithmConfiguration {
     this.variationPercent = variationPercent;
     this.defaultCandidateCapacity = defaultCandidateCapacity;
     this.defaultProbabilityToPickChallenge = defaultProbabilityToPickChallenge;
+    this.questionNumberToPickFromSkillList = questionNumberToPickFromSkillList;
     this.#validate();
   }
 
