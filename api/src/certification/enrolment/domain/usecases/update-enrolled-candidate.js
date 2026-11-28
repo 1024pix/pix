@@ -8,21 +8,19 @@ import { CertificationCandidateNotFoundError } from '../../../shared/domain/erro
 
 /**
  * @param {object} params
- * @param {EditedCandidate} params.editedCandidate
+ * @param {Candidate} params.candidate
  * @param {CandidateRepository} params.candidateRepository
  */
-export const updateEnrolledCandidate = withTransaction(async function ({ editedCandidate, candidateRepository }) {
-  const foundCandidate = await candidateRepository.get({ certificationCandidateId: editedCandidate.id });
+export const updateEnrolledCandidate = withTransaction(async function ({ candidate, candidateRepository }) {
+  const foundCandidate = await candidateRepository.get({ certificationCandidateId: candidate.id });
 
   if (!foundCandidate) {
     throw new CertificationCandidateNotFoundError();
   }
 
-  if (foundCandidate.isReconciled()) {
+  if (foundCandidate.isReconciled() || candidate.isReconciled()) {
     throw new CandidateAlreadyLinkedToUserError();
   }
-
-  foundCandidate.updateAccessibilityAdjustmentNeededStatus(editedCandidate.accessibilityAdjustmentNeeded);
-
-  return candidateRepository.update(foundCandidate);
+  
+  return candidateRepository.update(candidate);
 });

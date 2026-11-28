@@ -1,11 +1,11 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
 import { Candidate } from '../../domain/models/Candidate.js';
-import { EditedCandidate } from '../../domain/models/EditedCandidate.js';
 
 const { Deserializer, Serializer } = jsonapiSerializer;
 
 async function deserialize(json) {
+  console.log({json})
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
   const deserializedCandidate = await deserializer.deserialize(json);
   deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
@@ -26,13 +26,6 @@ function _resolveSubscription(deserializedCandidate, json) {
   const subscriptions = json?.data?.attributes?.subscriptions;
   const complementary = subscriptions.find((s) => s.type === 'COMPLEMENTARY');
   return complementary?.complementaryCertificationKey ?? 'CORE';
-}
-
-function deserializeForEdition({ candidateId, candidateData }) {
-  return new EditedCandidate({
-    id: candidateId,
-    accessibilityAdjustmentNeeded: candidateData['accessibility-adjustment-needed'],
-  });
 }
 
 function serializeForParticipation(candidate) {
@@ -91,7 +84,6 @@ function serializeForSession(candidates) {
 
 export const candidateSerializer = {
   deserialize,
-  deserializeForEdition,
   serializeForParticipation,
   serializeId,
   serialize,

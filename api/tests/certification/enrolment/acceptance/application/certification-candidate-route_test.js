@@ -332,6 +332,23 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
           data: {
             attributes: {
               'accessibility-adjustment-needed': true,
+              'first-name': 'prenom',
+              'last-name': 'nom',
+              birthdate: '2000-01-01',
+              'birth-city': null,
+              'birth-province-code': null,
+              'birth-country': 'FRANCE',
+              'birth-postal-code': null,
+              'birth-insee-code': '75115',
+              email: 'guybrush.threepwood@example.net',
+              'result-recipient-email': 'theotherone@example.net',
+              'external-id': '44AA3355',
+              'extra-time-percentage': 0.15,
+              'organization-learner-id': null,
+              sex: 'F',
+              'billing-mode': 'FREE',
+              'prepayment-code': null,
+              subscription: Frameworks.DROIT,
             },
           },
         },
@@ -342,11 +359,31 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
       const response = await server.inject(options);
 
       // then
-      const [{ accessibilityAdjustmentNeeded: candidateAccessibilityAdjustmentNeededExpected }] = await knex
-        .select('accessibilityAdjustmentNeeded')
+      const updatedCandidate = await knex
         .from('certification-candidates')
-        .where({ id: candidateId });
-      expect(candidateAccessibilityAdjustmentNeededExpected).to.equal(true);
+        .where({ id: candidateId })
+        .first();
+
+        expect(updatedCandidate).to.deep.equal({
+              accessibilityAdjustmentNeeded: true,
+              firstName: 'prenom',
+              lastName: 'nom',
+              birthdate: '2000-01-01',
+              birthCity: null,
+              birthProvinceCode: null,
+              birthCountry: 'FRANCE',
+              birthPostalCode: null,
+              birthINSEECode: '75115',
+              email: 'guybrush.threepwood@example.net',
+              resultRecipientEmail: 'theotherone@example.net',
+              externalId: '44AA3355',
+              extraTimePercentage: 0.15,
+              organizationLearnerId: null,
+              sex: 'F',
+              billingMode: 'FREE',
+              prepaymentCode: null,
+              subscription: Frameworks.DROIT,
+        })
       expect(response.statusCode).to.equal(204);
     });
   });
