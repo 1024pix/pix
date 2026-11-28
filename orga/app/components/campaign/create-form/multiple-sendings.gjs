@@ -50,7 +50,7 @@ export default class MultipleSendings extends Component {
 
           <:message>
             {{t @infoKey}}
-            {{#if @campaign.targetProfile.areKnowledgeElementsResettable}}
+            {{#if @campaign.course.areKnowledgeElementsResettable}}
               {{t "pages.campaign-creation.multiple-sendings.knowledge-elements-resettable"}}
             {{/if}}
           </:message>

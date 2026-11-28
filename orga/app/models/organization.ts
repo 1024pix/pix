@@ -3,15 +3,12 @@ import type { Type } from '@warp-drive/core/types/symbols';
 import Model, { type AsyncBelongsTo, type AsyncHasMany, attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
 import type { BooleanTransform, DateTransform, StringTransform } from '@warp-drive/legacy/serializer/transform';
 
-import type Campaign from './campaign';
-import type CombinedCourse from './combined-course';
 import type CombinedCourseBlueprint from './combined-course-blueprint';
 import type Division from './division';
 import type Group from './group';
 import type OrganizationInvitation from './organization-invitation';
 import type OrganizationLearnerFilter from './organization-learner-filter';
 import type ParticipationStatistic from './participation-statistic';
-import type TargetProfile from './target-profile';
 
 export default class Organization extends Model {
   declare [Type]: 'organization';
@@ -25,14 +22,6 @@ export default class Organization extends Model {
   @attr<StringTransform>('string') declare identityProviderForCampaigns: string | null;
   @attr<StringTransform>('string') declare schoolCode: string | null;
   @attr<DateTransform>('date') declare sessionExpirationDate: Date | null;
-
-  @hasMany<CombinedCourse>('combined-course', { async: true, inverse: null })
-  declare combinedCourses: AsyncHasMany<CombinedCourse>;
-
-  @hasMany<Campaign>('campaign', { async: true, inverse: 'organization' }) declare campaigns: AsyncHasMany<Campaign>;
-
-  @hasMany<TargetProfile>('target-profile', { async: true, inverse: null })
-  declare targetProfiles: AsyncHasMany<TargetProfile>;
 
   @hasMany<CombinedCourseBlueprint>('combined-course-blueprint', { async: true, inverse: null })
   declare combinedCourseBlueprints: AsyncHasMany<CombinedCourseBlueprint>;

@@ -22,31 +22,9 @@ const serialize = function (userOrgaSettings) {
         'type',
         'isManagingStudents',
         'externalId',
-        'campaigns',
-        'targetProfiles',
         'memberships',
         'organizationInvitations',
       ],
-      campaigns: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        nullIfMissing: true,
-        relationshipLinks: {
-          related: function (record, current, parent) {
-            return `/api/organizations/${parent.id}/campaigns`;
-          },
-        },
-      },
-      targetProfiles: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        nullIfMissing: true,
-        relationshipLinks: {
-          related: function (record, current, parent) {
-            return `/api/organizations/${parent.id}/target-profiles`;
-          },
-        },
-      },
       memberships: {
         ref: 'id',
         ignoreRelationshipData: true,

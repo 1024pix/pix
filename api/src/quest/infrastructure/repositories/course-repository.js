@@ -45,6 +45,7 @@ export const findByOrganizationId = async ({ organizationId, locale }) => {
       nbModules: row.nbModules,
       category: row.category,
       isSimplifiedAccess: row.isSimplifiedAccess,
+      areKnowledgeElementsResettable: row.areKnowledgeElementsResettable,
       areas,
       durationSpan: row.durationSpan,
       createdAt: row.createdAt,
@@ -85,6 +86,7 @@ const buildBlueprintRow = (blueprint, tubeIdsByTargetProfileId) => {
     tubeIds: uniqueTubeIds,
     category: null,
     isSimplifiedAccess: null,
+    areKnowledgeElementsResettable: null,
     durationSpan: blueprint.durationSpan,
   };
 };
@@ -100,6 +102,7 @@ const buildTargetProfileRow = (targetProfile, tubeIdsByTargetProfileId) => {
     tubeIds,
     category: targetProfile.category,
     isSimplifiedAccess: targetProfile.isSimplifiedAccess,
+    areKnowledgeElementsResettable: targetProfile.areKnowledgeElementsResettable,
     durationSpan: null,
   };
 };

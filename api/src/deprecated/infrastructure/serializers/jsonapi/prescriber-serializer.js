@@ -58,7 +58,6 @@ const serialize = function (prescriber) {
           'isManagingStudents',
           'isAgriculture',
           'identityProviderForCampaigns',
-          'targetProfiles',
           'combinedCourseBlueprints',
           'memberships',
           'divisions',
@@ -67,7 +66,6 @@ const serialize = function (prescriber) {
           'participationStatistics',
           'groups',
           'schoolCode',
-          'combinedCourses',
           'sessionExpirationDate',
           'learnerFiltersOptions',
         ],
@@ -88,16 +86,6 @@ const serialize = function (prescriber) {
           relationshipLinks: {
             related: function (record, current, parent) {
               return `/api/organizations/${parent.id}/invitations`;
-            },
-          },
-        },
-        targetProfiles: {
-          ref: 'id',
-          ignoreRelationshipData: true,
-          nullIfMissing: true,
-          relationshipLinks: {
-            related: function (record, current, parent) {
-              return `/api/organizations/${parent.id}/target-profiles`;
             },
           },
         },
@@ -141,16 +129,6 @@ const serialize = function (prescriber) {
           relationshipLinks: {
             related: function (record, current, parent) {
               return `/api/organizations/${parent.id}/participation-statistics`;
-            },
-          },
-        },
-        combinedCourses: {
-          ref: 'id',
-          ignoreRelationshipData: true,
-          nullIfMissing: true,
-          relationshipLinks: {
-            related: function (record, current, parent) {
-              return `/api/organizations/${parent.id}/combined-courses`;
             },
           },
         },

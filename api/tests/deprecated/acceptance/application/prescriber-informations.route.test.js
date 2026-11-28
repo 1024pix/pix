@@ -119,11 +119,6 @@ describe('Deprecated | Acceptance | Application | Routes | prescriber-informatio
                 type: organization.type,
               },
               relationships: {
-                'combined-courses': {
-                  links: {
-                    related: `/api/organizations/${organization.id}/combined-courses`,
-                  },
-                },
                 'combined-course-blueprints': {
                   links: {
                     related: `/api/organizations/${organization.id}/combined-course-blueprints`,
@@ -152,11 +147,6 @@ describe('Deprecated | Acceptance | Application | Routes | prescriber-informatio
                 'participation-statistics': {
                   links: {
                     related: `/api/organizations/${organization.id}/participation-statistics`,
-                  },
-                },
-                'target-profiles': {
-                  links: {
-                    related: `/api/organizations/${organization.id}/target-profiles`,
                   },
                 },
                 'learner-filters-options': {

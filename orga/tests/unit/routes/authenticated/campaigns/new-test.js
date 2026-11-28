@@ -259,7 +259,6 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
 
           const organization = EmberObject.create({
             id: 12345,
-            targetProfiles: new Promise((resolve) => resolve([])),
           });
 
           class CurrentUserStub extends Service {
@@ -275,18 +274,16 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
             type: Symbol('campaign type'),
             title: Symbol('campaign title'),
             description: Symbol('campaign description'),
-            targetProfileId: 'targetProfileId', // Symbol('campaign target profile id'),
+            targetProfileId: Symbol('campaign target profile id'),
             ownerId: Symbol('campaign owner id'),
             multipleSendings: Symbol('campaign multiple sendings activation'),
             externalIdLabel: Symbol('campaign external id'),
             customLandingPageText: Symbol('campaign custom landing page text'),
           };
-          const targetProfile = Symbol('campaign target profile');
 
           const expectedCampaignAttributes = {
             ...sourceCampaign,
             name: 'Copie de A real campaign name',
-            targetProfile,
             organization,
           };
 
@@ -302,7 +299,6 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
           const findAllStub = sinon.stub();
           const findRecordStub = sinon.stub();
           const createRecordStub = sinon.stub();
-          const peekRecordStub = sinon.stub();
 
           const courseRecord = {
             id: Symbol('course-id'),
@@ -316,13 +312,11 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
             .resolves([courseRecord]);
 
           findRecordStub.withArgs('campaign', source).resolves(sourceCampaign);
-          peekRecordStub.withArgs('target-profile', sourceCampaign.targetProfileId).resolves(targetProfile);
 
           class StoreStub extends Service {
             findAll = findAllStub;
             createRecord = createRecordStub.resolves(duplicatedCampaignRecord);
             findRecord = findRecordStub;
-            peekRecord = peekRecordStub;
           }
 
           this.owner.register('service:store', StoreStub);
@@ -332,7 +326,6 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
 
           assert.strictEqual(await model.campaign, duplicatedCampaignRecord);
           sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
-          assert.false(model.targetProfiles instanceof Promise);
         });
       });
 
@@ -426,12 +419,9 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
             externalIdLabel: Symbol('campaign external id'),
             customLandingPageText: Symbol('campaign custom landing page text'),
           };
-          const targetProfile = Symbol('campaign target profile');
-
           const expectedCampaignAttributes = {
             ...sourceCampaign,
             name: 'Copie de A real campaign name',
-            targetProfile,
             organization,
           };
 
@@ -447,7 +437,6 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
           const findAllStub = sinon.stub();
           const findRecordStub = sinon.stub();
           const createRecordStub = sinon.stub();
-          const peekRecordStub = sinon.stub();
 
           const courseRecord = {
             id: Symbol('courseId'),
@@ -461,13 +450,11 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
             .resolves([courseRecord]);
 
           findRecordStub.withArgs('campaign', source).resolves(sourceCampaign);
-          peekRecordStub.withArgs('target-profile', sourceCampaign.targetProfileId).resolves(targetProfile);
 
           class StoreStub extends Service {
             findAll = findAllStub;
             createRecord = createRecordStub.resolves(duplicatedCampaignRecord);
             findRecord = findRecordStub;
-            peekRecord = peekRecordStub;
           }
 
           this.owner.register('service:store', StoreStub);
@@ -476,7 +463,6 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
           const model = await route.model({ source });
           assert.strictEqual(model.campaign.type, 'EXAM');
           sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
-          assert.false(model.targetProfiles instanceof Promise);
         });
       });
 
@@ -542,6 +528,7 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
       });
     });
   });
+
   module('resetController', function () {
     test('should reset source to null when isExiting true', function (assert) {
       const route = this.owner.lookup('route:authenticated/campaigns/new');

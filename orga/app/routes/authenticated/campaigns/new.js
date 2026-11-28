@@ -44,15 +44,6 @@ export default class NewRoute extends Route {
           'customLandingPageText',
         ]);
         campaignAttributes.name = `${this.intl.t('pages.campaign-creation.copy-of')} ${from.name}`;
-        if (campaignAttributes.targetProfileId) {
-          // TODO probably remove organization target profiles relationship
-          // TODO remove target profile content peek here, as we refer only to its id for the course now + update tests
-          await organization.targetProfiles;
-          campaignAttributes.targetProfile = await this.store.peekRecord(
-            'target-profile',
-            campaignAttributes.targetProfileId,
-          );
-        }
       } catch {
         this.router.replaceWith('authenticated.campaigns.new', { queryParams: { source: null } });
       }

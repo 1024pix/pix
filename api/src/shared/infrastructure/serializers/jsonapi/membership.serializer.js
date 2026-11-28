@@ -27,7 +27,6 @@ const serialize = function (membership, meta) {
         'isManagingStudents',
         'externalId',
         'campaigns',
-        'targetProfiles',
         'memberships',
         'organizationInvitations',
       ],
@@ -38,16 +37,6 @@ const serialize = function (membership, meta) {
         relationshipLinks: {
           related: function (record, current, parent) {
             return `/api/organizations/${parent.id}/campaigns`;
-          },
-        },
-      },
-      targetProfiles: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        nullIfMissing: true,
-        relationshipLinks: {
-          related: function (record, current, parent) {
-            return `/api/organizations/${parent.id}/target-profiles`;
           },
         },
       },
@@ -104,7 +93,6 @@ const serializeForAdmin = function (membership, meta) {
         'isManagingStudents',
         'externalId',
         'campaigns',
-        'targetProfiles',
         'organizationMemberships',
         'students',
         'organizationInvitations',
@@ -116,16 +104,6 @@ const serializeForAdmin = function (membership, meta) {
         relationshipLinks: {
           related: function (record, current, parent) {
             return `/api/organizations/${parent.id}/campaigns`;
-          },
-        },
-      },
-      targetProfiles: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        nullIfMissing: true,
-        relationshipLinks: {
-          related: function (record, current, parent) {
-            return `/api/organizations/${parent.id}/target-profiles`;
           },
         },
       },

@@ -297,6 +297,7 @@ describe('Integration | Repository | Target-profile', function () {
         name: 'Mon profil',
         category: 'SUBJECT',
         isSimplifiedAccess: false,
+        areKnowledgeElementsResettable: true,
       });
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfile.id, organizationId });
       await databaseBuilder.commit();
@@ -310,6 +311,7 @@ describe('Integration | Repository | Target-profile', function () {
       expect(result[0].name).to.equal('Mon profil');
       expect(result[0].category).to.equal('SUBJECT');
       expect(result[0].isSimplifiedAccess).to.equal(false);
+      expect(result[0].areKnowledgeElementsResettable).to.equal(true);
       expect(result[0].createdAt).to.be.instanceOf(Date);
     });
 
