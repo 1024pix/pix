@@ -48,6 +48,48 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
     });
   });
 
+  module('#enablePasswordEditionMode', function () {
+    test('should show password edition form', async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+      controller.set('isPasswordEditionMode', false);
+
+      // when
+      await controller.enablePasswordEditionMode();
+
+      // then
+      assert.true(controller.isPasswordEditionMode);
+    });
+  });
+
+  module('#disablePasswordEditionMode', function () {
+    test('should hide password edition form when cancelling process', async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+      controller.set('isPasswordEditionMode', true);
+
+      // when
+      await controller.disablePasswordEditionMode();
+
+      // then
+      assert.false(controller.isPasswordEditionMode);
+    });
+  });
+
+  module('#displayPasswordUpdatedMessage', function () {
+    test('should display password update message', function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+      controller.set('showPasswordUpdatedMessage', false);
+
+      // when
+      controller.displayPasswordUpdatedMessage();
+
+      // then
+      assert.true(controller.showPasswordUpdatedMessage);
+    });
+  });
+
   module('#shouldShowPixAuthenticationMethod', function () {
     test('should display pix authentication method', function (assert) {
       // given & when
@@ -64,25 +106,114 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
     });
   });
 
-  module('#shouldShowGarAuthenticationMethod', function () {
-    test('should display gar authentication method', function (assert) {
-      // given & when
-      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
-      const authenticationMethods = [EmberObject.create({ identityProvider: 'GAR' })];
-      const model = {
-        user: {},
-        authenticationMethods,
-      };
-      controller.set('model', model);
+  module('#emailAndPasswordItems', function () {
+    module('when user has a PIX authentication method', function () {
+      test('lists email, username and password', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+        controller.set('model', {
+          user: { email: 'john.doe@example.net', username: 'john.doe0101' },
+          accountInfo: { canAddEmailConnectionMethod: false },
+          authenticationMethods: [EmberObject.create({ identityProvider: 'PIX' })],
+        });
 
-      // then
-      assert.true(controller.shouldShowGarAuthenticationMethod);
+        // when
+        const items = controller.emailAndPasswordItems;
+
+        // then
+        assert.deepEqual(
+          items.map(({ key }) => key),
+          ['email', 'username', 'password'],
+        );
+        assert.true(items.find(({ key }) => key === 'password').isSecret);
+      });
+    });
+
+    module('when user can add an email connection method', function () {
+      test('lists the add-email item only', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+        controller.set('model', {
+          user: { email: 'only.sso@example.net' },
+          accountInfo: { canAddEmailConnectionMethod: true },
+          authenticationMethods: [EmberObject.create({ identityProvider: 'FRANCE_CONNECT' })],
+        });
+
+        // when
+        const items = controller.emailAndPasswordItems;
+
+        // then
+        assert.deepEqual(
+          items.map(({ key }) => key),
+          ['add-email'],
+        );
+      });
+    });
+
+    module('when user has a PIX authentication method and can add an email connection method', function () {
+      test('lists the PIX items then the add-email item', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+        controller.set('model', {
+          user: { username: 'john.doe0101' },
+          accountInfo: { canAddEmailConnectionMethod: true },
+          authenticationMethods: [
+            EmberObject.create({ identityProvider: 'PIX' }),
+            EmberObject.create({ identityProvider: 'FRANCE_CONNECT' }),
+          ],
+        });
+
+        // when
+        const items = controller.emailAndPasswordItems;
+
+        // then
+        assert.deepEqual(
+          items.map(({ key }) => key),
+          ['username', 'password', 'add-email'],
+        );
+      });
+    });
+
+    module('when user has no PIX authentication method', function () {
+      test('lists nothing', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+        controller.set('model', {
+          user: { email: 'john.doe@example.net' },
+          accountInfo: { canAddEmailConnectionMethod: false },
+          authenticationMethods: [EmberObject.create({ identityProvider: 'FRANCE_CONNECT' })],
+        });
+
+        // when
+        const items = controller.emailAndPasswordItems;
+
+        // then
+        assert.deepEqual(items, []);
+      });
     });
   });
 
-  module('#oidcAuthenticationMethodOrganizationNames', function () {
-    test('should return method organization names', function (assert) {
-      // given & when
+  module('#otherAuthenticationMethodItems', function () {
+    test('lists the GAR authentication method', function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+      controller.set('model', {
+        user: {},
+        authenticationMethods: [EmberObject.create({ identityProvider: 'GAR' })],
+      });
+
+      // when
+      const items = controller.otherAuthenticationMethodItems;
+
+      // then
+      assert.deepEqual(
+        items.map(({ key }) => key),
+        ['gar'],
+      );
+    });
+
+    test('lists the OIDC authentication methods with their organization name', function (assert) {
+      // given
       class OidcIdentityProvidersStub extends Service {
         getIdentityProviderNamesByAuthenticationMethods() {
           return ['France Connect', 'Impots.gouv'];
@@ -90,14 +221,19 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
       }
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
       const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
-      const model = {
+      controller.set('model', {
         user: {},
         authenticationMethods: [EmberObject.create({ identityProvider: 'FRANCE_CONNECT' })],
-      };
-      controller.set('model', model);
+      });
+
+      // when
+      const items = controller.otherAuthenticationMethodItems;
 
       // then
-      assert.ok(controller.oidcAuthenticationMethodOrganizationNames.includes('France Connect'));
+      assert.deepEqual(
+        items.map(({ valueParams }) => valueParams.identityProviderOrganizationName),
+        ['France Connect', 'Impots.gouv'],
+      );
     });
   });
 
