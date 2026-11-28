@@ -1,4 +1,5 @@
 import { certificationEvaluationJobControllers } from './src/certification/evaluation/jobs.js';
+import { certificationResultsJobControllers } from './src/certification/results/jobs.js';
 import { certificationSessionManagementJobControllers } from './src/certification/session-management/jobs.js';
 import { dbHistoryJobControllers } from './src/db-history/jobs.js';
 import { identityAccessManagementJobControllers } from './src/identity-access-management/jobs.js';
@@ -18,6 +19,7 @@ import { teamJobControllers } from './src/team/jobs.js';
  */
 export const jobControllers = [
   ...certificationEvaluationJobControllers,
+  ...certificationResultsJobControllers,
   ...certificationSessionManagementJobControllers,
   ...dbHistoryJobControllers,
   ...identityAccessManagementJobControllers,
