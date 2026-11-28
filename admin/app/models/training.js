@@ -19,6 +19,7 @@ export const localeCategories = {
   fr: 'Francophone (fr)',
   'fr-fr': 'Franco-français (fr-fr)',
   en: 'Anglophone (en)',
+  'fr-BE': 'Belgique francophone (fr-BE)',
 };
 
 export const optionsLocaleList = formatList(localeCategories);

@@ -123,7 +123,7 @@ module('Integration | Component | trainings | CreateOrUpdateTrainingForm', funct
         internalTitle: 'Mon titre interne',
         link: 'https://un-contenu-formatif',
         type: 'webinaire',
-        locales: ['fr-fr'],
+        locales: ['fr-fr', 'fr-BE'],
         editorName: 'Un éditeur de contenu formatif',
         editorLogoUrl: `http://localhost:4202/logo-placeholder.png`,
         duration: { days: 0, hours: 0, minutes: 0 },
@@ -152,7 +152,10 @@ module('Integration | Component | trainings | CreateOrUpdateTrainingForm', funct
       assert.dom(screen.getByLabelText('Jours (JJ)')).hasValue(model.duration.days.toString());
       assert.dom(screen.getByLabelText('Heures (HH)')).hasValue(model.duration.hours.toString());
       assert.dom(screen.getByLabelText('Minutes (MM)')).hasValue(model.duration.minutes.toString());
-      assert.strictEqual(screen.getByLabelText('Locales').innerText, localeCategories[model.locales[0]]);
+      assert.strictEqual(
+        screen.getByLabelText('Locales').innerText,
+        `${localeCategories[model.locales[0]]}, ${localeCategories[model.locales[1]]}`,
+      );
 
       assert
         .dom(

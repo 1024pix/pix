@@ -716,16 +716,28 @@ describe('Integration | Devcomp | Application | Trainings | Router | training-ro
       });
 
       describe('locale', function () {
-        it('should return 400 if the locale is not in lowercase', async function () {
+        const invalidLocaleErrorResponse = {
+          errors: [
+            {
+              status: '400',
+              title: 'Bad Request',
+              detail:
+                '"data.attributes.locales[0]" must be one of [de-AT, en, es, es-419, fr, nl, fr-BE, fr-fr, nl-BE, it]',
+            },
+          ],
+        };
+
+        it('should return 400 if the locale is not in correct case', async function () {
           // given
           const invalidPayload = {
             data: {
               attributes: {
                 link: 'http://www.example.net',
                 title: 'ma formation',
+                'internal-title': 'ma formation titre interne',
                 duration: { days: 2, hours: 2, minutes: 2 },
                 type: 'webinaire',
-                locales: ['fr-BE'],
+                locales: ['fr-be'],
                 'editor-name': 'ministère',
                 'editor-logo-url': 'https://assets.pix.org/contenu-formatif/editeur/image.svg',
               },
@@ -749,6 +761,44 @@ describe('Integration | Devcomp | Application | Trainings | Router | training-ro
 
           // then
           expect(response.statusCode).to.equal(400);
+          expect(JSON.parse(response.payload)).to.deep.equal(invalidLocaleErrorResponse);
+        });
+
+        it('should return 400 if the locale is ’fr-FR’ and not in lowerCase', async function () {
+          // given
+          const invalidPayload = {
+            data: {
+              attributes: {
+                link: 'http://www.example.net',
+                title: 'ma formation',
+                'internal-title': 'ma formation titre interne',
+                duration: { days: 2, hours: 2, minutes: 2 },
+                type: 'webinaire',
+                locales: ['fr-FR'],
+                'editor-name': 'ministère',
+                'editor-logo-url': 'https://assets.pix.org/contenu-formatif/editeur/image.svg',
+              },
+            },
+          };
+          sinon.stub(trainingController, 'create').returns('ok');
+
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+          expect(JSON.parse(response.payload)).to.deep.equal(invalidLocaleErrorResponse);
         });
 
         it('should return 400 if the locale is not supported', async function () {
@@ -758,6 +808,7 @@ describe('Integration | Devcomp | Application | Trainings | Router | training-ro
               attributes: {
                 link: 'http://www.example.net',
                 title: 'ma formation',
+                'internal-title': 'ma formation titre interne',
                 duration: { days: 2, hours: 2, minutes: 2 },
                 type: 'webinaire',
                 locales: ['ja-Jpan-JP-u-ca-japanese-hc-h12'],
@@ -784,6 +835,7 @@ describe('Integration | Devcomp | Application | Trainings | Router | training-ro
 
           // then
           expect(response.statusCode).to.equal(400);
+          expect(JSON.parse(response.payload)).to.deep.equal(invalidLocaleErrorResponse);
         });
       });
     });
