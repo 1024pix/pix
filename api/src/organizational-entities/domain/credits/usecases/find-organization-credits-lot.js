@@ -1,7 +1,7 @@
 /**
  * @typedef {import ('../../usecases/index.js').CreditsLotRepository} CreditsLotRepository
  * @typedef {import ('../../usecases/index.js').StructureRepository} StructureRepository
- * @typedef {import ('../models/CreditsLot.js')} CreditsLot
+ * @typedef {import ('../read-models/CreditsLot.js')} CreditsLot
 
  */
 

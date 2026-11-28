@@ -19,6 +19,7 @@ import {
   FEATURE_PLACES_MANAGEMENT_ID,
   IMPORT_FORMAT_GENERIC_ID,
   PRO_MANAGING_ORGANIZATION_ID,
+  PRO_MANAGING_STRUCTURE_ID,
   PRO_ORGANIZATION_ID,
   SCO_FREGATA_MANAGING_ORGANIZATION_ID,
   SCO_MANAGING_ORGANIZATION_ID,
@@ -150,9 +151,12 @@ async function _createProOrganization(databaseBuilder) {
     categoryId: STRUCTURE_CATEGORY_PRO_ID,
   });
 
+  databaseBuilder.factory.buildStructure({ id: PRO_MANAGING_STRUCTURE_ID, categoryId: STRUCTURE_CATEGORY_PRO_ID });
+
   await organization.createOrganization({
     databaseBuilder,
     organizationId: PRO_MANAGING_ORGANIZATION_ID,
+    structureId: PRO_MANAGING_STRUCTURE_ID,
     type: 'PRO',
     name: 'PRO Import (Generic)',
     isManagingStudents: false,

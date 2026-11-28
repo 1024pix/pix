@@ -101,6 +101,7 @@ const dependencies = Object.assign({}, dependenciesToInject);
 import { consumeCredit } from '../credits/usecases/consume-credit.js';
 import { createCreditsLot } from '../credits/usecases/create-credits-lot.js';
 import { findOrganizationCreditsLot } from '../credits/usecases/find-organization-credits-lot.js';
+import { getOrganizationCreditsLots } from '../credits/usecases/get-organization-credits-lots.js';
 import { addOrganizationFeatureInBatch } from './add-organization-feature-in-batch.usecase.js';
 import { addTagsToOrganizations } from './add-tags-to-organizations.usecase.js';
 import { archiveCertificationCenter } from './archive-certification-center.usecase.js';
@@ -175,6 +176,7 @@ const usecasesWithoutInjectedDependencies = {
   getCenterForAdmin,
   getNetworkDetails,
   getOrganizationById,
+  getOrganizationCreditsLots,
   getOrganizationDetails,
   getOrganizationPlacesStatistics,
   getOrganizationStatistics,
@@ -198,6 +200,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {findAttachedOrganizationsForAdmin} findAttachedOrganizationsForAdmin
  * @property {findAttachedCertificationCenterForAdmin} findAttachedCertificationCenterForAdmin
  * @property {findOrganizationCreditsLot} findOrganizationCreditsLot
+ * @property {getOrganizationCreditsLots} getOrganizationCreditsLots
  * @property {getOrganizationDetails} getOrganizationDetails
  * @property {getOrganizationStatistics} getOrganizationStatistics
  * @property {getNetworkDetails} getNetworkDetails

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CreditsLot } from '../../../../../../src/organizational-entities/domain/credits/models/CreditsLot.js';
+import { CreditsLot } from '../../../../../../src/organizational-entities/domain/credits/read-models/CreditsLot.js';
 
 describe('Unit | Organizational Entities | Domain | Model | CreditsLot', function () {
   beforeEach(function () {

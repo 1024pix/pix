@@ -1,4 +1,4 @@
-import { CreditsLot } from '../../../../../src/organizational-entities/domain/credits/models/CreditsLot.js';
+import { CreditsLot } from '../../../../../src/organizational-entities/domain/credits/read-models/CreditsLot.js';
 const buildCreditsLot = function ({
   id = 1234,
   structureId = 5678,
