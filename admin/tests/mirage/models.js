@@ -42,6 +42,7 @@ import complementaryCertification from './models/complementary-certification';
 import complementaryCertificationBadge from './models/complementary-certification-badge';
 import complementaryCertificationCourseResultWithExternal from './models/complementary-certification-course-result-with-external';
 import country from './models/country';
+import creditsLot from './models/credits-lot';
 import featureToggle from './models/feature-toggle';
 import flashAlgorithmConfiguration from './models/flash-algorithm-configuration';
 import framework from './models/framework';
@@ -121,6 +122,7 @@ export default {
   complementaryCertificationBadge,
   complementaryCertificationCourseResultWithExternal,
   country,
+  creditsLot,
   featureToggle,
   flashAlgorithmConfiguration,
   framework,

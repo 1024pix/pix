@@ -1261,6 +1261,24 @@
             "success": "The credits lot has been created."
           },
           "open-button": "Add credits"
+        },
+        "table": {
+          "caption": "History of Credits Lots",
+          "empty": "No history of credits.",
+          "headers": {
+            "activationDate": "Activation Date",
+            "count": "Count",
+            "creatorFullName": "Created By",
+            "expirationDate": "Expiration Date",
+            "reference": "Reference",
+            "status": "Status"
+          },
+          "status": {
+            "ACTIVE": "Active",
+            "EXPIRED": "Expired",
+            "PENDING": "Pending"
+          },
+          "title": "Credits Lot History"
         }
       },
       "editing": {

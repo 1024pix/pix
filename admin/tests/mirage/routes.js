@@ -17,6 +17,7 @@ import {
   findPaginatedFilteredCertificationCenters,
 } from './handlers/certification-centers';
 import { attachCombinedCourseBlueprintToOrganizations } from './handlers/combined-course-blueprint.js';
+import { createOrganizationCreditsLots, getOrganizationCreditsLots } from './handlers/credits-lot';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import { findFrameworkAreas } from './handlers/frameworks';
 import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
@@ -414,10 +415,8 @@ export default function routes() {
   this.get('/admin/organizations/:id/target-profile-summaries', findOrganizationTargetProfileSummaries);
   this.post('/admin/organizations/:id/attach-target-profiles', attachTargetProfiles);
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
-  this.post(
-    '/admin/organizations/:id/credits-lots',
-    () => new Response(201, {}, { data: { type: 'credits-lots', id: '1' } }),
-  );
+  this.get('/admin/organizations/:id/credits-lots', getOrganizationCreditsLots);
+  this.post('/admin/organizations/:id/credits-lots', createOrganizationCreditsLots);
   this.get('/admin/organizations/:id/places', getOrganizationPlaces);
   this.get('/admin/organizations/:id/places-statistics', getOrganizationPlacesStatistics);
   this.get('/admin/organizations/:id/certification-centers', getOrganizationAttachedCertificationCenters);

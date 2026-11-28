@@ -73,7 +73,8 @@ const findAllByStructureId = async function (structureId) {
     .where({
       structure_id: structureId,
     })
-    .orderBy('credits_lots.activation_date');
+    .orderBy('credits_lots.expiration_date', 'DESC')
+    .orderBy('credits_lots.activation_date', 'DESC');
 
   return creditsLot.map(_toDomain);
 };

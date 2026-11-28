@@ -1269,6 +1269,24 @@
             "success": "Le lot de crédits a bien été créé."
           },
           "open-button": "Ajouter des crédits"
+        },
+        "table": {
+          "caption": "Historique des lots",
+          "empty": "Aucun historique de lots.",
+          "headers": {
+            "activationDate": "Date d'activation",
+            "count": "Nombre",
+            "creatorFullName": "Créé par",
+            "expirationDate": "Date d'expiration",
+            "reference": "Référence",
+            "status": "Statut"
+          },
+          "status": {
+            "ACTIVE": "Actif",
+            "EXPIRED": "Expiré",
+            "PENDING": "À venir"
+          },
+          "title": "Historique des lots de crédits"
         }
       },
       "editing": {
