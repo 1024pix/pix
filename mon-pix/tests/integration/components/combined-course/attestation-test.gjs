@@ -66,7 +66,9 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
       });
 
       //when
-      const screen = await render(<template><Attestation @attestation={{attestation}} /></template>);
+      const screen = await render(
+        <template><Attestation @attestation={{attestation}} @combinedCourseCode="COMBINIX9" /></template>,
+      );
       await click(screen.getByRole('button', { name: t('pages.combined-courses.rewards.obtained.link') }));
 
       // then
@@ -74,6 +76,7 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
         trackEventStub.calledOnceWithExactly(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
           origin: ATTESTATION_DOWNLOAD_ORIGINS.COMBINED_COURSE_PAGE,
           attestationKey: 'PARENTHOOD',
+          combinedCourseCode: 'COMBINIX9',
         }),
       );
     });

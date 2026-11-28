@@ -20,6 +20,7 @@ export default class Attestation extends Component {
     this.pixMetrics.trackEvent(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
       origin: ATTESTATION_DOWNLOAD_ORIGINS.COMBINED_COURSE_PAGE,
       attestationKey: this.args.attestation.data.key,
+      combinedCourseCode: this.args.combinedCourseCode,
     });
     const url = `/api/users/${userId}/attestations/${this.args.attestation.data.key}`;
     const fileName = this.args.attestation.templateName;

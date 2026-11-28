@@ -2,6 +2,11 @@ export const EVENT_NAMES = {
   ATTESTATION: {
     DOWNLOAD_CLICK: 'appAttestationDownloadClick',
   },
+  COMBINED_COURSE: {
+    END_DISPLAY: 'appCombinedCourseEndDisplay',
+    END_SURVEY_CLICK: 'appCombinedCourseEndSurveyClick',
+    END_QUIT_CLICK: 'appCombinedCourseEndQuitClick',
+  },
 };
 
 export const ATTESTATION_DOWNLOAD_ORIGINS = {
