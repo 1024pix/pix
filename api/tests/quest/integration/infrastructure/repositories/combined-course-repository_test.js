@@ -21,7 +21,9 @@ describe('Quest | Integration | Repository | combined-course', function () {
       // given
       const code = 'SOMETHING';
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+      const { id: questId } = databaseBuilder.factory.buildQuest();
       const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId,
         surveyUrl: 'http://link.to/survey',
       });
       const combinedCourse = databaseBuilder.factory.buildCombinedCourse({
@@ -444,6 +446,13 @@ describe('Quest | Integration | Repository | combined-course', function () {
   });
 
   describe('#saveInBatch', function () {
+    let blueprintQuestId, blueprintQuestId2;
+
+    beforeEach(function () {
+      blueprintQuestId = databaseBuilder.factory.buildQuest().id;
+      blueprintQuestId2 = databaseBuilder.factory.buildQuest().id;
+    });
+
     it('should create quests related to given combined courses', async function () {
       // given
       const firstOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -464,7 +473,9 @@ describe('Quest | Integration | Repository | combined-course', function () {
           },
         },
       ];
-      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint();
+      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId: blueprintQuestId,
+      });
       await databaseBuilder.commit();
 
       const quest = new Quest({
@@ -534,8 +545,12 @@ describe('Quest | Integration | Repository | combined-course', function () {
           },
         },
       ];
-      const firstCombinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ content: [] });
-      const secondCombinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ content: [] });
+      const firstCombinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId: blueprintQuestId,
+      });
+      const secondCombinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId: blueprintQuestId2,
+      });
       await databaseBuilder.commit();
 
       const quest = new Quest({
@@ -595,7 +610,10 @@ describe('Quest | Integration | Repository | combined-course', function () {
     it('should return adequate model instance after creation', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint();
+      const blueprintQuestId = databaseBuilder.factory.buildQuest().id;
+      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId: blueprintQuestId,
+      });
 
       const successRequirements = [
         {

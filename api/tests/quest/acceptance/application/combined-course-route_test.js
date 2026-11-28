@@ -401,9 +401,10 @@ ${organizationId};"{""name"":""Combinix"",""content"":[],""description"":""ma de
 
   describe('POST /api/combined-courses', function () {
     context('when user is authenticated and belongs to organization', function () {
-      let userId, organizationId;
+      let userId, organizationId, questId;
 
       beforeEach(async function () {
+        questId = databaseBuilder.factory.buildQuest().id;
         organizationId = databaseBuilder.factory.buildOrganization().id;
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildMembership({ userId, organizationId });
@@ -412,14 +413,7 @@ ${organizationId};"{""name"":""Combinix"",""content"":[],""description"":""ma de
 
       it('creates combined course', async function () {
         // given
-        const targetProfile = databaseBuilder.factory.buildTargetProfile();
-        const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
-          content: [
-            { type: 'evaluation', value: targetProfile.id },
-            { type: 'module', value: '27d6ca4f' },
-            { type: 'module', value: 'df82ec66' },
-          ],
-        });
+        const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId });
         databaseBuilder.factory.buildCombinedCourseBlueprintShare({
           combinedCourseBlueprintId: combinedCourseBlueprint.id,
           organizationId: organizationId,

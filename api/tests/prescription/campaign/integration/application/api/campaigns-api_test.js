@@ -523,6 +523,13 @@ describe('Integration | Application | campaign-api', function () {
     });
   });
   describe('#deleteCampaignsInCombinedCourses', function () {
+    let blueprintQuestId, blueprintQuestId2;
+
+    beforeEach(function () {
+      blueprintQuestId = databaseBuilder.factory.buildQuest().id;
+      blueprintQuestId2 = databaseBuilder.factory.buildQuest().id;
+    });
+
     it('should delete campaigns and participations linked to given combined course ids', async function () {
       //given
       const organization = databaseBuilder.factory.buildOrganization();
@@ -535,7 +542,9 @@ describe('Integration | Application | campaign-api', function () {
       });
 
       const campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint();
+      const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId: blueprintQuestId,
+      });
       const { id: questId1 } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
@@ -549,7 +558,9 @@ describe('Integration | Application | campaign-api', function () {
       });
 
       const campaign2 = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-      const combinedCourseBlueprint2 = databaseBuilder.factory.buildCombinedCourseBlueprint();
+      const combinedCourseBlueprint2 = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId: blueprintQuestId2,
+      });
       const { id: questId2 } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign2.id }).toDTO(),
