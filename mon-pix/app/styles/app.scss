@@ -191,6 +191,7 @@
 @use '../components/challenge/feedback/feedback-wrapper' as *;
 @use '../components/challenge/feedback/feedback-panel' as *;
 @use '../components/challenge/feedback/certification-feedback-panel' as *;
+@use '../components/challenge/focus-out-alert-banner' as *;
 
 /* pages */
 @use 'pages/campaign-landing-page' as *;

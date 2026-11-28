@@ -203,13 +203,7 @@ export default class ChallengeContent extends Component {
   }
 
   <template>
-    <div
-      class="focus-zone-warning
-        {{if @isFocusedChallengeAndUserHasFocusedOutOfChallenge 'focus-zone-warning--triggered'}}"
-      data-challenge-id="{{@challenge.id}}"
-      {{on "mouseenter" @hideOutOfFocusBorder}}
-      {{on "mouseleave" @showOutOfFocusBorder}}
-    >
+    <div data-test="focus-zone" {{on "mouseenter" @hideOutOfFocusBorder}} {{on "mouseleave" @showOutOfFocusBorder}}>
       <form {{on "submit" this.validateAnswer}}>
         <ModeBanner @isFocusedChallenge={{@challenge.focused}} />
         <PixBlock @condensed={{true}} class="challenge-item">
@@ -253,50 +247,50 @@ export default class ChallengeContent extends Component {
         </PixBlock>
 
         {{#if @assessment}}
+          <div>
+            <ChallengeActions
+              @challenge={{@challenge}}
+              @isValidateActionLoading={{this.isValidateActionLoading}}
+              @isSkipActionLoading={{this.isSkipActionLoading}}
+              @answer={{@answer}}
+              @resumeAssessment={{this.resumeAssessment}}
+              @skipChallenge={{this.skipChallenge}}
+              @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+              @isDisabled={{this.hasAnswer}}
+              @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+              @hasOngoingChallengeLiveAlert={{@assessment.hasOngoingChallengeLiveAlert}}
+              @hasOngoingCompanionLiveAlert={{@assessment.hasOngoingCompanionLiveAlert}}
+            />
+
+            {{#unless @assessment.hasOngoingCompanionLiveAlert}}
+              <div role="complementary">
+                {{#if @assessment.isCertification}}
+                  <CertificationFeedbackPanel
+                    @submitLiveAlert={{@submitLiveAlert}}
+                    @assessment={{@assessment}}
+                    @isEnabled={{this.isLiveAlertButtonEnabled}}
+                  />
+                {{else}}
+                  <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}} />
+                {{/if}}
+              </div>
+            {{/unless}}
+          </div>
+        {{/if}}
+
+        {{#if @assessment}}
           <FocusedOutNotification
             @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
             @isCertification={{@assessment.isCertification}}
             @certificationVersion={{@assessment.certificationCourse.version}}
             @isAdjustedCourseForAccessibility={{@assessment.certificationCourse.isAdjustedForAccessibility}}
           />
-
-          <ChallengeActions
-            @challenge={{@challenge}}
-            @isValidateActionLoading={{this.isValidateActionLoading}}
-            @isSkipActionLoading={{this.isSkipActionLoading}}
-            @answer={{@answer}}
-            @resumeAssessment={{this.resumeAssessment}}
-            @skipChallenge={{this.skipChallenge}}
-            @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-            @isDisabled={{this.hasAnswer}}
-            @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-            @hasOngoingChallengeLiveAlert={{@assessment.hasOngoingChallengeLiveAlert}}
-            @hasOngoingCompanionLiveAlert={{@assessment.hasOngoingCompanionLiveAlert}}
-          />
         {{/if}}
-
-        {{#unless @assessment.hasOngoingCompanionLiveAlert}}
-          <div role="complementary">
-            {{#if @assessment.isCertification}}
-              <CertificationFeedbackPanel
-                @submitLiveAlert={{@submitLiveAlert}}
-                @assessment={{@assessment}}
-                @isEnabled={{this.isLiveAlertButtonEnabled}}
-              />
-            {{else}}
-              <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}} />
-            {{/if}}
-          </div>
-        {{/unless}}
 
       </form>
       {{#if @assessment.hasOngoingCompanionLiveAlert}}
         <AssessmentsLiveAlert @message={{t "pages.challenge.live-alerts.companion.message"}} />
       {{/if}}
     </div>
-
-    {{#if @isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
-      <div class="focus-zone-warning__overlay" />
-    {{/if}}
   </template>
 }

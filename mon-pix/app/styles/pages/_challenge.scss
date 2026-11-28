@@ -1,96 +1,20 @@
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/fonts';
 @use 'pix-design-tokens/colors';
+@use 'pix-design-tokens/typography';
+
+body:has(.mode-banner--focus)::after {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  box-shadow: 0 0 32px 8px var(--pix-warning-300) inset;
+  content: '';
+  pointer-events: none;
+}
 
 .challenge {
   &__display {
     max-width: 990px;
     margin: 0 auto;
   }
-
-  &__info-alert {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 990px;
-    margin: 0 auto;
-    overflow: hidden;
-    color: var(--pix-primary-900);
-    border-radius: 51px;
-    box-shadow: 0 10px 20px 0 var(--pix-primary-700);
-
-    &::before {
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background-color: var(--pix-primary-100);
-      opacity: 0.95;
-      content: '';
-    }
-
-    &.challenge__info-alert--hide {
-      height: 0;
-      opacity: 0;
-    }
-
-    &.challenge__info-alert--show,
-    &:focus.challenge__info-alert--could-show {
-      position: sticky;
-      bottom: 10px;
-      height: auto;
-      margin: 20px auto 0;
-      padding: 24px 32px;
-      opacity: 1;
-
-      @include breakpoints.device-is('tablet') {
-        padding: 24px 98px;
-      }
-    }
-  }
-}
-
-.challenge-info-alert {
-  font-family: fonts.$font-roboto;
-
-  &__icon {
-    width: 49px;
-    height: 55px;
-    margin-bottom: 8px;
-    background-image: url('/images/focused-challenge-info-alert-icon.svg');
-  }
-
-  &__title {
-    margin: auto 0 7px;
-    font-weight: var(--pix-font-medium);
-    font-size: 1.125rem;
-    line-height: 1.625rem;
-    letter-spacing: 0.011rem;
-  }
-
-  &__subtitle {
-    margin: 0;
-    font-size: 0.875rem;
-    line-height: 1.375rem;
-    letter-spacing: 0.009rem;
-  }
-}
-
-.focus-zone-warning--triggered {
-  position: relative;
-  z-index: 1;
-  background-color: var(--pix-neutral-20);
-  border-radius: 5px;
-  outline: 5px dashed colors.$pix-shades-100;
-  outline-offset: -5px;
-}
-
-.focus-zone-warning__overlay {
-  position: fixed;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0 0 0 / 50%);
 }

@@ -446,6 +446,9 @@
           "title": "Informar de un problema con la pregunta"
         }
       },
+      "focus-out-alert-banner": {
+        "message": "¡Atención, debes permanecer en esta página para responder!"
+      },
       "mode-banner": {
         "focused": {
           "content": "Debes permanecer en esta página para responder.",
@@ -1291,13 +1294,6 @@
       },
       "illustration": {
         "placeholder": "Cargando la imagen"
-      },
-      "is-focused-challenge": {
-        "info-alert": {
-          "adjusted-course-title": "Responde a esta pregunta sin utilizar Internet ni ninguna aplicación.",
-          "subtitle": "Si cambia de página o pestaña durante una prueba de certificación, su respuesta no será validada.",
-          "title": "Responde a esta pregunta sin buscar en internet ni utilizar ningún programa informático."
-        }
       },
       "live-alerts": {
         "companion": {

@@ -446,6 +446,9 @@
           "title": "Een probleem met de vraag melden"
         }
       },
+      "focus-out-alert-banner": {
+        "message": "Let op: je moet op deze pagina blijven om te antwoorden!"
+      },
       "mode-banner": {
         "focused": {
           "content": "Je moet op deze pagina blijven om te antwoorden.",
@@ -1291,13 +1294,6 @@
       },
       "illustration": {
         "placeholder": "Bezig met laden van de afbeelding"
-      },
-      "is-focused-challenge": {
-        "info-alert": {
-          "adjusted-course-title": "Beantwoord deze vraag zonder gebruik te maken van internet of apps.",
-          "subtitle": "Bij certificering wordt je antwoord niet goedgekeurd als je van pagina wisselt.",
-          "title": "Beantwoord deze vraag zonder gebruik te maken van internet of apps."
-        }
       },
       "live-alerts": {
         "companion": {
