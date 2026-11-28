@@ -2,8 +2,8 @@ import { expect } from 'chai';
 
 import { Mission } from '../../../../../src/school/domain/models/Mission.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Integration | UseCases | find-all-active-missions', function () {
   context('when no active missions', function () {
@@ -91,7 +91,7 @@ describe('Integration | UseCases | find-all-active-missions', function () {
 
     context('when FT_SHOW_EXPERIMENTAL_MISSION is false', function () {
       beforeEach(async function () {
-        await featureToggles.set('showExperimentalMissions', false);
+        await useFeatureToggle('showExperimentalMissions', false);
       });
 
       it('returns validated missions from LCMS', async function () {
@@ -127,7 +127,7 @@ describe('Integration | UseCases | find-all-active-missions', function () {
 
     context('when FT_SHOW_EXPERIMENTAL_MISSION is true', function () {
       beforeEach(async function () {
-        await featureToggles.set('showExperimentalMissions', true);
+        await useFeatureToggle('showExperimentalMissions', true);
       });
 
       it('returns validated and experimental missions from LCMS', async function () {

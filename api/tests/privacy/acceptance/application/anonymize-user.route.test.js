@@ -6,13 +6,13 @@ import { RemoveLegalDocumentByUserEventHandler } from '../../../../src/legal-doc
 import { AnonymizeLearnersAndCampaignParticipationsEventHandler } from '../../../../src/prescription/learner-management/application/jobs/anonymize-learners-and-campaign-participations-event-handler.js';
 import { PIX_ADMIN } from '../../../../src/shared/constants.js';
 import { AuditLoggingJob } from '../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
-import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { SendEmailJobController } from '../../../../src/shared/mail/application/jobs/send-email.job-controller.js';
 import { AnonymizeCertificationCenterMembershipEventHandler } from '../../../../src/team/application/certification-center-membership/anonymize-certification-center-membership.event-handler.js';
 import { AnonymizeMembershipEventHandler } from '../../../../src/team/application/membership/anonymize-membership.event-handler.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
+import { useFeatureToggle } from '../../../tooling/test-utils/use-feature-toggle.js';
 
 const anonymizeUserEventHandlerSubscribers = [
   AnonymizeUserEventHandler,
@@ -123,7 +123,7 @@ describe('Acceptance | Privacy | Application | Route | anonymize-user', function
     context('when isSelfAccountDeletionEnabled feature toggle is set to false', function () {
       it('returns a 403 HTTP status code', async function () {
         // given
-        await featureToggles.set('isSelfAccountDeletionEnabled', false);
+        await useFeatureToggle('isSelfAccountDeletionEnabled', false);
         const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
 

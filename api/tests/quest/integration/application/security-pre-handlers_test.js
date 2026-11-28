@@ -11,10 +11,10 @@ import {
   OrganizationLearnerParticipationTypes,
 } from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/constants.js';
-import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
+import { useFeatureToggle } from '../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Quest | Integration | Application | SecurityPreHandlers', function () {
   const jsonApiError403 = {
@@ -174,7 +174,7 @@ describe('Quest | Integration | Application | SecurityPreHandlers', function () 
     });
 
     it('returns 200 when combined courses feature is enabled', async function () {
-      featureToggles.set('areCombinedCoursesEnabled', true);
+      useFeatureToggle('areCombinedCoursesEnabled', true);
 
       const { id: userId } = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
@@ -191,7 +191,7 @@ describe('Quest | Integration | Application | SecurityPreHandlers', function () 
     });
 
     it('returns error when combined courses feature is disabled', async function () {
-      featureToggles.set('areCombinedCoursesEnabled', false);
+      useFeatureToggle('areCombinedCoursesEnabled', false);
 
       const { id: userId } = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();

@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 
 import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Integration | Infrastructure | Feature Toggles | Feature Toggles', function () {
   it('changes the toggle value in tests', async function () {
     // given / when
-    await featureToggles.set('dynamicFeatureToggleSystem', true);
+    await useFeatureToggle('dynamicFeatureToggleSystem', true);
 
     // then
     const dynamicFeatureToggleSystem = await featureToggles.get('dynamicFeatureToggleSystem');

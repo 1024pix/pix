@@ -3,6 +3,7 @@ import sinon from 'sinon';
 
 import { anonymizeServices } from '../../../../../../src/privacy/domain/services/anonymize-services/index.js';
 import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
+import { useFeatureToggle } from '../../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | can-self-anonymize', function () {
   const userId = '123';
@@ -30,8 +31,9 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | can-self-an
 
   context('When feature flag is enabled', function () {
     beforeEach(async function () {
-      await featureToggles.set('isSelfAccountDeletionEnabled', true);
+      await useFeatureToggle('isSelfAccountDeletionEnabled', true);
     });
+
     context('When user is eligible', function () {
       it('returns true', async function () {
         // when
@@ -148,7 +150,7 @@ describe('Unit | Privacy | Domain | UseCase | Services | Anonymize | can-self-an
 
   context('Feature flag is disabled', function () {
     beforeEach(async function () {
-      await featureToggles.set('isSelfAccountDeletionEnabled', false);
+      await useFeatureToggle('isSelfAccountDeletionEnabled', false);
     });
 
     context('When user is eligible', function () {

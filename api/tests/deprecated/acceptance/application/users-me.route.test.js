@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
+import { useFeatureToggle } from '../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Deprecated | Acceptance | Application | Route | User', function () {
   let server;
@@ -118,7 +118,7 @@ describe('Deprecated | Acceptance | Application | Route | User', function () {
   describe('GET /api/users/my-account', function () {
     it('returns 200 HTTP status code', async function () {
       // given
-      await featureToggles.set('isSelfAccountDeletionEnabled', false);
+      await useFeatureToggle('isSelfAccountDeletionEnabled', false);
       const user = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
 

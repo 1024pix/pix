@@ -3,10 +3,10 @@ import { Readable } from 'node:stream';
 import { expect } from 'chai';
 import nock from 'nock';
 
-import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../tooling/test-utils/http-server.js';
+import { useFeatureToggle } from '../../../tooling/test-utils/use-feature-toggle.js';
 import { waitForStreamFinalizationToBeDone } from '../../../tooling/test-utils/wait.js';
 
 describe('Acceptance | Route | llm-preview', function () {
@@ -14,7 +14,7 @@ describe('Acceptance | Route | llm-preview', function () {
 
   beforeEach(async function () {
     server = await getServer();
-    await featureToggles.set('isEmbedLLMEnabled', true);
+    await useFeatureToggle('isEmbedLLMEnabled', true);
   });
 
   describe('POST /api/llm/preview/chats', function () {
@@ -80,7 +80,7 @@ describe('Acceptance | Route | llm-preview', function () {
 
     context('when isEmbedLLMEnabled feature toggle is false', function () {
       beforeEach(async function () {
-        await featureToggles.set('isEmbedLLMEnabled', false);
+        await useFeatureToggle('isEmbedLLMEnabled', false);
       });
 
       it('should throw a 503', async function () {
@@ -168,7 +168,7 @@ describe('Acceptance | Route | llm-preview', function () {
   describe('GET /api/llm/preview/chats/{chatId}', function () {
     context('when isEmbedLLMEnabled feature toggle is false', function () {
       beforeEach(async function () {
-        await featureToggles.set('isEmbedLLMEnabled', false);
+        await useFeatureToggle('isEmbedLLMEnabled', false);
       });
 
       it('should throw a 503', async function () {
@@ -345,7 +345,7 @@ describe('Acceptance | Route | llm-preview', function () {
   describe('POST /api/llm/preview/chats/{chatId}/messages', function () {
     context('when feature toggle is disabled', function () {
       beforeEach(function () {
-        return featureToggles.set('isEmbedLLMEnabled', false);
+        return useFeatureToggle('isEmbedLLMEnabled', false);
       });
 
       it('returns a 503 status code', async function () {

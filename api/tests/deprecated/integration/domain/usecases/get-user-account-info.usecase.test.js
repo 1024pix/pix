@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
 import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Integration | Deprecated  | Domain | Usecases | get-user-account-info', function () {
   beforeEach(async function () {
-    await featureToggles.set('isSelfAccountDeletionEnabled', false);
+    await useFeatureToggle('isSelfAccountDeletionEnabled', false);
   });
 
   describe('when user has no email', function () {

@@ -4,15 +4,15 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as eventRepository from '../../../../../../src/certification/shared/infrastructure/repositories/event-repository.js';
-import { featureToggles } from '../../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { useFeatureToggle } from '../../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Certification | Shared | Integration | Repository | Event', function () {
   describe('#push', function () {
     context('when FT isEventSourcingCertificationEnabled is true', function () {
       it('persists the event in db', async function () {
-        await featureToggles.set('isEventSourcingCertificationEnabled', true);
+        await useFeatureToggle('isEventSourcingCertificationEnabled', true);
         await setImmediate();
         const event = domainBuilder.certification.shared.buildEvent({
           id: null,
@@ -37,7 +37,7 @@ describe('Certification | Shared | Integration | Repository | Event', function (
       });
 
       it('allows to push multiple events in db', async function () {
-        await featureToggles.set('isEventSourcingCertificationEnabled', true);
+        await useFeatureToggle('isEventSourcingCertificationEnabled', true);
         await setImmediate();
         const event1 = domainBuilder.certification.shared.buildEvent({
           id: null,
@@ -78,7 +78,7 @@ describe('Certification | Shared | Integration | Repository | Event', function (
 
     context('when FT isEventSourcingCertificationEnabled is false', function () {
       it('does nothing', async function () {
-        await featureToggles.set('isEventSourcingCertificationEnabled', false);
+        await useFeatureToggle('isEventSourcingCertificationEnabled', false);
         await setImmediate();
         const event = domainBuilder.certification.shared.buildEvent({
           id: null,

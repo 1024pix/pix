@@ -5,11 +5,11 @@ import { Frameworks } from '../../../../../src/certification/shared/domain/model
 import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Certification | Results | Acceptance | Application | Routes | organization', function () {
   const BOM_CHAR = '\ufeff';
@@ -34,7 +34,7 @@ describe('Certification | Results | Acceptance | Application | Routes | organiza
 
     context('FT readNewCertificationResults disabled', function () {
       beforeEach(async function () {
-        await featureToggles.set('readNewCertificationResults', false);
+        await useFeatureToggle('readNewCertificationResults', false);
       });
 
       it('should return HTTP status 200', async function () {
@@ -110,7 +110,7 @@ describe('Certification | Results | Acceptance | Application | Routes | organiza
 
     context('FT readNewCertificationResults enabled', function () {
       beforeEach(async function () {
-        await featureToggles.set('readNewCertificationResults', true);
+        await useFeatureToggle('readNewCertificationResults', true);
       });
 
       it('should return HTTP status 200', async function () {

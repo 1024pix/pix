@@ -2,17 +2,17 @@ import { expect } from 'chai';
 
 import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
 import { STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../../src/team/domain/models/CertificationCenterMembership.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 const { getCertificationPointOfContact } = usecases;
 
 describe('Integration | Deprecated | Domain | UseCase | get-certification-point-of-contact', function () {
   context('when feature toggle newPixCertifLegalDocumentsVersioning is not enabled', function () {
     beforeEach(async function () {
-      await featureToggles.set('newPixCertifLegalDocumentsVersioning', false);
+      await useFeatureToggle('newPixCertifLegalDocumentsVersioning', false);
     });
 
     context('when user has accepted terms of service', function () {
@@ -130,7 +130,7 @@ describe('Integration | Deprecated | Domain | UseCase | get-certification-point-
 
   context('when feature toggle newPixCertifLegalDocumentsVersioning is enabled', function () {
     beforeEach(async function () {
-      await featureToggles.set('newPixCertifLegalDocumentsVersioning', true);
+      await useFeatureToggle('newPixCertifLegalDocumentsVersioning', true);
     });
 
     context('when user has accepted pix-certif-tos', function () {

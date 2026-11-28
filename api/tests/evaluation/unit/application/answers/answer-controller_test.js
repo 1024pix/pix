@@ -6,10 +6,10 @@ import { answerController } from '../../../../../src/evaluation/application/answ
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { usecases as questUsecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 describe('Unit | Controller | answer-controller', function () {
   let answerSerializerStub, certificationEvaluationApiStub;
@@ -262,7 +262,7 @@ describe('Unit | Controller | answer-controller', function () {
       context('when quest feature is not enabled', function () {
         it('should not call rewardUser', async function () {
           // given
-          await featureToggles.set('isQuestEnabled', false);
+          await useFeatureToggle('isQuestEnabled', false);
 
           // when
           await answerController.save(request, hFake, {
@@ -278,7 +278,7 @@ describe('Unit | Controller | answer-controller', function () {
       context('when quest feature enabled', function () {
         it('should not call the reward user usecase if userId is not provided', async function () {
           // given
-          await featureToggles.set('isQuestEnabled', true);
+          await useFeatureToggle('isQuestEnabled', true);
           // Setting headers so that userId is not provided
           request.headers = {};
 
